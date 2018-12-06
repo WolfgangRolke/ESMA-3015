@@ -1,0 +1,340 @@
+---
+title: Exercise 2: Probability and Simulation
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+
+
+
+### Problem 1
+
+a. The routine **normal.ex(k)** generates data from different probability distributions. Decide for which k (from 1 to 10) the data comes from a normal distribution.
+
+b. for those that do not come from a normal distribution, how large a sample size is needed so that the mean has a normal distribution? 
+
+### Problem 2
+
+Say a huge box contains 5000 red balls, 3000 blue balls and 1000 green balls. Write a simulation that finds the smallest number of balls we need to pick out of the box so that the probability we get at least one of each color is 90%.
+
+### Problem 3
+
+Say we flip a fair coin n times. Write a simulation that finds the smallest n so that the probability we get at least one of each heads  is 99%.
+
+### Problem 4 
+
+Say we roll a fair die in n times. Write a simulation that finds the smallest n so that the probability we get at least two sixes is 90%.
+
+### Problem 5
+
+Write a simulation that checks the empirical rule when generating data from
+
+a. rnorm(50)  
+b. rt(50,1) 
+
+### Problem 6
+
+A standard deck  as used to play Poker consists of 52 cards. Each card has a denomination (numbers 2 to 10, Jack, Queen, King and Ace) and a suit (Hearts, Clubs, Diamonds and Spades. In many games a player first gets 5 cards (called a hand). Use simulation to find the probability that his hand is a
+
+a. "Three of a kind" (3 cards of the same denomination)   
+b. "Flush" (all 5 cards of the same suit)
+
+`r hl()$hr()`
+
+`r hl()$hr()`
+
+## Solutions
+
+### Problem 1
+The routine **normal.ex(k)** generates data from different probability distributions. Decide for which k (from 1 to 10) the data comes from a normal distribution.
+
+We will use the normal plot to check. So for the first case we can run
+
+```{r}
+nplot(normal.ex(1), main_title = "k = 1") 
+```
+
+Here are all the graphs:
+
+```{r}
+for(i in 2:10) nplot(normal.ex(i), main_title = paste("k =", i))
+```
+
+It seems k = 3, 6 and 9 have a normal distribution 
+
+b. for those that do not come from a normal distribution, how large a sample size is needed so that the mean has a normal distribution? 
+
+for this we keep generating data, add them to the vector and check whether the result has anormal distribution. For example
+
+```{r}
+xbar <- normal.ex(1)
+for(i in 1:10) xbar <- xbar + normal.ex(1)
+nplot(xbar/11) 
+```
+
+well not quite yet. Maybe 50?
+
+```{r, echo=FALSE}
+set.seed(1)
+```
+```{r}
+xbar <- normal.ex(1)
+for(i in 1:50) xbar <- xbar + normal.ex(1)
+nplot(xbar/51) 
+```
+
+and that's not so bad.
+
+For the others:
+
+k=2: about 30  
+k=4 about 10  
+k=5 about 10  
+k=7 about 10  
+k=8 about 10  
+k=10 never!  
+
+### Problem 2 
+
+Say a huge box contains 5000 red balls, 3000 blue balls and 1000 green balls. Write a simulation that finds the smallest number of balls we need to pick out of the box so that the probability we get at least one of each color is 90%.
+
+say we want to find the probability of at least one ball of each color if we pick 10 balls:
+
+```{r}
+B <- 10000
+y <- rep(0, B)
+for(i in 1:B) {
+ x <- sample( c("red", "blue", "green"), 
+    size = 10, replace = TRUE, prob = c(5, 3, 1))
+ if(sum(x == "red") == 0) y[i] <- 1
+ if(sum(x == "blue") == 0) y[i] <- 1
+ if(sum(x == "green") == 0) y[i] <- 1
+}
+sum(y)/B
+```
+```{r, echo=FALSE}
+p <- round(sum(y)/B, 3)
+p1 <- 1-p
+```
+
+so the probability of at least one of each color is 1-`r p` = `r p1`, a little to small. Next let's try 20 balls:
+
+
+```{r}
+B <- 10000
+y <- rep(0,B)
+for(i in 1:B) {
+ x <- sample( c("red", "blue", "green"), size = 20, 
+    replace = TRUE, prob=c(5, 3, 1))
+ if(sum(x == "red") == 0) y[i] <- 1
+ if(sum(x == "blue") == 0) y[i] <- 1
+ if(sum(x == "green") == 0) y[i] <- 1
+}
+sum(y)/B
+```
+```{r, echo=FALSE}
+p <- round(sum(y)/B, 3)
+p1 <- 1-p
+```
+
+and now the probability of at least one of each color is 1-`r p` = `r p1`, almost there.
+
+Would 19 have been enough? Let's see:
+
+```{r}
+B <- 10000
+y <- rep(0,B)
+for(i in 1:B) {
+ x <- sample( c("red", "blue", "green"), size = 19, 
+    replace = TRUE, prob=c(5, 3, 1))
+ if(sum(x == "red") == 0) y[i] <- 1
+ if(sum(x == "blue") == 0) y[i] <- 1
+ if(sum(x == "green") == 0) y[i] <- 1
+}
+1 - sum(y)/B
+```
+
+and the answer is no!
+
+`r hl()$hr()`
+
+### Problem 3
+
+Say we flip a fair coin n times. Write a simulation that finds the smallest n so that the probability we get at least one of each heads is 99%.
+
+let's try 10 heads:
+
+```{r}
+B <- 10000
+y <- rep(0,B)
+for(i in 1:B) {
+ x <- sample(0:1, size = 10, replace = TRUE)
+ if(sum(x) == 0) y[i] <- 1
+}
+1 - sum(y)/B
+```
+
+a bit to large. Now trying different n's we find
+
+n = 9: 0.9980  
+n = 8: 0.9961  
+n = 7: 0.9922  
+n = 6: 0.9844 
+
+so n = 7 is just large enough. 
+
+`r hl()$hr()`
+
+### Problem 4 
+
+Say we roll a fair die in n times. Write a simulation that finds the smallest n so that the probability we get at least two sixes is 90%.
+
+the probability of a six is 1/6, so the probability of two sixes is 1/6*1/6 = 1/36, so we would expect two or more sixes every 36 rolls or so. Let's try that:
+
+```{r}
+B <- 10000
+y <- rep(0, B)
+for(i in 1:B) {
+ x <- sample(0:1, size = 36, replace = TRUE, 
+    prob = c(5,1)/6)
+ if(sum(x) > 1) y[i] <- 1
+}
+sum(y)/B
+```
+
+a bit to large, so let's try some smaller n's:
+
+-  n=30: p=0.97
+-  n=25: p=0.94  
+-  n=20: p=0.87  
+-  n=22: p=0.9
+-  n=21: p=0.89 
+and so we find n=22! 
+
+`r hl()$hr()`
+
+### Problem 5 
+
+Write a simulation that checks the empirical rule when generating data from
+
+a. rnorm(1000) 
+
+```{r}
+B <- 10000
+y <- rep(0, B)
+for(i in 1:B) {
+   x <- rnorm(1000)
+   low <- mean(x) - 2*sd(x)
+   high <- mean(x) + 2*sd(x)
+   z <- x[x > low]
+   z <- z[z < high]
+   y[i] <- length(z)
+}
+mean(y)
+```
+```{r, include=FALSE}
+ny <- round(mean(y), 1)
+```
+
+the interval should include 95% of the data, 95% of 1000 is 950, it includes `r ny`, so that's good.
+
+b. rt(1000, 1)
+
+```{r}
+B <- 10000
+y <- rep(0, B)
+for(i in 1:B) {
+   x <- rt(1000, 1)
+   low <- mean(x) - 2*sd(x)
+   high <- mean(x) + 2*sd(x)
+   z <- x[x > low]
+   z <- z[z < high]
+   y[i] <- length(z)
+}
+mean(y)
+```
+
+```{r, include=FALSE}
+ny <- round(mean(y), 1)
+```
+
+the interval should include 95% of the data, 95% of 1000 is 950, it includes `r ny`, so that's not good
+
+`r hl()$hr()`
+
+### Problem 6
+
+A standard deck as used to play Poker consists of 52 cards. Each card has a denomination (numbers 2 to 10, Jack, Queen, King and Ace) and a suit (Hearts, Clubs, Diamonds and Spades. In many games a player first gets 5 cards (called a hand). Use simulation to find the probability that his hand is a 
+
+a. "Three of a kind" (3 cards of the same denomination)  
+b. "Flush" (all 5 cards of the same suit)  
+
+Let's denote the denominations by numbers 1-13. Each of them appears 4 times in the deck, so we can use 
+
+```{r}
+den <- rep(1:13, 4)
+```
+
+We draw 5 cards without repitition, so we can do that with 
+
+```{r}
+x <- sample(den,5)
+```
+
+In a "Three of a kind" we then need 3 equal numbers, for example (1, 5, 5, 5, 7) or (4, 6, 10, 10, 10). We can use the table command to get how many of each we have
+
+```{r}
+tbl.x <- table(x)
+tbl.x
+```
+
+Now if there is a three, it must be the largest number (because there are only 5 cards), so we can check with
+
+```{r, eval=FALSE}
+if(max(tbl.x) == 3)
+```
+and we can do all of it in one step
+```{r}
+if(max(table(sample(rep(1:13, 4), 5))) == 3) 
+   y[i] <- 1 
+```
+
+How about the "Flush"? Now we are interested in the denominations so we pick them with sample(rep(1:4, 13), 5). In a "Flush" all of them are the same number, for example (3, 3, 3, 3, 3) and we can check this with if(length(table()) == 1). With this we have
+
+```{r}
+if(length(table(sample(rep(1:4, 13), 5))) == 1) 
+   y[i] <- 1 
+```
+
+Now:
+
+```{r}
+B <- 10000
+y <- rep(0,B)
+y1 <- rep(0, B)
+for(i in 1:B) {
+   if(max(table(sample(rep(1:13, 4), 5))) == 3) 
+      y[i] <- 1 
+   if(length(table(sample(rep(1:4, 13), 5))) == 1) 
+      y1[i] <- 1 
+}
+sum(y)/B
+sum(y1)/B
+```

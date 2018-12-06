@@ -1,0 +1,165 @@
+---
+title: Simulation
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+library(wolfr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+
+A simulation is a way to do experiments on a computer. This can be useful to do various calculations as well as to test the performance of different methods.  
+
+A simulation generally consists of the following parts:
+
+- generate random data 
+- calculate something for this data  
+- repeat the above many times, keep track of results
+- analyze those results
+
+**Example:** say we are interested in the following: if a fair die is rolled, what is the probability of a six?  
+
+Now we already know the answer (1/6) but let's do a simulation anyway.
+
+- generate random data    
+in the real live experiment the data are the numbers 1-6, each with probability 1/6. We can generate data like this as follows:
+
+```{r}
+x <- sample(1:6, size = 20, replace = TRUE)
+x
+```
+
+- calculate something for this data  
+
+we want to know if x is 6 or not. This we can do with
+
+```{r}
+x==6
+```
+
+- repeat the above many times, keep track of results  
+
+in the calculations above we already did the simulation 20 times. 
+
+In general one wants to do this 10000 times (or so). Of course then we can't print all the stuff to the screen.
+
+```{r}
+B <- 10000
+x <- sample(1:6, size = B, replace = TRUE)
+```
+
+- analyze those results  
+
+we want to know the proportion of 6's, so
+
+```{r}
+sum(x==6)/B
+```
+
+Note that each time we run a simulation the computer generates new data, so the answer will always be a little bit different:
+
+```{r}
+sum(sample(1:6, size = B, replace = TRUE)==6)/B
+sum(sample(1:6, size = B, replace = TRUE)==6)/B
+sum(sample(1:6, size = B, replace = TRUE)==6)/B
+```
+
+`r hl()$vspace()`
+
+
+## Generating Data
+
+R has a great many standard probability distributions built in. The general format is **r** followed by the name (sort of). So for example to generate 20 observations  from a normal distribution with mean 10 and standard deviation 3 use 
+
+```{r}
+rnorm(20, 10, 3)
+```
+
+
+```{r}
+B <- 10000
+x <- rnorm(B, 10, 3)
+hplot(x, n=100)
+```
+
+The sample command above generally works for distributions that take finite discrete values with different probabilities. You can also generate many values in one step.
+
+**Example**: say we have data from a normal distribution with mean 100 and standard deviation 25. What is the probability that an observation is less than 90?
+
+```{r}
+B <- 10000
+x <- rnorm(B, 100, 25)
+sum(x<90)/B
+```
+
+**Example:** say we roll a fair die 10 times. What is the mean and the standard deviation of the number of sixes?  
+
+The number of "successes" in a sequence of Bernoulli trials is one of those special distributions. It is called the *Binomial* distribution and we can generate data from it with **rbinom(B, n, p)** where n is the number of trial and p is the success probability. So
+
+```{r}
+B <- 10000
+x <- rbinom(B, 10, 1/6)
+mean(x)
+sd(x)
+```
+
+**Example:** In the beginning of the discussion on probability I had a table of probabilities. Let's recreate it!
+
+Say we flip a fair coin 1000 times. What is the probability of 525 or more heads?
+
+
+```{r}
+B <- 10000
+x <- rbinom(B, 1000, 1/2)
+sum(x>=525)/B
+```
+
+Now we had that table for 505, .., 550, so:
+
+```{r}
+sum(x>=505)/B  
+sum(x>=515)/B  
+sum(x>=525)/B  
+sum(x>=535)/B  
+```
+
+**Example:** At the end of the discussion on probability I had told you the formulas for the mean and the standard deviation of a Bernoulli trial: $\mu=p$ and $\sigma=\sqrt{p(1-p)}$. Let's test that!
+
+```{r}
+p <- 0.5
+B <- 10000
+x <- sample(0:1, size=B, replace=TRUE, prob=c(1-p, p))
+round(c(p, mean(x)), 4)
+round(c(sqrt(p*(1-p)), sd(x)), 4)
+```
+
+```{r}
+p <- 0.15
+B <- 10000
+x <- sample(0:1, size=B, replace=TRUE, prob=c(1-p, p))
+round(c(p, mean(x)), 4)
+round(c(sqrt(p*(1-p)), sd(x)), 4)
+```
+
+```{r}
+p <- 0.75
+B <- 10000
+x <- sample(0:1, size=B, replace=TRUE, prob=c(1-p, p))
+round(c(p, mean(x)), 4)
+round(c(sqrt(p*(1-p)), sd(x)), 4)
+```

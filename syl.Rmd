@@ -1,0 +1,63 @@
+---
+title: Syllabus
+header-includes: \usepackage{color} 
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+library(wolfr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+
+Professor: Dr. Wolfgang Rolke
+
+The web address is http://academic.uprm.edu/wrolke/esma3015.
+
+The official prontuario for the course is available from the usual site or directly from [here](href="WolfgangRolkeEsma3015.pdf). If there is any difference between the prontuario and the information on the webpage use the webpage.
+
+Time and Place: 
+Tuesday, Thursday 7:30 - 8:45am  FA
+
+Textbook: Just the Essentials of Elementary Statistics, Robert Johnson
+(**highly recommended but not required**)
+  
+Office hours: 
+
+Tuesday, Thursday 12:00 - 2pm OF407   
+Wednesday  1:30-3:00pm via email 
+
+email: wolfgang[dot]rolke[at]upr[dot]edu  
+
+when you send me an email ALWAYS start the subject line with ESMA3015
+
+**Grading**:
+
+1.  Attendence: 10%  
+2.  Quizzes: 35%
+3.  Partial Exams 30%
+4.  Final 25%
+
+All quizzes and exams will be done using moodle. To get to the quizzes go to [https://ecourses.uprm.edu/](https://ecourses.uprm.edu/), log on with your UPR ID and password. 
+
+The first time use the enrollment key: `r hl()$fontcolor("Esma 3015")`.
+
+## Warning
+
+If you want to pass, here is what you should expect to do:
+
+-  **Take it serious!**  
+-  Come to class, (almost) always  
+-  Pay attention while in class. If you don't understand something **ASK**  
+-  After each class, spend **at least one hour** to go over what was discussed. If there is anything you don't understand, **ASK** about it in the next class, or come to the office hours. You can not expect to understand this material just by sitting in class and listening, you have to work through it again on your own later. 
+-  Do all of the quizzes. Not only are they worth many points, the exam problems withh be quite similar to the quiz problems.
+

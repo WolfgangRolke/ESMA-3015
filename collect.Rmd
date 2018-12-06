@@ -1,0 +1,170 @@
+---
+title: Data Collection - Design of Experiments
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+require(knitr)
+require(ggplot2)
+require(grid)
+```
+`r hl()$basefontsize()`
+
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+
+Things to decide before collecting data:
+
+-  define goal of study  
+-  define population  
+-  define sampling frame  
+-  define variables  
+-  define data collection methods  
+-  define measuring methods  
+-  define analysis methods 
+
+**Collection Methods**: scientific experiment, survey, ..  
+
+**Example** Say we want to do a survey to see whether people prefer Coke over Pepsi - how do we do it?
+
+**Example** risk of smoking
+
+Methodology
+
+-  experiment on lab animals (rats, mice, monkeys,..)    
+-  survey of smokers / nonsmokers  
+
+Variables
+ 
+-  what measures effect of smoking?  
+- lung cancer deaths  
+- other diseases  
+- bad teeth  
+
+### Population - Sampling Frame
+
+A sampling frame is a "listing" of all the elements of a population.
+
+**Example** 1948 presidential elections Harry S. Truman vs. Thomas E. Dewey
+
+**Example** Phone surveys (random dialing, bias, recalls etc.)
+
+## Sampling Methods 
+
+We already mentioned the Simple Random Sample, the most basic sampling method. There are others, though:
+
+**`r hl()$fontcolor("Stratified Sampling:")` ** First divide population into subgroups, then do a SRS in each subgroup. 
+
+**Example 1** Gender (Male-Female), Year (Freshman - Sophomore - Junior - Senior), Departments (English - Math - ..) 
+
+**Example 2** in the telephone survey use a list of prefixes (832,...) to get people from different parts of the Island 
+
+**Example 3 ** hurricanes by category 1-5 
+
+**`r hl()$fontcolor("Systematic Sampling:")` ** choose sample according to some deterministic rule. 
+
+**Example 1** pick randomly a number between 100 and 999, then pick every student whose student id ends with those three digits
+
+**Example 2** pick randomly a number between 0 and 99, call all phone numbers ending in those digits.
+
+**Example 3 ** pick randomly a number n between 1 and 5, pick every n^th^ hurricane.
+
+**`r hl()$fontcolor("Cluster Sampling:")` ** First divide population into subgroups, first do an SRS of these subgroups, then do a SRS in each of those subgroups.
+
+**Example 1** randomly pick 10 buildings on campus, then do SRS in each building. 
+
+**Example 2** randomly pick 10 municipalities, then do SRS in each municipality. 
+
+**Example 3 ** divide by week, randomly select 10 weeks, do SRS for hurricanes that formed that week.
+
+### App
+
+for an illustration of several sampling strategies run the **sampling** app 
+
+```{r, eval=FALSE}
+run.app(sampling)  
+```
+
+
+## Designed Experiments
+
+There are two basic methods for designing experiments with people.
+
+An `r hl()$fontcolor("observational study")` observes individuals and measures variables of interest but does not attempt to influence the responses. 
+
+A `r hl()$fontcolor("designed experiment")` deliberately imposes some treatment on individuals in order to observe their responses.
+
+**Example** say we want to test two different diets for their effectiveness in losing weight. We advertise in the newspaper and on a certain day people who want to participate come to our office. 
+
+There
+
+A) we have two tables. On each there is an explanation of one of the diets and a sign-up sheet. Our participants can read the material and eventually sign up for one of the two diets &rarr; observational study.
+
+B) when a participant comes in we have him/her flip a coin. If it comes up headsthe person does diet 1, otherwise diet 2 &rarr; designed experiment.
+
+Which of the two methods is better, and why?
+
+The individuals on which an experiment is done are called `r hl()$fontcolor("experimental units")`. When the units are humans they are called `r hl()$fontcolor("subjects")`. A specific experimental condition applied to a unit is called a `r hl()$fontcolor("treatment")`.
+
+**Example** let's consider again the diet experiment above, specifically A). Let's say that after two month we find that those subjects on diet 1 have lost on average 2.3 pounds more than those on diet 2, and that such a difference of 2.3 pounds is statistically significant. Can we conclude that diet 1 is better than diet 2? 
+The problem is this: it was the the subjects themselves who picked their diet (we say they were `r hl()$fontcolor("self-selected")`). But why did subject # 237 pick diet 1 and not 2? If she did it essentially randomly, there is no problem. But maybe there was a tendency for heavier subjects to pick diet 1 (a `r hl()$fontcolor("selection bias")`) and of course heavier people generally lose more weight, and that is why there is a difference between the groups. There is another variable in play, let's call it diet preference, and maybe it is this variable that is the reason for the difference in weight loss.
+
+This type of problem is called `r hl()$fontcolor("confounding")`.
+
+The big advantage of doing a designed experiment is that such a confounding variable is certain to not exist.
+
+### Case Study: Physicians Health Study 
+
+Does Aspirin lower the risk of heart disease? By 1980 there was a lot of `r hl()$fontcolor("anectotal evidence")`  to suggest this was true, so in 1982 a large scale `r hl()$fontcolor("clinical trial")`  was conducted.
+
+**anectotal evidence** - non- scientific evidence
+
+**clinical trial** - designed experiment in medicine
+
+A `r hl()$fontcolor("randomized, double-blind, placebo-controlled")` clinical trial designed to test the effects of low-dose aspirin and beta-carotene in the primary prevention of cardio-vascular disease and cancer among 22,071 US male physicians, aged 40 to 84 at baseline in 1982. Baseline blood specimens were collected and frozen for later analyses from 14,916 participants. The trial was started in 1982 and was designed to run until 1995. 
+
+![](graphs/aspirin1.png)
+
+The trial used a `r hl()$fontcolor("2x2 factorial design")`:
+325 mg of aspirin (Bufferin, supplied by Bristol-Myers Products on alternate days)
+
+50 mg of beta-carotene (Lurotin, supplied by BASF AG on alternate days)
+
+![](graphs/aspirin2.jpg)
+
+**placebo** - something exactly like the treatment.
+
+**randomized** - each subject was assigned randomly to one of four groups (Aspirin-Beta-carotine, Aspirin-Placebo, Beta-Carotine-Placebo, Placebo-Placebo).
+
+**double-blind** - neither the subjects knew which group they were in (blind) nor the medical personnel working with them (double-blind).
+
+**2x2 factorial design** - there were two factors (aspirin and beta-carotine) each with two levels (yes-no) and all 2x2=4 possible combinations were included in trial. 
+
+`r hl()$vs()`
+
+Why were the subjects chosen to be doctors?
+
+-  Ability to give true informed consent
+-  Knowledge of possible side effects
+-  Accuracy and completeness of information
+-  Possibly higher rate of compliance
+
+Primary endpoints (outcomes of interest)
+
+-  Cardiovascular disease
+-  Total cancer
+-  Prostate cancer
+- Eye disease
+
+By 1988 of the 11037  doctors who received aspirin 139 had developed heart disease, but of the 11034 doctors in the control group 239 had done so. This was statistically significant evidence that aspirin works to prevent heart disease and this part of the trial was stopped. The beta-carotine part continued until 1995 and did not show any effect.
+
+For more on this study see 
+[http://phs.bwh.harvard.edu/phs1.htm](http://phs.bwh.harvard.edu/phs1.htm)

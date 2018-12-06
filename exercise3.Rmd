@@ -1,0 +1,196 @@
+---
+title: Exercise 3 Inference
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+
+
+### Problem 1: 
+In a sample of 130 birds of a certain species 24 were found to have specific genetic variation. Find a 90% confidence interval for the population percentage of birds with this variation. If the true percentage is 19.5%, how large a sample would be needed to get a 90% confidence interval with a width of 6%? 
+
+### Problem 2
+A researcher has a theory that predicts the mean number of sunspots per hour to be 4.5. Over a 40 hour time period he observes the following number of sunspots each hour:
+
+```{r, echo=FALSE}
+xp2 <-
+c(5, 7, 5, 11, 12, 8, 5, 4, 0, 3, 4, 7, 2, 3, 2, 8, 6, 8, 3, 
+2, 2, 6, 5, 3, 6, 5, 6, 10, 7, 4, 3, 4, 6, 5, 8, 4, 3, 4, 5, 
+9)
+```
+
+`r paste(xp2, collapse=" ")`
+ 
+Test at the 5% level whether his theory is correct. 
+
+### Problem 3
+Over some years the mean number of sick days per week taken by the employees of a company was 0.28. The company has recently paid for an education campaign regarding things like healthy eating, regular exercise etc. They now want to see whether this has improve their employees health. How many weeks do they need to wait if they want the do a hypothesis test at the 10% level and if they hope the mean number of sick days has gone down to 0.2 and they want the power of the test to be 90%. (assume the standard deviation to be 0.15)
+
+### Problem 4
+Say we have a coin we suspect is not a fair coin. We have time to flip the coin 500 times but we only want to do this if the power of the test for a fair coin is 80%. How "unfair" does the coin have so we can do the experiment ? 
+
+### Problem 5 
+In a study on the number of germs present on a square inch of floor in an average house researchers found the mean number to be 2560 with a standard deviation of 530. The study was done in 35 houses. Find a 90% confidence interval for the mean number of germs per square inch.
+
+### Problem 6 
+In a survey 37 of 110 respondents said they would be interested in buying a certain new type of kitchen appliance. Test at the 5% level whether more than one quarter of the population might be interested in buying this appliance.
+
+`r hl()$hr()`
+
+`r hl()$hr()`
+
+`r hl()$hr()`
+
+## Solutions
+
+### Problem 1: 
+In a sample of 130 birds of a certain species 24 were found to have specific genetic variation. Find a 90% confidence interval for the population percentage of birds with this variation.
+
+Parameter: percentage
+Problem: confidence interval 
+  
+Method: one.sample.prop 
+
+```{r}
+one.sample.prop(x = 24, n = 130, conf.level = 90)
+```
+
+so a 90% confidence interval for  the population percentage of birds with this variation is (13.2%, 24.1%) 
+
+If the true percentage is 19.5%, how large a sample would be needed to get a 90% confidence interval with a width of 6%? 
+
+Problem: sample size  
+Method: prop.ps
+
+width 6% = width 0.06 for proportions, so  E = 0.03 
+
+```{r}
+prop.ps(pi.null = 0.195, E = 0.03, conf.level = 90)
+```
+
+### Problem 2
+A researcher has a theory that predicts the mean number of sunspots per hour to be 4.5. Over a 40 hour time period he observes the following number of sunspots each hour:
+
+```{r, echo=FALSE}
+xp2 <-
+c(5, 7, 5, 11, 12, 8, 5, 4, 0, 3, 4, 7, 2, 3, 2, 8, 6, 8, 3, 
+2, 2, 6, 5, 3, 6, 5, 6, 10, 7, 4, 3, 4, 6, 5, 8, 4, 3, 4, 5, 
+9)
+```
+
+`r paste(xp2, collapse=" ")`
+ 
+Test at the 5% level whether his theory is correct. 
+
+Parameter: mean
+
+Problem:   hypothesis test 
+
+Method: one.sample.t
+
+1. Parameter: mean $\mu$  
+2. Method: 1-sample t  
+3. Assumptions: normalplot is ok   
+4. $\alpha = 0.05$  
+5. $H_0: \mu = 4.5$ (Theory correct)   
+6. $H_a: \mu ]\ne 4.5$ (Theory false)   
+7. $p = 0.0778$  
+
+```{r}
+x <- 
+c(5, 7, 5, 11, 12, 8, 5, 4, 0, 3, 4, 7, 2, 3, 2, 8, 6, 8, 3, 
+2, 2, 6, 5, 3, 6, 5, 6, 10, 7, 4, 3, 4, 6, 5, 8, 4, 3, 4, 5, 
+9)
+one.sample.t(x, mu.null = 4.5)
+```
+
+8. $p > \alpha$, so we fail to reject the null hypothesis 
+9. the theory appears to be correct 
+
+Assumptions: normal plot ok 
+
+### Problem 3
+Over some years the mean number of sick days per week taken by the employees of a company was 0.28. The company has recently paid for an education campaign regarding things like healthy eating, regular exercise etc. They now want to see whether this has improve their employees health. How many weeks do they need to wait if they want the do a hypothesis test at the 10% level and if they hope the mean number of sick days has gone down to 0.2 and they want the power of the test to be 90%. (assume the standard deviation to be 0.15)
+
+Parameter: mean
+
+Problem: sample size
+  
+Method: t.ps 
+
+```{r}
+t.ps(diff = 0.2-0.28, sigma = 0.15, power = 90, 
+     alpha = 0.1, alternative = "less")
+```
+
+### Problem 4
+Say we have a coin we suspect is not a fair coin. We have time to flip the coin 500 times but we only want to do this if the power of the test for a fair coin is 80%. How "unfair" does the coin have so we can do the experiment ?
+
+Parameter: proportion
+
+Problem: power
+  
+Method: prop.ps
+
+```{r}
+prop.ps(n = 500, pi.null = 0.5, power = 80)
+c(219, 281)/500
+```
+
+so if the true probability of heads is either less than 0.438 or higher than 0.562 the test will have a power of 80% or higher.
+
+### Problem 5 
+In a study on the number of germs present on a square inch of floor in an average house researchers found the mean number to be 2560 with a standard deviation of 530. The study was done in 35 houses. Find a 90% confidence interval for the mean number of germs per square inch.
+
+Parameter: mean
+
+Problem: confidence interval   
+
+Method: one.sample.t
+
+```{r}
+one.sample.t(y = 2560, shat = 530, 
+             n = 35, conf.level = 90)
+```
+
+### Problem 6 
+In a survey 37 of 110 respondents said they would be interested in buying a certain new type of kitchen appliance. Test at the 5% level whether more than one quarter of the population might be interested in buying this appliance. 
+
+Parameter: proportion
+
+Problem: hypothesis test 
+
+Method: one.sample.prop  
+
+1. Parameter: proportion $\pi$  
+2. Method: exact binomial  
+3. Assumptions: None   
+4. $\alpha = 0.05$   
+5. $H_0: \pi = 0.25$  
+6. $H_a: \pi > 0.25$  
+7. $p = 0.0264$  
+
+```{r}
+one.sample.prop(x = 37, n = 110, pi.null = 0.25, 
+        alternative = "greater")
+```
+
+8. $p = 0.0264 < 0.05$, so we  reject the null hypothesis.  
+9. it appears over one quarter of the population might be interested in buying this appliance.

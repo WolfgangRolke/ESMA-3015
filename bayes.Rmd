@@ -1,0 +1,204 @@
+---
+title: Bayesian Statistics
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+library(wolfr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+
+
+Say you pick a coin from your pocket. It's just any coin, nothing special. You flip it 10 times and get 3 heads . What can we conclude about this coin?
+
+Now each flip is a Bernoulli trial with success parameter $\pi$. We have previously seen that the standard estimator for $\pi$ is the ratio of successes to trials, so we find $\widehat{\pi} = x/n = 3/10 = 0.3$.
+ 
+But wait just a minute! This is a regular coin, we all know that coins are (almost) fair, so we know that really $\pi = 0.5$! 3 head in 10 flips of a fair coin is a perfectly fine outcome, in fact the probability of 3 or less heads in 10 flips of a fair coin  is 0.172, so this will happen easily. 
+
+What's going on? The problem is that the formula $\widehat{\pi} = x/n$ is completely general, it is the same whether we flip a coin (head vs tails), survey people (male vs female), check students in a class ( pass vs fail) or do anything else that is a Bernoulli trial. 
+It does not take into account that we know a lot about this experiment "flip a coin" **a priori**, that is before we ever do it, namely that (almost always) $\pi = 0.5$.
+
+Of course there is also the issue that 10 flips is very few, just 300 heads in 1000 flips would be a very different thing. But situations with little data are quite common, and it would still be nice to have a more sensible answer than 0.3.
+
+In fact, it is possible to include such a priori information in a statistical analysis, applying what is called **Bayesian 
+Statistics**. The principle idea is this:
+
+- "encode" your knowledge of the experiment before it is done in what is called a **prior distribution**.
+
+- do the experiment and collect the data
+
+- combine the data and the prior to get to the **posterior distribution**, which now encodes our updated knowledge of what we know after having done the experiment.
+
+**Note**: the prior and the posterior are regular probability distributions like those we discussed before. 
+
+`r hl()$vs()`
+
+The science of Statistics comes in two flavours: Bayesian and Frequentist. There are a number of fundamental differences between them. One we have already seen: a Bayesian analysis not only can but has to begin by specifying a prior distribution . This can be a strength (as in the coin flip example above ) or a weakness, mostly in situations were we really don't have much prior knowledge. A Frequentist analysis on the other hand doesn't need a prior, but also can't use one if there is one!
+
+There  are deeper differences as well, for example  the very definition of what a probability is. Those issues are quite fundamental to doing Statistics but unfortunately much beyond what we can discuss in an introductory class! 
+
+`r hl()$vs()`
+
+So, how do we do this "combine data and prior" step? It uses something called **Bayes formula** (which is where the name comes from) and a lot of heavy math, calculus and more. This is one reason why Bayesian statistics is not yet as widely used as most Statisticians think it should be! But more and more computer programs can take care of the calculations for us.
+
+I have written an "Interactive Bayesian  Calculator for Percentages", which we can use for our problem. Run it with
+
+```{r, eval=FALSE}
+ibayesprop()
+```
+
+when it opens it looks like this:
+
+![](graphs/bayes1.png)
+
+The first thing we need to do is specify the prior distribution. 
+
+There are several ways to do this, listed on the left side. The default option is to specify what we think the most likely value is and what the range might be. We do think this is a fair coin, so 50% is ok. The graph shows that any value between about 25% and 75% is ok. You can use the box above the graph to change that if you want.
+
+Below the graph we see the interval (30.6%, 69.3%). If our prior distribution is reasonable for our problem than the true percentage should be inside.
+
+Now let's enter our data, Sample Size = 10 and Number of Successes = 3: 
+
+![](graphs/bayes2.png)
+
+The blue curve is the same prior distribution as before, the red is the posterior distribution, that is our best guess after having seen the result of the experiment. Notice that because there were fewer heads than we expected from a fair coin it has shifted a bit to the left.
+
+On the bottom we see the 95% Bayesian credible interval (27.4%, 60.2%), which is our best guess after having done the experiment. 
+
+For comparison we also have the 95% confidence interval (8.1%, 64.6%).
+
+Let's see what would happen if we actually had 300 heads in 1000 flips:
+
+![](graphs/bayes3.png)  
+
+Again the red posterior curve has shifted to the left, by now it is far away from the blue prior one. The Bayesian interval is (27.2%, 33.2%). 
+
+Notice that it is quite similar to the Frequentist confidence interval (27.2%, 33.0%). This is something we see a lot: in cases were there is a lot of data (100 flips) the answers from a Bayesian and a Frequentist analysis tend to be very similar. This of course makes good sense: whatever our expectation was before the experiment ( as encoded in the prior distribution), we will certainly change that expectation in the face of a lot of evidence (aka data). 
+
+#### Specifying a Prior Distribution
+
+There is a vast literature on how to go about encoding our prior knowledge. In the app I have included four ways to do so:
+
+- Location and Range: just as it says, decide what the most likely value is and in what range the answer should be.
+
+Here are four examples:
+
+1) we think the true percentage is around 50%, but it could be as low as 25% and as high as 75% 
+
+![](graphs/bayes41.png)
+
+2) we think the true percentage is around 50%, but it could be as low as 0% and as high as 100% 
+
+![](graphs/bayes42.png)
+
+3) we think the true percentage is small, maybe even 0, and no larger than  20%
+
+![](graphs/bayes43.png)
+
+4) we are quite certain that the  true percentage is around 20%.
+
+![](graphs/bayes44.png)
+
+- Beta prior: this is a class of distributions which has a number of advantages. It has two parameters $\alpha$ and $\beta$, and you can use sliders to get a shape that works for your experiment.
+
+1) we really have no idea where $\pi$ might be. 
+
+![](graphs/bayes51.png)
+
+This one is the default for the Beta. It looks a little funny but has some good theoretical features (for the specialists: it is the 
+Jeffrey's prior for the binomial) 
+
+2) we really have no idea where $\pi$ might be. 
+
+![](graphs/bayes52.png)
+
+Another favorite, what is called a flat prior. 
+
+3) we think the true percentage is around 50% but we are not to sure of that. 
+
+![](graphs/bayes53.png)
+
+Note that here we have $\alpha = \beta$, which will always put the peak of the curve at 50% 
+
+4) we are quite certain that the  true percentage is greater than 50%.
+
+![](graphs/bayes54.png)
+
+- Discrete prior: here we can specify the (relative) probabilities for 10 points in some interval. 
+
+1) we really have no idea where $\pi$ might be. 
+
+![](graphs/bayes61.png)
+
+2) we really have no idea where $\pi$ might be, but is not likely that it is either very close to 0 or very close to 100% 
+
+![](graphs/bayes62.png)
+
+3) we think the true percentage is around 40%. Moreover, we are vey sure it is not less than 30% and not higher than 50%. 
+
+![](graphs/bayes63.png)
+
+- Enter your own function: here you can enter any R expression for any function you like! (and that could e a prior, of course).
+we think the true percentage is is either around 25% or around 75%. 
+![](graphs/bayes71.png)
+
+Can you think of any situation where this might actually be an apprioriate prior? 
+
+<hr>
+
+#### Example
+
+We have collected data from some recent classes. For each student in each class we we found their gender. What would be an appropriate prior to use here?
+
+Actually it will depend on the class. For example, if this is a class in engineering, the percentage of females is likely smaller than 50% but if it is a course in nursing it likely larger than 50%. If we don't know what class it is we should use a prior which allows for some range. So maybe
+Location and Range with most likely value = 50 and likely range of values = 60 
+
+#### Example
+
+We have collected data from some recent introductory statistics classes. For each student in each class we we know whether they got an A or not. What would be an appropriate prior to use here?
+
+Here a prior with a peak at 10% seems appropriate. Moreover, any number above 20% is highly unlikely. 
+
+Try Beta prior with $\alpha = 2$ and $\beta = 20$.
+
+#### Example
+
+We have collected data from some experiment. We know the following:
+
+- the percentage is definitely between 70% and 90% 
+
+- the percentage is most likely between 78% and 82% 
+
+- the percentage is twice as likely to be less than  78%  than it is to be over 82%.
+
+Here is one way to encode this prior knowledge with the Discrete prior option:
+
+![](graphs/bayes8.png)
+
+#### Example
+
+So, how about our coin? What should we do here? 
+
+There are really two possibilities: either the coin is fair, so $\pi$ is just about 0.5, and that is most likely the case. Or it is not fair, and then $\pi$ could really be anything at all.
+
+Here is one way to encode this:
+
+![](graphs/bayes9.png)
+
+The prior (blue) curve is flat from 0 to 100 but moves up sharply between 48 and 52. (This is often called Lincoln's hat function!) 
+Under the posterior (red) curve this is still most likely a fair coin, but there is little higher chance that it has a bias towards tails. 

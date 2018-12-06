@@ -1,0 +1,109 @@
+---
+title: Checking for Normality
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+
+As you will see shortly, many of the methods for statistical inference we discuss here (and that are widely used in practise) require the data to come from a normal distribution. How do we check that?
+
+## Histogram
+
+It would seem that the obvious thing to do would be to draw a histogram and see whether it is bell-shaped. This however does not work. First, to do a decent histogram we need a lot of data (at least a few hundred observations) and second they can be quite hard to read.
+
+## Boxplot
+
+We can check the assumption of normality using a boxplot. Here are some boxplots for data from a normal distribution:
+
+```{r, echo=FALSE}
+y <- rnorm(4000, 10, 3)
+bplot(y)
+```
+
+Here are some features of boxplots for normal data:
+
+- There are very few "outliers", and those are close to the boxplot
+
+- The lower fence, the box and the upper fence are all about the same size.
+
+Here are some examples of non - normal data:
+
+```{r, echo=FALSE}
+y <- rt(4000, 1)
+bplot(y)
+```
+
+or this one
+
+```{r, echo=FALSE}
+y <- rchisq(4000, 1)
+bplot(y)
+```
+
+## Normal Probability Plot
+
+This is a graph specifically designed to check for normality. If the data comes from a normal distribution the points should form a line. Again, let's start with some examples of normal data:
+
+```{r, echo=FALSE}
+y <- rnorm(4000, 10, 3)
+nplot(y)
+```
+
+and some examples of non-normal data:
+
+```{r, echo=FALSE}
+y <- rt(4000, 1)
+nplot(y)
+```
+
+or this one
+
+```{r, echo=FALSE}
+y <- rchisq(4000, 1)
+nplot(y)
+```
+
+### Case study: Euro coins 
+
+The data is the weight of 2000 1-euro coins, 250 each in eight "rolls". The data were collected by Herman Callaert at Hasselt University in Belgium. The euro coins were "borrowed" at a local bank. Two assistants, Sofie Bogaerts and Saskia Litiere weighted the coins one by one, in laboratory conditions on a weighing scale of the type Sartorius BP 310s.
+
+```{r}
+head(euros)
+```
+
+The manufacturing process of the coins might suggest that the weights have a normal distribution. Is this true?
+
+```{r, warning=FALSE}
+attach(euros)
+bplot(Weight)
+nplot(Weight)
+```
+
+both the boxplot and the normal probability plot indicate that the data does **not** come from a normal distribution but from some symmetric distribution with **heavier tails**, that is some outliers on both sides.
+
+### Case Study: Lengths of Babies
+
+```{r}
+attach(mothers)
+bplot(Length)
+nplot(Length)
+```
+
+both graphs indicate that the data comes from a normal distribution.

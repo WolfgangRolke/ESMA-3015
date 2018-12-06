@@ -1,0 +1,351 @@
+---
+title: Exercises - Descriptive Statistics - Data Summaries
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+
+
+### Problem 1
+
+For each of the following variables decide whether the data is categorical or quantitative
+
+Daily low temperature in New York
+
+Brand of cereal in supermarket
+
+Telephone number
+
+License plates of cars
+
+Weight lost in a weight loss program
+
+Time spent on studying for the class during last week
+
+### Problem 2
+
+```{r, echo=FALSE}
+x <-
+c(0.5, 1, 1.5, 1.9, 2.1, 2.2, 2.7, 2.8, 3.3, 3.6, 3.9, 3.9, 3.9, 
+4, 4, 4.3, 4.3, 4.5, 4.5, 5, 5, 5.1, 5.1, 5.5, 5.6, 5.9, 6.2, 
+6.3, 7.1, 27.1)
+out <- hl()$fontcolor(paste0(x, collape="  "), "black")
+```
+`r out`
+
+a. Find the mean, median, range and standard deviation. 
+
+b. Find the 20^th^ and the 64^th^ percentile of this dataset.
+
+c. draw the boxplot for this dataset
+
+### Problem 3
+
+Using the data from problem 2, find the z score of x = 3.6. What x would have a z score = 1?  
+
+### Problem 4
+
+Consider the data set for Friday the 13^th^. This data set has several comparisons of a Friday the 13th and the previous Friday the 6th, for example the number of cars passing through a junction (traffic), shoppers for a supermarket (shopping), or admissions due to transport 
+accidents (accident) 
+
+```{r}
+head(friday13)
+```
+
+Use R to compute the mean and the standard deviation for the two Fridays and the three data sets separately (so there will be the mean and st. dev. for the number of accidents on Friday the 6^th^, the mean and st. dev. for the number of accidents on Friday the 13^th^, the mean and st. dev. for the number of shoppers on Friday the 6^th^ and so on). 
+
+Does any of these numbers support the idea that Friday the 13^th^ is special? 
+
+
+###Problem 5
+
+Consider the data in AIDS in Americas in 1995.
+
+```{r}
+head(aids)
+```
+
+
+a. Find the 20^th^ and the 80^th^ percentiles of the AIDS rates.
+
+b. Find the 5 number summary for the aids rates.
+
+c. According to the boxplot, which countries are outliers in this data set?
+
+d. Let's say the WHO wants to use the "average" rate of AIDS infection (together with the number of people living in the Americas) to estimate the number of AIDS infected people in the Americas. Should they use the mean or the median to find the "average"?
+
+
+##Problem 6
+
+In this exercise we study the dataset 
+
+```{r}
+head(headache)
+```
+
+
+a. What is the type of data of the variables?
+
+b. Find the mean and standard deviation of Time.
+
+c. Find the 5-number summary and draw the boxplot of Time
+
+### Problem 7
+
+Company XYZ has a contract with a supplier for metal rods. The contract says that all the rods have to be between 15.26cm and 15.47cm long. XYZ just received a shipment of 50000 rods. They randomly select 100 of them and measure the length of each. They find $\overline{X}=15.344$ and $s=0.041$. Should they except this shipment?
+
+
+### Problem 8
+
+Consider the following data set:
+
+```{r}
+x <- 1:10
+y <- c(3,	 0,	 0,	 10,	 8,	 4,	 5,	 8,	 14,	 9)
+kable(data.frame(x=x,y=y))
+```
+
+
+Now we find
+```{r}
+round(cor(x, y), 3)
+```
+
+Find another observation (a, b) such that
+```{r, eval=FALSE}
+round(cor(c(x, a), c(y, b)), 3)
+```
+
+```{r echo=FALSE}
+round(cor(c(x, 19.9), c(y, -0.5)), 3)
+```
+
+## Solutions
+
+###Problem 1
+
+For each of the following variables decide whether the data is categorical or quantitative
+
+Daily low temperature in New York - quantitative
+
+Brand of cereal in supermarket - categorical
+
+Telephone number - categorical
+
+License plates of cars - categorical
+
+Weight lost in a weight loss program - quantitative
+
+Time spent on studying for the class during last week - quantitative
+
+
+###Problem 2
+
+```{r, echo=FALSE}
+x <-
+c(0.5, 1, 1.5, 1.9, 2.1, 2.2, 2.7, 2.8, 3.3, 3.6, 3.9, 3.9, 3.9, 
+4, 4, 4.3, 4.3, 4.5, 4.5, 5, 5, 5.1, 5.1, 5.5, 5.6, 5.9, 6.2, 
+6.3, 7.1, 27.1)
+out <- hl()$fontcolor(paste0(x, collape="  "), "black")
+```
+`r out`
+
+the data is comma delimeted, so after copying it in R type
+
+```{r, eval=FALSE}
+x <- getx(sep=",")
+```
+
+```{r}
+mean(x)
+median(x)
+sd(x)
+```
+
+b. Find the 20^th^ and the 64^th^ percentile of this dataset.
+
+```{r}
+quantile(x, c(0.2, 0.64))
+```
+
+c) draw the boxplot for this dataset
+```{r}
+bplot(x)
+```
+
+### Problem 3
+Using the data from problem 2, find the z score of x = 3.6. What x would have a z score = 1?
+
+We found $\overline{X}=4.76$ and $s= 4.519$, so the z score of x=3.6 is  
+$z = (x-\overline{X})/s = (3.6-4.76)/4.519 = -0.2567$
+
+We want z score =1, so 
+
+$1 = (x-\overline{X})/s$ 
+
+or
+
+$s= x-\overline{X}$
+
+or
+
+$x = s+\overline{X} = 4.519+4.76 = 9.279$
+
+<HR class="pagebreak" size="1" />	
+
+### Problem 4
+
+Consider the data set for Friday the 13^th^. This data set has several comparisons of a Friday the 13th and the previous Friday the 6th, for example the number of cars passing through a junction (traffic), shoppers for a supermarket (shopping), or admissions due to transport accidents (accident) 
+
+Use R to compute the mean and the standard deviation for the two Fridays and the three data sets separately (so there will be the mean and st. dev. for the number of accidents on Friday the 6^th^, the mean and st. dev. for the number of accidents on Friday the 13^th^, the mean and st. dev. for the number of shoppers on Friday the 6^th^ and so on). Does any of these numbers support the idea that Friday the 13^th^ is special? 
+
+a. 
+```{r, warning=FALSE}
+attach(friday13)
+mean(friday13[Dataset=="accident",3])
+mean(friday13[Dataset=="accident",3])
+```
+ 
+```{r}
+mean(friday13[Dataset == "traffic", 2])
+sd(friday13[Dataset == "traffic", 2])
+```
+
+```{r}
+mean(friday13[Dataset == "traffic", 3])
+sd(friday13[Dataset == "traffic", 3])
+```
+
+```{r}
+mean(friday13[Dataset == "shopping", 2])
+sd(friday13[Dataset == "shopping", 2])
+```
+
+```{r}
+mean(friday13[Dataset == "accident", 2])
+sd(friday13[Dataset == "accident", 2])
+```
+
+```{r}
+mean(friday13[Dataset == "accident", 3])
+sd(friday13[Dataset == "accident", 3])
+```
+
+There does not appear to be anything special about Friday the 13^th^
+
+<HR class="pagebreak" size="1" />
+
+### Problem 5
+  
+Consider the data in AIDS in Americas in 1995. 
+
+
+a. Find the 20^th^ and the 80^th^ percentiles of the AIDS rates.  
+
+```{r, warning=FALSE}
+attach(aids)
+quantile(AIDS, c(0.2,0.8))
+```
+
+b. Find the 5 number summary for the aids rates.
+```{r}
+fivenumber(AIDS)
+```
+
+c. According to the boxplot, which countries are outliers in this data set?
+```{r}
+bplot(AIDS)
+```
+
+the 5 countries with rates over 30are outliers, so
+```{r}
+aids[AIDS > 30,]
+```
+
+d. Let's say the WHO wants to use the "average" rate of AIDS infection (together with the number of people living in the Americas) to estimate the number of AIDS infected people in the Americas.
+
+Should they use the mean or the median to find the "average"?
+
+Mean, because the countries with the highest AIDS rates have to influence our "average", and they don't if we use the median.
+
+
+### Problem 6
+
+In this exercise we study the dataset **headache** 
+  
+a. What is the type of data of the variables?
+
+Time: quantitative  
+Dose: quantitative  
+Sex: categorical  
+BP Quan: categorical. 
+
+b. Find the mean and standard deviation of Time.
+
+```{r, warning=FALSE}
+attach(headache)
+mean(Time)
+sd(Time)
+```
+
+
+c. Find the 5-number summary and draw the boxplot of Time
+```{r}
+fivenumber(Time)
+```
+
+```{r}
+ bplot(y=Time)
+```
+
+
+### Problem 7
+
+Company XYZ has a contract with a supplier for metal rods. The contract says that all the rods have to be between 15.26cm and 15.47cm long. XYZ just received a shipment of 50000 rods. They randomly select 100 of them and measure the length of each. They find $\overline{X}=15.344$ and $s=0.041$. Should they except this shipment? 
+
+We can use the empirical rule to decide. This requires that the lengths of the rods have a bell-shaped histogram, which of course should be checked. Then 
+
+$\overline{X} \pm 2s =  15.344 \pm 2 \times 0.041 = (15.262, 15.426)$
+
+The interval is supposed to include 95% the observations (or lengths of the rods), so we can conclude that 95% the rods have a length at least 15.262cm and at most 15.462cm, which is in accordance with the contract. So XYZ should accept the shipment.
+
+### Problem 8 
+ Consider the following data set:
+```{r}
+x <- 1:10
+y <- c(3,	 0,	 0,	 10,	 8,	 4,	 5,	 8,	 14,	 9)
+kable(data.frame(x=x,y=y))
+```
+Now we find
+
+```{r, eval=FALSE}
+round(cor(x,y), 3)
+```
+
+Find another observation (a, b) such that
+
+```{r, eval=FALSE}
+round(cor( c(x,a), c(y,b)), 3)
+```
+
+There are many solutions, here is one of them:
+```{r}
+round(cor(c(x, 19.9), c(y, -0.5)), 3)
+```

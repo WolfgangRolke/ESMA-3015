@@ -1,0 +1,143 @@
+---
+title: Outliers - Detection  and Treatment
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+
+Many of the methods discussed in this class don't work well if the dataset has **outliers**. An outlier is any observation that is in some way `r hl()$fontcolor("unusual/strange/weird")`.
+
+We have already seen that an observation that is unusual with respect to one variable appears as a separate dot in an R boxplot:
+
+```{r, echo=FALSE}
+set.seed(2)
+x <- c(rnorm(50, 10, 2), 17, 20, 25)
+bplot(x, return.graph = TRUE) + 
+  annotate("text", label="Outlier!", x=1.1, y=25) + 
+  annotate("text", label="Outlier?", x=1.1, y=20) + 
+  annotate("text", label="No Outlier!", x=1.1, y=17)
+```
+
+Unfortunately there are no hard rules exactly when an observation becomes an outlier. To a large part that depends on the method of analysis we want to use, some methods are **sensitive** to outliers, others are more **robust**.
+
+In addition to the case discussed above, there are other ways in which an observation can be an outlier: 
+
+### Case Study: Alcohol vs. Tobacco Expenditure
+
+Data from a British government survey of household spending may be used to examine the relationship between household spending on tobacco products and alcoholic beverages. The numbers are the average expenditure for each of the 11 regions of England.
+
+```{r,warning=FALSE}
+alcohol
+```
+
+Here we have two quantitative variables, so the obvious thing to do is draw the scatterplot:
+
+```{r}
+attach(alcohol) 
+splot(Tobacco , Alcohol)
+```
+
+There seems to be generally a positive relationship, but also one case that does not fit. It seems it has the smallest value for Alcohol, which we can see in the data is for Northern Ireland, where there is a fairly high expenditure on Tobacco but not on Alcohol (???)
+
+Note that neither Alcohol nor Tobacco have any outliers by themselves:
+
+```{r}
+bplot(Alcohol)
+bplot(Tobacco)
+```
+
+Again, it is not always obvious when an observation becomes an outlier:
+
+```{r, echo=FALSE}
+set.seed(2)
+x <- c(runif(30, 0, 15), 7, 12, 25)
+y <- c(x[1:30]+rnorm(30, 0, 3), 23, 2, 25) 
+splot(y, x, return.graph = TRUE) + 
+  annotate("text", label="Outlier!", x=9, y=23) + 
+  annotate("text", label="Outlier?", x=14, y=2) + 
+  annotate("text", label="Outlier!", x=27, y=25)
+```
+
+If we have two quantitative variables an outlier can happen in one of three ways:
+
+- in the x variable, which we can check in the boxplot of x 
+
+- in the y variable, which we can check in the boxplot of y 
+
+- in the relationship between the xand the y variable, which we can check in the scatterplot of x and y
+
+In fact we can do all three in one step:
+ 
+```{r, warning=FALSE}
+mplot(Tobacco, Alcohol) 
+```
+
+Consider the following case:
+
+```{r echo=FALSE}
+x <- c(runif(20, 0, 10), 20)
+y <- x+rnorm(21)
+mplot(y, x)
+```
+
+How many outliers does this data set  have? Actually just one, but it appears in each of three graphs.
+
+## Treatment of Outliers
+
+If we have an outlier in a dataset, what do we do then? First and foremost, **don't ignore them!** Most statistical methods are very sensitive to outliers, often they simply don't work.
+
+**Example** Is there a relationship between Alcohol and Tobacco expenditures in England? Because we have two quantitative variables we might use Pearson's correlation coefficient to answer this question:
+
+```{r}
+round(cor(Tobacco, Alcohol), 3)
+round(cor(Tobacco[-11], Alcohol[-11]), 3)
+```
+
+So with Northern Ireland we find a weak positive correlation, but without Northern Ireland it is a fairly strong positive correlation.
+
+Which one is right? Clearly the first one is wrong because of the outlier!
+
+So, if there are outliers, what do we do?
+
+1. Learn as much as you can about the "story" behind the data and understand why there is an outlier. Is it an error? Is it something we should expect to see in this kind of data? etc. 
+
+2. Find a method that is not sensitive to outliers. For example, alternatives to Pearson's correlation coefficient include Spearman's rank correlation coefficient and Kendall's coefficient of concordance , although neither of them works any better here.
+
+3. Try and "adjust" the outliers. We know what "caused" the Alcohol number for Northern Ireland to be off, so maybe we can adjust it.
+
+4. If all else fails, eliminate the outlier(s)
+
+### Case Study: Body and Brain Weight of Mammals
+
+```{r}
+attach(brainsize)
+mplot(brain.wt.g, body.wt.kg)
+```
+ 
+Here we have at least two, maybe three outliers. They are at #1 (African Elephant), #5 (Asian Elephant)  and #34 (Man). Let's take them out:
+
+```{r}
+mplot(brain.wt.g[-c(1, 5, 34)], body.wt.kg[-c(1, 5, 34)])
+```
+
+but this still seems to have outliers!
+
+Here just eliminating them does not work.
+

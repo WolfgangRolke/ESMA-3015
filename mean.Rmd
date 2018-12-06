@@ -1,0 +1,338 @@
+---
+title: Inference for a Mean $\mu$
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(wolfr)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+
+
+[Assumptions](#a1)  
+[Confidence Interval](#a2)  
+[Hypothesis Test](#a3)  
+[Power](#a4)  
+[Sample Size](#a5) 
+
+After all the theory, here are some examples. Actually, we have discussed almost everything here already.
+
+## Method
+
+1-sample t 
+
+## Assumptions {#a1}
+
+The methods discussed here work if:
+  
+- the data comes from a simple random sample
+- the data comes from a normal distribution or the sample size is large enough
+
+The last assumption is a bit vague, just how large is "large enough"? The basic principle here is that we need a balance:
+
+- If the distribution of the data is almost normal, a sample size as small as 10 is ok. 
+
+- If the distribution of the data is very non-normal (large outliers etc..), a sample size as large as 100 might be needed.
+
+## R Routines 
+
+*one.sample.t* - test and confidence interval 
+
+*t.ps* - power and sample size 
+
+## Confidence Interval {#a2}
+
+### Case Study: Drug Use of Mothers and the Health of the Newborn
+
+Consider again the data set for newborn babies and the drug status of their mothers. Find a 90% confidence interval for the length of babies: 
+
+```{r, warning=FALSE}
+attach(mothers)
+sort(Length)
+one.sample.t(Length, conf.level = 90, ndigit = 2)
+```
+Assumptions: normal plot ok 
+
+Notice the rounding rules for confidence intervals are the usual ones, here one digit more than the data.
+
+**Example** In a survey 150 people leaving a mall were asked how much money they spent. The mean was \$45.60 with a standard deviation of \$12.70. Find a 95% confidence interval for the true mean. 
+
+```{r}
+ one.sample.t(y = 45.60, shat = 12.70, n = 150, ndigit=2) 
+```
+
+Assumptions: can't be checked (no data) but 150 is fairly large.
+
+
+**Example** In a survey people were asked how much money they made last year. The answers were
+
+```{r echo=FALSE}
+set.seed(11)
+Income <- sort(round(rnorm(80, 35000, 5000), -2))
+```
+
+```{r}
+Income
+```
+
+find a $90\%$ confidence interval for the true population mean income.
+
+```{r}
+one.sample.t(Income, conf.level=90, ndigit=-1)
+```
+
+Assumptions: normal plot ok
+
+## Hypothesis Test {#a3}
+
+The details of the hypothesis test for a population mean are as follows:
+
+Null Hypothesis: $H_0: \mu = \mu_0$
+
+*Note*: $\mu_0$ is not "$\mu_0$" but a specific number which you need to get from the problem.
+
+Alternative Hypothesis: Choose `r hl()$fontcolor("one")` of the following, depending on the problem:
+  
+a. $H_a: \mu < \mu_0$   
+b. $H_a: \mu > \mu_0$   
+c. $H_a: \mu \ne \mu_0$   
+
+
+### Case Study: Simon Newcomb's Measurements of the Speed of Light
+
+```{r}
+attach(newcomb)
+speed.of.light <- Measurement
+speed.of.light <- speed.of.light[speed.of.light>24780]  
+mn <-round(mean(speed.of.light), 1)
+mn
+```
+
+
+We have previously seen that (after eliminating the outlier 24756) the mean of Newcombs measurements of the speed of light is 24827.3, whereas using modern instruments the equivalent measurement is 24833. Does this say his measuring method was bad?  The question is whether this sample mean is statistically significantly dfferent from the population mean.
+
+Let's answer this question now:
+
+1. Parameter: mean $\mu$  
+2. Method: 1-sample t  
+3. Assumptions: normal data or large sample, normalplot is ok   
+4. $\alpha = 0.05$  
+5. $H_0: \mu = 24933$ (Newcomb's experiment measured correct value)   
+6. $H_a: \mu \ne 24933$  (Newcomb's experiment did not measure correct value)
+7. p = 0.000  
+
+```{r, warning=FALSE}
+one.sample.t(speed.of.light, mu.null = 24833)
+```
+
+8. $p < \alpha$, so we reject the null hypothesis  
+9. Newcomb's experiment did not measure correct value  
+Assumptions: normal plot ok 
+
+### Case Study: Resting Period of Monarch Butterflies 
+
+![](graphs/monarch.jpg)
+
+Some Monarch butterflies fly early in the day, others somewhat later. After the flight they have to rest for a short period. It has been theorized that the resting period (RIP.sec.) of butterflies flying early in the morning is shorter because this is a thermoregulatory mechanism, and it is cooler in the mornings. The mean RIP of all Monarch butterflies is 133 sec. Test the theory at the 10% level.
+
+Research by Anson Lui, Resting period of early and late flying Monarch butterflies Danaeus plexippus, 1997
+
+1. Parameter: mean $\mu$  
+2. Method: 1-sample t  
+3. Assumptions: normal data or large sample  
+4. $\alpha = 0.1$  
+5. $H_0: \mu =133$ (RIP is the same for early morning flying butterflies as all others)  
+6. $H_0: \mu <133$ (RIP is the shorter for early morning flying butterflies)   
+7. $p = 0.056$ 
+
+```{r, warning=FALSE}
+attach(butterflies) 
+sort(RIP.sec.)
+one.sample.t(RIP.sec., mu.null=133, alternative = "less")
+```
+  
+8.  $p = 0.0558 < \alpha = 0.1$, so we reject the null hypothesis  
+9. It appears the resting time is somewhat shorter, but the conclusion is not a strong one. 
+
+Assumptions: normal plot ok
+
+**Example** In the past the average purchase of a customer in a certain store was \$55 . The store just ran an ad in the newspaper and wants to know whether it increased sales. In week following the ad 43 customers spent an average of \$63 with a standard devation of \$18. Test at the 10% level whether the promotion was a success.
+
+1. Parameter: mean $\mu$  
+2. Method: 1-sample t  
+3. Assumptions: assumed to be ok  
+4. $\alpha = 0.1$  
+5. $H_0: \mu = 55$ (same mean sales as before, ad did not work)   
+6. $H_a: \mu > 55$ (higher mean sales than before, ad did work)   
+7. $p = 0.0028$   
+
+```{r}
+one.sample.t(y = 63, shat = 18, n = 43, 
+             mu.null = 55, alternative = "greater")
+```
+
+8. $p < \alpha$, so we reject the null hypothesis
+9. the mean of the sales is higher than before, ad did work.
+
+`r hl()$hr()`
+
+## Power {#a4}
+
+Recall that the power of a test is the probability to reject the null hypothesis when the null hypothesis is indeed wrong.
+
+Calculating the power of a test usually means making a guess what the true value of the parameter might be.
+
+**Example** Over many years the mean number of accidents per month on a street was 2.15 with a standard deviation of 0.75. The city council is considering to install traffic lights at a number of intersections. After that they will monitor the number of accidents for one year. If it turned out that the lights lower the number of accidents to 1.56 per month,  what is the probability that they would detect this drop? Use $\alpha = 0.05$.
+
+The test they will eventually do will have the following:
+
+4. $\alpha = 0.05$  
+5. $H_0: \mu = 2.15$ (Same number of accidents with the traffic lights)  
+6. $H_a: \mu < 2.15$ (Lower number of accidents with the traffic lights) 
+
+Now to calculate the power:
+
+```{r}
+t.ps(n=12, diff = 1.56-2.15, sigma = 0.75, 
+     alternative="less") 
+```
+
+so there is an 81.4% chance to correctly conclude that the traffic lights lowered the number of accidents. 
+
+But why 1.56? After all, we have not even installed the traffic lights, so we can't know what will happen once we do. So we really should look at the whole Power Curve.
+
+**Example** We are planning a survey of the employees of a large company. In the survey we will ask them how happy they are to work there, on a scale of 1 to 10. Eventually we will test at the 10% level whether
+
+$H_0: \mu =5.0$ vs $H_0: \mu > 5.0$ 
+
+If we randomly select 250 employees and if the true mean happiness is 5.6, what is the power of this test? Assume $\sigma=1.4$.
+
+```{r}
+t.ps(n=50, diff=5.6-5.0, sigma=1.4, 
+     alpha=0.1, alternative = "greater")
+```
+
+
+## Sample Size Calculations {#a5}
+
+One of the most important questions facing a researcher is how large a sample he needs to be able to draw valid conclusions. If the goal is to do a hypothesis test the *t.ps* command is again the way to go:
+
+**Example** A company has been making "widgets" which have a mean life time of 127 days with a standard deviation of 45.5 days. They have recently redesigned the production process, and believe that now the lifetime is 145 days. They want to test that hypothesis. How many widgets do they need to test to have a 95% chance of detecting this difference? They will carry out the test at the 10% level. 
+
+```{r}
+t.ps(diff = 145-127, sigma = 45.5, power = 95, 
+     alpha = 0.1, alternative = "greater") 
+```
+
+Let's say that instead of a hypothesis test we want to find a confidence interval. We have seen that one effect of the sample size is to make the confidence interval shorter:
+
+```{r }
+one.sample.t(10, shat=1, n=20, ndigit=3)
+```
+
+and so the length of the interval is
+
+$$
+10.486-9.535=0.951
+$$
+
+but if the sample size is 40 we have
+
+```{r }
+one.sample.t(10, shat=1, n=40, ndigit=3)
+```
+
+$$
+10.32-9.68=0.64
+$$
+and so this interval is shorter.
+
+A sample size calculation starts with a decision on how large an interval we are willing to accept. Let's call this length L. Usually one specifies the error E, which is 
+
+$$
+E=L/2
+$$
+
+The error E is equivalent to what power we want in the hypothesis testing case above.
+
+Notice that the caclulation of the interval also involves *shat*. This of course is the sample standard deviation, an estimate of the population standard deviation $\sigma$. Here are several possible ideas: 
+
+-  Is there already an estimate of $\sigma$ we can use, maybe from a previous or from a  similar study? 
+
+-  If not maybe we can do a pilot study (something that is very often a good idea anyway) 
+
+
+```{r, warning=FALSE, echo=FALSE}
+cl <- one.sample.t(Length, 
+                   conf.level = 90, 
+                   ndigit = 2,
+                   return.result = TRUE)
+```
+
+**Example**: We found that a 90% confidence interval for the mean length of babies to be  (`r cl[1]`, `r cl[2]`), or `r mean(cl)` $\pm$ `r diff(cl)/2`, so the error on this estimate is 0.58. What sample size would be needed to find a 90% confidence interval with an error of 0.25?
+  
+We can use the sample standard deviation as a guess for the population standard deviation. 
+
+```{r}
+t.ps(sigma= sd(Length), E = 0.25, conf.level = 90) 
+```
+
+**Example** We want to do a survey of the students of the Colegio. One question will be their GPA, and we want to find a 99% confidence interval with a length of 0.25. A pilot study of 25 students had a sample standard deviation of 0.45. How many students will we need in our survey?
+
+length of interval = L =  0.25, so E = L/2 = 0.25/2 = 0.125 
+
+```{r}
+t.ps(sigma= 0.45, E = 0.125, conf.level = 99)
+```
+
+But what if we did not do a pilot study and therefore do not know the standard deviation? Sometimes we can make an educated guess. 
+
+Remember our old rule of thumb:
+
+$$
+\text{Range}/4 = s
+$$
+For GPA a likely range is 2-4, so 
+
+Range/4 = (4-2)/4 = 0.5 = s = $\sigma$, so
+
+```{r}
+t.ps(sigma= 0.5, E = 0.125, conf.level = 99)
+```
+
+**Example ** We want to do a study of the age at which students graduate from the Colegio. We will find a 90% confidence interval with an error of 1 month. A pilot study showed that the standard deviation of the ages is 0.8 years. What sample size is needed?  
+
+```{r}
+t.ps(sigma= 0.8, E = 1/12, conf.level = 90)
+```
+
+**Example** 10 years ago the mean income in some city was \$34500. We are a planing a study to see whether the mean income has increased. We will find a $90\%$ confidence interval with an error of \$1000. If the standard deviation is \$7500, what sample size is needed?
+
+```{r}
+t.ps(sigma=7500, E=1000, conf.level=90)
+```
+
+if instead we plan on doing a hypothesis test at the 10% level to see whether the income has increased to \$36000, what sample size is needed for the test to have a ower of 90\%?
+
+```{r}
+t.ps(diff=36000-34500, 
+     sigma=7500, 
+     alpha=0.1, 
+     power=90,
+     alternative = "greater")
+```

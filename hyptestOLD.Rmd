@@ -1,0 +1,893 @@
+---
+header-includes: \usepackage{color}
+output:
+  pdf_document:
+    fig_caption: no
+  html_document: default
+---
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+
+
+#  Hypothesis Testing 
+
+Introduction
+
+[Formalism](# a1) 
+
+[p-value- Level of Significance](# a2) 
+
+[$H_0$ and  $H_a$](# a3) 
+
+[Type I and Type II errors](# a4) 
+
+[Type II error $\beta$ and Power](# a5) 
+
+[Importance of Sample Size](# a6) 
+
+[Statistical vs. Practical Significance](# a7) 
+
+[Warning](# a8) 
+
+
+### Case study: Coin Tossing 
+
+During World War II the South African mathematician Jon Kerrich was in a German prisoner of war camp. He tossed a coin 10000 times. He got 5067 heads and 4933 tails. 
+
+**Question: Was his coin fair?**
+
+This type of problem is answered by a **hypothesis test.** 
+
+## Introduction
+
+A hypothesis test is a statistical method that answers a yes-no question.
+
+**Example** Is the average GPA of undergraduates at the Colegio less than 2.8? 
+
+**Example** Is the average income of men in Puerto Rico higher than the average income of women? 
+  
+**Example** Was Jon Kerrichs coin fair? 
+
+**Analogy: Criminal Trial**
+
+You can think of a hypothesis test as a trial in a criminal court: is the accused guilty or innocent? Sometimes there is overwhelming proof of guilt - maybe a video showing the crime. Similarly sometimes the data is so obvious no statistics is needed. Usually, though, there is only circumstancial evidence - partial fingerprints, a motive, no alibi, and then the jury has to make a decision. 
+
+A hypothesis test is usually phrased in the form of **two statements** rather than a question. These statements are called the 
+**null hypothesis** ($H_0$) and the **alternative** or research hypothesis ($H_1$ or $H_a$)
+
+**Example**
+
+$H_0$: The average GPA of undergraduates at the Colegio is 2.8 (or maybe even higher).
+
+$H_a$: The average GPA of undergraduates at the Colegio is less than 2.8.
+
+**Example**
+
+$H_0$: The average income of men and women in Puerto Rico is the same.
+
+$H_a$: The average income of men in Puerto Rico is higher than the average income of women.
+
+**Example**
+
+$H_0$: Jon Kerrichs coin was fair
+
+$H_a$: Jon Kerrichs coin was not fair
+
+`r hl()$hr()`
+
+Now instead of deciding whether we should answer the question with yes or no we are going to decide which statement we believe is true, but of course this is (almost) the same thing.
+
+**Analogy: Criminal Trial**
+
+What is the "null hypothesis" in a criminal trial? In the US we start with an "assumption of innocence" (Innocent until proven guilty), so
+
+$H_0$: accused is innocent  
+$H_a$: accused is guilty 
+
+`r hl()$hr()`
+
+Often we will make our decision based on a parameter, and the value of the corresponding statistic. If so we can also express the hypotheses in terms of population parameters. If the hypothesis is written in terms of parameters this (almost always) means that the 
+
+`r hl()$fontcolor("null hypothesis has the = sign")` 
+
+**Example** Is the average GPA of undergraduates at the Colegio less than 2.8? Here we are looking at an "average". In Statistics we have several ways to compute an "average", such as the mean or the median. Which of these is better depends on many considerations. Let's say we use the mean. Now the standard symbol for a population mean is $\mu$, and so we can write the hypotheses as follows:
+
+$$
+\begin{aligned}
+&H_0: \mu = 2.8 \\
+&H_a: \mu < 2.8  \\
+\end{aligned}
+$$
+
+
+**Example** Is the average income of men in Puerto Rico higher than the average income of women? Again we are interested in "averages", and let's say here we decide to use the median. The population median is sometimes denoted by $\lambda$. But there are two medians: the median income of men and the median income of women. Let's denote them by $\lambda_M$ and $\lambda_W$, respectively. Then the hypotheses are:
+
+$$
+\begin{aligned}
+&H_0: \lambda_M =\lambda_W \\
+&H_a: \lambda_M > \lambda_W  \\
+\end{aligned}
+$$
+
+**Example** What does it mean: "a coin is fair"? It means that is has the same chance of coming up "heads" or "tails". That is the probability of heads is 0.5. If we denote by $\pi$ = P("heads) then
+
+$$
+\begin{aligned}
+&H_0: \pi = 0.5 \\
+&H_a: \pi \ne 0.5  \\
+\end{aligned}
+$$
+
+
+## Hypothesis Testing: Formalism and Notation {# a1}
+
+A `r hl()$fontcolor("complete")` hypothesis test has to have `r hl()$fontcolor("all")` of the following parts:
+
+1. Parameter of interest  
+2. Method of analysis   
+3. Assumptions of Method  
+4. Type I error probability $\alpha$    
+5. Null hypothesis $H_0$  
+  (in terms of parameter and in plain language)   
+6. Alternative hypothesis $H_a$  
+  (in terms of parameter and in plain language)  
+7. p value (from R)   
+8. decision on test  
+9. Conclusion (in plain language)  
+
+### p-value {# a2}
+
+In step 8 we have to make a decision on the test - reject the null hypothesis or not. This is done by comparing the p value from step 8 with the $\alpha$ from step 4:
+
+`r hl()$fontcolor("$p < \\alpha \\rightarrow \\text{ reject } H_0$")` 
+
+`r hl()$fontcolor("$p \\ge \\alpha \\rightarrow \\text{ fail to reject } H_0$")` 
+
+**Example** Over the last five years the average score in the final exam of a course was 73 points. This semester a class with 27 students used a new textbook, and the mean score in the final was 78.1 points with a standard deviation of  7.1. 
+  
+Question: did the class using the new text book do (statistically significantly) better?
+
+The R command that calculates the p value is called **one.sample.t**, actually the same command we used before to get a confidence interval. To do a test we need to add the argument *muNULL* for the null hypothesis and possibly *alternative = "greater"* (or "less"). 
+
+1. Parameter: mean $\mu$  
+2. Method: 1-sample t test  
+3. Assumptions: data comes from normal distribution, or n large. Checked normal plot  
+4. $\alpha = 0.05$  
+5. $H_0: \mu = 73$ (mean score is still 73)  
+6. $H_a: \mu > 73$ (mean score is higher than 73)  
+7. p = 0.000 
+
+```{r}
+one.sample.t(78.1, shat = 7.1, n = 27, mu.null = 73, 
+    alternative = "greater")
+```
+
+8. $p = 0.000 < \alpha = 0.05$, so we reject the null hypothesis   
+9. The mean score in the final is statistically significantly higher than before.  
+
+`r hl()$hr()`
+
+What is the p value? 
+
+Let's assume for a moment that the null hypothesis is true, $\mu = 73$, the mean score is still 73. Then in our experiment we saw something unlikely, the class did much better than they should have.
+
+Now let's say we repeat the same experiment again next year.
+
+Chances are the same unusual thing is not going to happen again. How unlikely is it that it is going to happen again? That is the p-value:
+
+$$
+\text{Prob}(\overline{X} > 78.1 \text{ if actually } \mu = 73)
+$$
+
+One nice feature  of the p-value approach is that in addition to the decision on whether or not to reject the null hypothesis it also gives us some idea on how close a decision it was. Here with $p = 0.000$ we would have rejected the null hypothesis even if we had chosen $\alpha = 0.01$, so it was not a close thing at all.
+
+**Example:** say we flip a coin die 100 times and get 62 heads. Is this an indication that the coin is not fair? 
+
+So we want to test 
+
+$H_0: \pi = 0.5$ (coin is fair)   
+vs  
+$H_a: \pi \ne 0.5$ (coin is not fair) 
+
+Now the p-value is the following:
+
+What is the probability to flip  a **fair** coin and get 62 or more heads? (Actually also 38 or less!) It turns out to be `r 2*round(1-pbinom(62, 100, 1/2), 3)`, so we would reject the null hypothesis of a fair coin if we use $\alpha = 0.05$.
+
+Here are a couple of cases:
+
+```{r,echo=FALSE}
+x <- 51:65
+p <- 2*round(1-pbinom(x, 100, 0.5), 3)
+txt <- data.frame(x, p)
+colnames(txt) <- c("Number of Heads", "p value")
+kable(txt)
+```
+
+Let's look at another example of coin tossing and testing whether it is a fair coin: 
+
+```{r,echo=FALSE}
+n <- 10*1:10
+x <- 6*1:10
+p <- round(2*(1-pbinom(x, n, 0.5)), 3)
+rj <- ifelse(p<0.05, "Yes", "No")
+txt <- data.frame(n, x, rep("60%", 10), p, rj)
+colnames(txt) <- c("Tosses", "Heads", "Percentage", "p value", "Reject H0?")
+kable(txt)
+```
+
+So although in all cases we have 60% of the tosses result in Heads, but at a sample size of 80 or less that is not enough to reject the null hypothesis of a fair coin. Whether or not something is statistically significant is always also a question of the sample size. With a small sample size it is difficult to find anything statistically significant! 
+
+`r hl()$hr()`
+
+Let's do a little simulation to see how the p value works. For this we will generate 100 observations from a normal distribution with mean 50 and standard deviation 10. The we do the test $H_0: \mu = 50$ vs $H_a: \mu \ne 50$, and record the p value. We repeat this 10000 times and look at the histogram of p values: 
+
+```{r, eval=FALSE}
+B <- 10000
+pval <- rep(0, B)
+for(i in 1:B) pval[i ] <- one.sample.t(rnorm(100, 50, 10), 
+          mu.null = 50, returnResult = TRUE) 
+hplot(pval)
+```
+ 
+```{r, echo=FALSE}
+B <- 10000
+pval <- rep(0, B)
+for(i in 1:B) pval[i ] <- one.sample.t(rnorm(100, 50, 10), 
+          mu.null = 50, return.result = TRUE) 
+plt <- hplot(pval, return.graph = TRUE)
+plt + geom_vline(xintercept = 0.05, color="red")
+```
+
+Now we reject $H_0$ if $p < \alpha$. Say we do the test at the 5% level, so $\alpha = 0.05$. I have added a verticle line at $0.05$ to the histogram.
+
+
+How many of the 10000 simulation runs did we (FALSELY!) reject $H_0$?
+
+```{r}
+sum(pval<0.05)/B
+```
+
+```{r, echo=FALSE}
+pv <- sum(pval<0.05)/B
+```
+
+and so the actual level of significance (`r pv`) is just about the nominal one ($\alpha = 0.05$).
+
+There is a routine that does this simulation for us called *test.mean.sim*. It also let's us choose different values for the mean, standard deviation and sample size:
+
+```{r}
+test.mean.sim(n=20, mu=5, sigma=1, alpha=0.1)
+```
+  
+`r hl()$hr()`
+`r hl()$fontcolor("Caution")`
+
+Above we stated that we reject $H_0$ if $p < \alpha$ and fail to reject otherwise. In this class we will adhere to this rule, but in real live things are a little bit more complicated. 
+
+p is calculated from the data, so it is itself a **statistic**, so it also has an error. Say we do some experiment, then carry out a hypothesis test and find a p-value of 0.041. If we use $\alpha = 0.05$, then we find 0.041 < 0.05 and we reject $H_0$.  
+
+But let's say that then we repeat the exact same experiment, and again run the same test on the new data. Just as we would likely not find the same sample mean (say) we would also not find the (exactly) same p-value. But if we find a p-value just a little large, say 0.053, we might then fail to reject the null hypothesis. 
+
+In these "borderline" cases it might be better not to either reject or not reject the null hypothesis but to simply 
+
+**"reserve judgement"**.
+
+## $H_0$ and  $H_a$ {# a3}
+
+**Example** Say a pharmaceutical company has developed a new drug, and they want to show that it is better than the currently available ones.
+
+They carry out a clinical trial with a treatment and a control group. For each patient they record the days until the disease is cured. 
+
+Let $\mu_T$ be the mean number of days for the treatment group, and $\mu_C$ be the mean number of days for the control group. Eventually they will carry out a hypothesis test to see whether the new drug is better. Here they would use the hypotheses
+
+$H_0: \mu_T = \mu_C$ (the new drug does **not** work better)  
+$H_a: \mu_T < \mu_C$ (the new drug does work better)
+
+At first it seems a little strange to students that we would choose "new drug is not better than the old one" as $H_0$, but there are good reasons for this approach as we will see later. In practise it is very easy for us: 
+
+**$H_0$ always has the = sign!**
+
+There is another reason why the null hypothesis has to be  "new drug is not better than the old one", and that has to do with the Philosophie of Science. In general in Science we have  that
+
+**it is in principle impossible to prove that a scientific theory is correct but it must always be possible to prove that the theory is false (a theory can be falsified)**
+
+**Example**: Newton's theory of gravity has been tested numerous time since it was invented in 1687, in fact everytime someone drops something it is tested again, and (as far as I now) so far the object has always fallen down. Yet strictly speaking the theory of gravity has not been proven to be correct, and it never will be! 
+
+(Of course I do think it is a very good theory and I do trust it quite a bit, and so I am careful when I hold something valuable and fragile!) 
+
+For our discussion this has the following implication: we have to choose the null hypothesis so it is in principle possible to prove the null hypothesis wrong. So we can't choose 
+
+$\mu_T < \mu_C$ (the new drug does work better)
+
+as the null because if this is wrong then the two treatments are exactly the same. But how could we possibly prove that two treatments take exactly the same amount of time to cure a patient? There is not even 10 seconds difference? Impossible to do! 
+
+**Warning:** In the 9 parts of a hypothesis test, the first 6 (at least in theory) should be done **before** looking at the data. The following is not allowed:  
+say we did a study of students at the Colegio. Among other things we asked them to rate the food at the cafeteria as either "good" or "bad". When looking at the data we find that 54.2% of the students chose "good". Based on this we carry out a hypothesis test with 
+
+$H_0: \pi = 0.5$ vs $H_a: \pi > 0.5$
+
+
+The problem here is that this hypothesis test was suggested to us by the data, but hypothesis tests only work as advertised if the hypotheses are formulated without consideration of the data. 
+
+Here is a different story: say that 10 years ago a study like this showed that "over half the students say the food is good". We want to to know whether this is still true, and so we do the survey and then the test above. Now, though, we can write down the hypotheses **before** looking at the data, and everything is ok. 
+
+Related to this problem is the following issue: as we said we will always use $H_0$  with = (for example $\mu = 0$). On the other hand there are three commonly used alternative hypotheses:
+
+-  $H_a: \mu > 0$
+  
+-  $H_a: \mu < 0$
+  
+-  $H_a: \mu \ne 0$
+
+Go back to our example of the new textbook. Here we have the following:
+
+Correct: we pick  $H_a: \mu > 73$ because we want to proof that the new textbook works better than the old one.
+  
+Wrong: we pick  $H_a: \mu > 73$ because the sample mean score was 78.1, so if anything the new scores are higher than the old ones.
+
+`r hl()$fontcolor("Warning")`
+
+getting the correct null hypothesis is very important - if you do everything else right but picked the wrong statement as your null hypothesis you will **always** get the wrong answer!
+
+### Practice Example 
+
+A Biologist reads in a journal article that in the population of a certain animal historically more than 10% of the newborns carry a special gene defect. He takes samples from 250 newborns and tests them. He finds 30 of them have this defect.
+
+Write down the null hypothesis and alternative both in terms of a parameter and in words. 
+
+First of remember that the null hypothsis and alternative **can not depend on anything from the sample**. Therefore the information 
+
+"He takes samples from 250 newborns and tests them. He finds 30 of them have this defect."
+
+is irrelevant for us. 
+
+That leaves only the info
+
+"...historically more than 10% of the newborns ..." 
+
+"10%" tells us our parameter is a percentage / proportion, so the symbol we need is $\pi$. Always the **null hypothsis has the = sign**, so we find
+
+$H_0: \pi = 0.1$
+
+he is especially interested in knowing whether the percentage is  more than 10% , so the alternative is 
+
+$H_a: \pi > 0.1$
+
+Finally we can add the words: 
+
+$H_0: \pi = 0.1$ (Percentage in his population is 10%) 
+
+$H_a: \pi > 0.1$ (Percentage in his population is higher than 10%) 
+
+## Type I and Type II errors {# a4}
+
+When we carry out a hypothesis test in the end we always face one of the following situations:
+
+![](graphs/hyp1.png)
+
+So there are two possible mistakes (`r hl()$fontcolor("type I and type II")`) and the probabilities for making them (`r hl()$fontcolor("$\\alpha$ and $\\beta$")`). 
+
+These two mistakes, though, are treated completely differently in statistics: when we do a hypothesis test we decide ahead of time what we are willing to accept as a type I error probability $\alpha$, and then accept whatever the type II error probability $\beta$ is. Well, not quite, but wait and see.
+
+**Analogy: Criminal Trial**
+
+The famous line "innocent until proven guilty" shows that here as well the two possible mistakes are not taken to be equal!
+
+**Example**: if we flip a coin 100 times and get 60 heads we might conclude that it is not a fair coin. Most of the time this would be the correct conclusion, but on occasion even a fair coin might come up heads 60 time, and then we would commit the type I error. 
+
+On the other hand if the coin comes up heads 52 time we would conclude that it is a fair coin, but if the actual probability of heads is 52%  we would have committed the type II error. 
+
+`r hl()$hr()`
+
+We have already talked about confidence intervals. At first a confidence interval and a hypothesis test seem to be very different but they are actually closely related.  
+
+So finding a 90% confidence interval is related to carrying out a hypothesis test with $\alpha = 0.1$ because $100(1-\alpha)\% = 90\%$ leads to $\alpha = 0.1$.
+
+As we saw before if you find a 95% CI instead of a 90% CI you make the interval wider. Similarly if you make $\alpha$ smaller, thereby reducing the probability of falsely rejecting the null hypothesis you (almost always) make $\beta$ larger, that is you increase the probability of falsely accepting a wrong null hypothesis. We always have
+
+`r hl()$fontcolor("if $\\alpha \\downarrow$ then $\\beta \\uparrow$")`
+
+The only way to make both $\alpha$ and $\beta$ smaller is by increasing the sample size n.
+
+How do you choose $\alpha$? This in practice is a very difficult question. What you need to consider is the 
+
+**consequences of the type I and the type II errors.**
+
+**Example** In our example above with the new textbook, what does it mean to "commit the type I error"? If we do, what are the consequences? What does it mean to "commit the type II error" and what are its consequences?
+
+**Type I error: Reject $H_0$ although $H_0$ is true**
+
+$H_0: \mu = 73$ (mean score on final is the same as before, new textbook is **not** better than old one)
+
+This is the truth, but we don't know this, based on our experiment and the hypothesis test we reject $H_0$, that is now we think the textbook is better
+
+Consequences?
+
+- We will change textbooks for everybody
+
+- New students will not be able to buy used books, previous students will not be able to sell their books
+
+- Professors have to rewrite their material, prontuarios etc.
+
+- Professors will not consider other new textbooks that might really be better 
+
+- but scores will **not** go up, all of this is for nothing
+
+**Type II error: Fail to reject $H_0$ although $H_0$ is false**
+
+$H_0: \mu = 73$ (mean score on final is the same as before, new textbook is **not** better than old one)
+
+This is **false**, but we don't know this, based on our experiment and the hypothesis test we **fail to reject $H_0$**, that is now we think the textbook is **not** better
+
+Consequences?
+
+- We will **not** change to the new textbook
+
+- scores will **not** go up, but they would have if we had changed
+
+- more students would have passed the course, got an A etc., but now they won't
+
+- Professors will consider other new textbooks, but those might really be worse than the one we just rejected.
+
+
+Note that in this example we will probably find out that we committed the type I error because we will observe that over the next few years the scores are **not** going up. On the other hand if we comit the type II error we are not likely to ever find out!
+
+Many fields such as psychology, biology etc. have developed standards over the years. The most common one is $\alpha$ = 0.05 or 5%. It has mainly historical reasons:
+
+![](graphs/fisher1.jpg)
+
+![](graphs/fisher2.jpg)
+
+Here is an excerpt from this book:
+
+*..., therefore, we know the standard deviation of a population, we can calculate the standard deviation of [p. 102] the mean of a random sample of any size, and so test whether or not it differs significantly from any fixed value.* 
+
+*If the difference is many times greater than the standard error, it is certainly significant, and it is a convenient convention to take twice the standard error as the limit of significance ; this is roughly equivalent to the corresponding limit $\alpha$ = 0.05 or 1 in 20, ...*
+
+Recent research in psychology has shown that $\alpha$ = 0.05 is a fairly good standard, and we will use this if nothing else is said.
+
+It is not the only one, though. For example for the recent discover of the Higgs boson at the Large Hadron Collider in Geneva, Switzerland we  used
+
+$$
+\alpha = 2.9 \cdot 10^{-7} = 0.000000029
+$$
+ 
+###  Example 
+
+A pharmaceutical company has developed a new treatment for terminal cancer. They do a clinical trial and at the end do the following hypothesis test:
+
+$H_0$: New treatment is the same as old one  
+$H_a$: New treatment is better than the old one 
+
+What are the type I and type II errors here? Find one consequence each of the type I and type II errors. What should they use as $\alpha$? You can assume that the new treatment is more expensive than the old one. 
+
+Type I error: reject $H_0$ although it is true 
+
+"reject $H_0$" means because of statistical fluctuation the new treatment did very well in the clinical trial (better than it should have) and therefore we now believe that the treatment is better. 
+"although it is true" means that in reality the new treatment is really the same as the old one. 
+
+If they think it is better patients with this type of cancer will start using it
+
+They will expect to live longer but they won't. They (or their insurance) will pay more money for the treatment without any benefit.
+
+Type II error: fail to reject $H_0$ although it is false
+
+"fail to reject $H_0$" means because of statistical fluctuation the new treatment did not as good in the clinical trial as it should have and therefore we now believe that the treatment is not better.
+
+"although it is false" means the new treatment is really better than the old one. 
+
+If they think it is the same as the old treatment patients with this type of cancer will not be using it, especially if it is more expensive. 
+
+They could have lived longer but they won't. 
+
+Clearly the worst thing here is for people to die quicker than they might have. This is a consequence of the type II error, so if we want to make that less likely we need $\beta$ to be smaller, which we can get by allowing $\alpha$ to be larger, say 10% instead of 5%. 
+
+
+## Type II error $\beta$ and Power {# a5}
+
+In hypothesis testing we choose $\alpha$ but we don't have any influence on $\beta$. One thing we can do is study its behaviour:
+
+**Example** Let's illustrate the issue with a little simulation. For this we will generate some data and carry out a hypothesis test as follows:
+
+```{r, eval=FALSE}
+x <- rnorm(100, 50, 10)
+```
+
+Now we carry out the following hypothesis test:
+
+1.  Parameter:  mean $\mu$  
+2.  Method: 1-sample t test  
+3.  Assumptions: data comes from normal distribution (true because this is how data is generated)   
+4.  $\alpha = 0.05$    
+5.  $H_0: \mu = 50.0$    
+6.  $H_a: \mu \ne 50.0$  
+
+But we generated the data, so we **know** that $\mu = 50.0$. Therefore we know that the null hypothesis is true, and so if we commit an error it will be the type I error.
+
+But what if we generated the data with
+```{r, eval=FALSE}
+x <- rnorm(100, 52.6, 10) 
+```
+
+Now $\mu = 52.6$ but we test $H_0: \mu = 50.0$ vs. $H_a: \mu \ne 50.0$, so $H_0$ is **false**. If we do not reject it we commit the type II error. What is the probability that this happens? Let's do a simulation to find out:
+
+```{r, eval=FALSE, echo=-1}
+set.seed(1111)
+B <- 10000
+pvals <- rep(0, B)
+for(i in 1:B) pvals[i] <- one.sample.t(rnorm(100, 52.6, 10), 
+          mu.null = 50, returnResult = TRUE)
+sum(pvals > 0.05)/B
+```
+
+```{r echo=FALSE}
+set.seed(1111)
+B <- 10000
+pvals <- rep(0, B)
+for(i in 1:B) 
+  pvals[i] <- one.sample.t(rnorm(100, 52.6, 10), 
+        mu.null = 50, return.result = TRUE)
+sum(pvals > 0.05)/B
+```
+
+so we find $\beta = 0.2649$.
+
+So far we talked about the type II error $\beta$. In real live one usually calculates the **power** of a test, which is simply 
+
+**Power = 1 - $\beta$ =**  
+**P(correctly reject $H_0$ when in fact the $H_0$ is wrong)**
+
+so in the above example for $\mu = 52.6$ we found a power of $100-26.49=73.51\%$.
+
+We previously used the routine test.mean.sim to study the p value of the test for a mean. We can use the same routine to study the p values in the case when the null hypothesis is false:
+
+```{r fig.show = 'hide'}
+test.mean.sim(n=100, mu=52.6, mu.null=50, 
+            sigma=10, alpha=0.05)
+```
+
+What would have happened if the true mean was 53? Let's see:
+
+```{r fig.show = 'hide'}
+test.mean.sim(n = 100, mu = 53, mu.null = 50, 
+              sigma = 10, alpha = 0.05)
+```
+
+`r hl()$hr()`
+
+In the case of the one sample t test there are actually exact formulas for the power. We can use the routine **t.ps**: 
+
+```{r fig.show = 'hide'}
+t.ps(n = 100, diff = 52.6-50, sigma = 10)
+```
+
+```{r fig.show = 'hide'}
+t.ps(n = 100, diff = 53-50, sigma = 10)
+```
+
+**Example**: for testing $H_0: \mu = 50.0$ vs. $H_a: \mu \ne 50.0$ with n = 100 and sigma = 10.0, how large would the true mean have to be to have $\alpha = \beta = 0.05$?
+
+$\beta = 0.05$ means power = 1 - $\beta$ = 1 - 0.05 = 0.95 or 95%. 
+
+We can do a little trial and error:
+
+```{r fig.show = 'hide'}
+t.ps(n = 100, diff = 54-50, sigma = 10)
+t.ps(n = 100, diff = 53.5-50, sigma = 10)
+t.ps(n = 100, diff = 53.75-50, sigma = 10)
+t.ps(n = 100, diff = 53.65-50, sigma = 10)
+```
+
+
+good enough!  
+
+**Example**: for testing $H_0: \mu = 50.0$ vs. $H_a: \mu \ne 50.0$ with true $\mu = 52$ and sigma = 10.0, how large would the sample size need to be to have $\alpha = \beta = 0.05$?
+
+we could do this again with trial and error, but actually the routine t.ps will calculate whatever argument is missing, so
+
+```{r}
+ t.ps(diff = 52-50, sigma = 10, power = 95)
+```
+
+`r hl()$hr()`
+
+Here are some interesting cases:
+
+### Effect of the true mean
+
+```{r, echo=FALSE}
+mu <- 50+0.5*0:6
+pw <- rep(0, 7)
+for(i in 1:7) pw[i] <- t.ps(n=100, diff = mu[i]-50, sigma = 10, return.result = TRUE)
+out <- data.frame(n=rep(100, 7), mu, rep(50, 7), Difference= mu-50, Power=pw)
+colnames(out)[2] <- "True Mean"
+colnames(out)[3] <- "$\\mu_0$"
+kable(out)
+```
+
+so the further the true mean is from the one specified in $H_0$, the less likely we are to commit the type II error, or
+  
+**The more wrong the null hypothesis is, the more likely we are to make the right decision**
+  
+**Analogy: Criminal Trial**
+
+If there is a very clear evidence that the accused is guilty it should be easy to find him guilty. For example, if we have a video of the person committing the crime it is much easier to find them guilty than if we just have some circumstancial evidence.
+
+### Effect of the standard deviation
+
+```{r, echo=FALSE}
+mu <- rep(52, 7)
+sigma <- 4:10
+pw <- rep(0, 7)
+for(i in 1:7) pw[i] <- t.ps(n=100, diff = mu[i]-50, 
+    sigma = sigma[i], return.result = TRUE)
+out <- data.frame(sigma, Power=pw)
+colnames(out)[1] <- "$\\sigma$"
+colnames(out)[2] <- "Power"
+kable(out)
+```
+
+so the smaller the standard deviation, the less likely we are to commit the type II error, or
+
+**the closer together the data is, the easier it is to find a small difference between the true and the hypothesized mean**
+
+### Effect of $\alpha$
+
+```{r, echo=FALSE}
+mu <- rep(52, 4)
+sigma <- rep(10, 54)
+alpha <- c(0.001, 0.01, 0.05, 0.1)
+pw <- rep(0, 4)
+for(i in 1:4) pw[i] <- t.ps(n=100, diff = mu[i]-50,
+    sigma = sigma[i], alpha=alpha[i], return.result = TRUE)
+out <- data.frame(alpha, Power=pw)
+colnames(out)[1] <- "$\\alpha$"
+colnames(out)[2] <- "Power"
+kable(out)
+```
+
+so the smaller the $\alpha$, the smaller the power, or
+  
+**the harder we make it for the test to reject the null hypothesis, the lower the power.** 
+  
+**Analogy: Criminal Trial:**
+
+If we change the rules of a trial to make it harder to find an innocent person guilty, we make it easier that a guilty person goes free. For example, if it were decided that the prosecutor is no longer allowed to use fingerprint evidence, some people who were wrongly accused because of their fingerprints would no longer face jail ($\alpha$ goes down) but some criminals will now go free ($\beta$ goes up, the power of finding a guilty person to be guilty goes down)   
+
+### Effect of Sample Size n
+
+
+```{r, echo=FALSE}
+n <- 50*1:7
+mu <- rep(52, 7)
+sigma <- rep(10, 7)
+pw <- rep(0, 7)
+for(i in 1:7) pw[i] <- t.ps(n=n[i], diff = mu[i]-50, 
+          sigma = sigma[i], return.result = TRUE)
+out <- data.frame(n, Power=pw)
+colnames(out)[1] <- "n"
+colnames(out)[2] <- "Power"
+kable(out)
+```
+
+
+so the large the sample size, the higher the power, or
+  
+**the more information (data) we have the better a job we can do**
+
+**Analogy: Criminal Trial:**
+
+The more evidence for guilt is presented, the more likely we are to get a guilty verdict (= reject the null hypothesis of innocence) 
+
+## Power Curve
+
+**Example** Let's return to the textbook example. There we we have the test
+
+1. Parameter: mean $\mu$  
+2. Method: 1-sample t test  
+3. Assumptions: data comes from normal distribution, or n large. Checked boxplot  
+4. $\alpha = 0.05$    
+5. $H_0: \mu = 73$ (mean score is still 73)  
+6. $H_a: \mu > 73$ (mean score is higher than 73)  
+
+What can be said about the power of the test? Let's assume we have not done the experiment yet, we are going to do it next semester. We already know the class will have 27 students (they just registered) and we also know the standard deviation will be 7.1 (maybe because this is what it was in the past and we don't expect this to change, at least not much). Now, if we knew that the true population score with the new textbook is going to be 75.5, we could calculate the power:
+
+```{r fig.show='hide'}
+t.ps(n = 27, diff = 75.5-73, sigma = 7.1, 
+     alternative = "greater")
+```
+
+
+So in this case we have a 54.9% chance of correctly rejecting the null hypothesis.
+
+But why 75.5? If we knew that this is the mean score with the new textbook, we would be done, 75.5 > 73 and $H_0$ is false! 
+
+So instead of calculating the power of a test for just one, or even a few values of the true mean, what we can do is calculate it for all of them, and display the result as a curve:
+
+```{r}
+t.ps(n = 27, diff = 75.5-73, sigma = 7.1, 
+     alternative = "greater")
+```
+
+
+With this we can consider different scenarios: if the true mean is 77.0, the difference is 77.0-73=4.0, and the power is about 90% 
+
+### Practice Example 
+
+Let's say we are planning a survey of the students at the Colegio. We will interview 100 randomly selected students and ask them what their GPA is. Then we will do the test at the 5% level of
+
+$H_0: \mu = 2.7$ vs $H_a: \mu > 2.7$
+
+If the true mean GPA of all the students at the Colegio 2.8, what is the power of this test? What is the meaning of this power? Use a standard deviation of 0.45. 
+
+```{r}
+t.ps(n = 100, diff = 2.8-2.7, sigma = 0.45, 
+     alternative = "greater")
+```
+
+with a sample of 100 students we will correctly reject the null hypothesis with a probability of 71.2% 
+
+## Importance of Sample Size {# a6}
+
+**Example** Using the best currently available treatment the mean survival time of patients with a certain type of terminal cancer is 122 days. A pharmaceutical company has just developed a new drug for these patients which they believe will lead to longer survival times.
+
+To test this they randomly select 13 patients and give them this treatment. The mean survival time of these patients turns out to be 127 days with a standard deviation of 45 days. So they carry out the following hypothsis test.
+
+1. Parameter: mean $\mu$  
+2. Method: 1-sample t test  
+3. Assumptions: data come from a normal distribution (Checked boxplot)   
+4. $\alpha = 0.05$  
+5. $H_0: \mu = 122$ (same survival times as with old treatment, new treatment is **not** better)  
+6. $H_a: \mu > 122$ (longer survival times than with old treatment, new treatment is better)  
+7. $p = 0.3479$  
+
+```{r}
+ one.sample.t(y = 127, shat = 45, n = 13, 
+      mu.null = 122, alternative = "greater")
+```
+
+8. $p = 0.3479 > \alpha$, so we fail to reject the null hypothesis  
+9. There is not enough evidence to conclude that this new treatment is better than the old one.
+
+`r hl()$vs()`
+
+So far, so good. Now let's say that instead of 13 patients the company did the study with 1300 patients. They find:
+
+1. Parameter: mean $\mu$  
+2. Method: 1-sample t test  
+3. Assumptions: data come from a normal distribution (Checked boxplot)  4. $\alpha = 0.05$ 
+5. $H_0: \mu = 122$ (same survival times as with old treatment, new treatment is **not** better)  
+6. $H_a: \mu > 122$ (longer survival times than with old treatment, new treatment is better)  
+7. $p = 0.000$
+
+```{r}
+ one.sample.t(y = 127, shat = 45, n = 1300,
+        mu.null = 122, alternative = "greater")
+```
+
+8. $p = 0.000 < \alpha$, so we reject the null hypothesis  
+9. The new treatment is statistically significantly better than the old one.
+
+As you see, whether a difference of 5 days is statistically significant depends on the sample size of the study! This is true no matter what the difference is. Let's do this example again, but now say that the mean survival time in the study was 122.12 days, just 2 hours more. Even this difference is statistically significant, although we would need a sample size of about 4million!
+
+**Example**
+
+Recall the coin tossing example from before. There we considered the p-values if we tossed a coin 100 time, and got 60% Heads. We saw:
+
+
+```{r,echo=FALSE}
+n <- 10*1:10
+x <- 6*1:10
+p <- round(2*(1-pbinom(x, n, 0.5)), 3)
+rj <- ifelse(p<0.05, "Yes", "No")
+txt <- data.frame(n, x, rep("60%", 10), p, rj)
+colnames(txt) <- c("Tosses", "Heads", "Percentage", "p value", "Reject H0?")
+kable(txt)
+```
+
+
+So whether or not we reject the null hypothesis of a fair coin depends not only on whether the coin is really fair or not, it also depends on the sample size! With less than 90 flips we can not reject the null.
+
+`r hl()$hr()` 
+
+So, after we carried out a hypothesis test, what can we conclude? There are always the following possibilities:
+
+- If we rejected the null hypothesis: 
+  
+    we reject $H_0$ because $H_0$ is false 
+    
+    we committed the type I error (but we know the probability of doing so - $\alpha$)
+
+- If we failed to reject the null hypothesis: 
+  
+    we failed to reject $H_0$ because $H_0$ is true 
+  
+    we committed the type II error 
+    
+    we failed to reject $H_0$ because our sample size was to small!
+    
+**In real live we never know what the correct reason is!**
+
+ **Example** So in the case of the company in real live they would not (yet) give up on the new drug, but understanding that n=13 is very small they would repeat the clinical trial (if possible) with a larger sample size.
+
+## "Accept $H_0$" vs "Fail to reject $H_0$"
+
+When we do a hypothesis test and find p > $\alpha$, we say we **failed to reject** the null hypothesis. Why is it wrong to say we **accept** the null hypothesis? 
+
+**Example** 
+
+let's say we have the following theory: in Puerto Rico nobody is over six feet tall. So we carry out an experiment. We randomly select 10 people and measure their height. None of the 10 is over six feet. Now we carry out a hypothesis test with
+
+$H_0$: Everybody is six feet tall or less vs $H_a$: Some people are over  six feet tall
+
+given that we have not found anyone over six feet we clearly won't reject the null hypothesis. But should we actually accept it? Of course not. 
+
+Even if we had measured 10000 people we still could not be certain that none of the almost 4 million people in PR is over six feet tall.
+
+Actually, even if we had measured every person in Puerto Rico **except one, **we still could not be completely certain that none of the almost 4 million people in PR is over six feet tall. 
+
+The way hypothesis testing works we can prove that a null hypothesis is wrong (by rejecting it) but we can never prove that a null hypothesis is right. 
+
+**Analogy: Criminal Trial**
+
+We do actually say: the jury found the accused "not guilty".  A jury aquits a person if there is not enough evidence to find them guilty. That is not to say they are innocent, maybe they are - maybe they are not. We just don't have sufficient proof of guilt. 
+
+## Statistical vs. Practical Significance {# a7}
+
+Often you read something like: the new drug was shown to be statistically significantly better than previous drugs. What does that mean? First of all it (usually) means that somebody carried out a hypothesis test and rejected the null hypothesis of no difference between the drugs. But should you care?
+
+**Example** Say you have to go to a hospital for some checkups. Nothing complicated or dangerous, but you will need to be in the hospital for a few days. You have a choice of hospital A here in Mayaguez, or hospital B in San Juan (assume for a moment you are from Mayaguez). You recently read in the newspaper about a survey done in both hospitals were patients were asked to rate the hospital on things such as: Where the doctors nice? Was the food ok? Did they let you watch TV? In this survey hospital A got a score of 57% and hospital B got 61%. This difference turned out to be statistically significant. 
+
+Where will you go?
+
+**Example** Say you have to go to a hospital for some dangerous surgery. You have a choice of hospital A here in Mayaguez, or hospital C in Miami (again assume you are from Mayaguez). You recently read in the newspaper about a study done in both hospitals on how patients who had that surgery did. In this study hospital A had a survival rate of 57% and hospital C had 61%, but this difference turned out **not** to be statistically significant (**?**).
+
+Where will you go?
+
+Just because something is statistically significant does not automatically mean it is important, and just because something is not statistically significant does not mean you should not care.
+
+## The Silly Hypothesis Test
+
+Consider the following research question: Is the median income of men and women in Puerto Rico the same? Say to answer this question we do a survey of 1000 randomly selected men and women and find out their income. Then we do the hypothesis test with
+
+$H_0$: Median Incomes are the same vs. $H_0$: Median Incomes are not the same
+
+But why do this survey and test at all? After all, we already know the answer: there is absolutly no chance at all that the true population median incomes of men and women are **exactly** the same! 
+In many fields generally it is known apriori that the null hypothesis is wrong, so why do a test?
+
+There are two answers to this:
+
+a. The real question should be: can we reject the null hypothesis **at this sample size**?
+
+b. Maybe we really should not do a test, but instead find a confidence interval (here for the difference in median incomes)
+
+There are of course null hypotheses that could really be true:
+
+$H_0$: nothing can move faster than the speed of light.
+
+## Warning {# a8}
+
+There is one common misuse of hypothesis testing you should be aware of. It concerns searching for something, anything significant:
+
+**Example**: There is a famous (infamous?) case of three psychiatrists who studied a sample of schizophrenic persons and a sample of nonschizophrenic persons. They measured 77 variables for each subject - religion, family background, childhood experiences etc. Their goal was to discover what distinguishes persons who later become schizophrenic. Using their data they ran 77 hypothesis tests of the significance of the differences between the two groups of subjects, and found 2 significant at the 2% level.They immediately published their findings.
+
+What's wrong here? Remember, if you run a hypothesis test at the 2% level you expect to reject the null hypothesis of no relationship 2% of the time, but 2% of 77 is about 1 or 2, so just by random fluctuations they could (should?) have rejected that many null hypotheses!  
+
+This is not to say that the variables they found to be different between the two groups were not really different, only that their method did not proof that. 
+
+In its general form this is known as the problem of **simultaneous inference** and is one of the most difficult issues in Statistics today.
+
+

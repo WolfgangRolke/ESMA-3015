@@ -1,0 +1,163 @@
+---
+title: Population - Sample
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+library(wolfr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+
+Now we can go back to Statistics. To begin with, recall the following:
+
+**Population**: all of the entities (people, events, things etc.) that are the focus of a study
+
+**Sample**: any subset of the population
+
+**Parameter**: any numerical quantity associated with a population
+
+**Statistic**: any numerical quantity associated with a sample.
+
+
+After our discussion of probability we can now be a little bit more precise
+
+`r hl()$hr()`
+
+**Example** Say we roll a fair die until the first time we get a six. We always are in one of two situations:
+
+## Theoretical
+
+We have not actually rolled any die, maybe we don't even have a die, we are just studying this exercise theoretically. That is we are studying the **population** of all possible outcomes of the experiment "Number of rolls of a fair die until a six". We now have a **theoretical description** of this experiment., namely its distribution.
+
+For the first couple of values of the number of rolls neded we find
+
+```{r,echo=FALSE}
+x <- 0:5
+p <- round(dgeom(x, 1/6), 3)
+out <- data.frame(x+1, p)
+colnames(out) <- c("Rolls Needed", "Probability")
+kableExtra::kable(out)
+```
+
+There are formulas for all sorts of numbers for various distributions. For ours we have
+
+- $\mu=6.0$
+- $\sigma= 5.48$
+- third quartile Q~3~=8
+- 95^th^ Percentile P~95~=16
+ 
+and so on.
+
+But because they are computed for the whole population they are **parameters.**
+
+## Practical
+
+On the other hand we can study this exercise by actually rolling a fair die many times and observing what happens. Actually (a lot faster and less work!) we can do a simulation. The distribution discribing this experiment is called a **geometric** and we can generate data with **rgeom(B, 1/6)+1**
+
+```{r}
+B <- 10000
+x <- rgeom(B,1/6)+1 
+```
+
+Now we can use this dataset to find probabilities:
+
+```{r}
+round(table(x)/B, 3)
+```
+
+and of course we can find the summary statistics:
+
+- sample mean 
+
+```{r}
+round(mean(x), 2) 
+```
+
+- sample standard deviation s
+
+```{r}
+round(sd(x), 2)
+```
+
+- sample third quartile Q~3~ and 95^th^ Percentile P~95~
+
+```{r}
+round(quantile(x, c(0.75, 0.95)), 2) 
+```
+
+Because these are computed from a sample they are **statistics** 
+
+## Population - Sample
+
+The real powerful idea here is to **combine** these two approaches: Say we have a die that we suspect is **not** a fair die and we wish to test this. So we roll the die and then compare the practical results with the theoretical ones. For our die we find (for one run of the simulation) 
+
+```{r,echo=FALSE}
+x1 <- 0:5
+p1 <- round(dgeom(x1, 1/6), 3)[1:6]
+names(p1) <- NULL
+p2 <- as.numeric(round(table(x)/B, 3)[1:6])
+names(p2) <- NULL
+out <- data.frame(x1+1, p1, p2)
+colnames(out) <- c("Rolls Needed", "Theory", "Sample")
+kable(out)
+```
+
+or we can do this by looking at some summaries:
+
+- Mean: $\mu=6$, $\overline{X}=`r round(mean(x), 2)`$
+- Standard Deviation: $\sigma=5.48$, $s=`r round(sd(x), 2)`$
+- Third Quartile: $Q_3$(Theory) $=8$, $Q_3$(Sample)$=`r round(quantile(x, 0.75), 2)`$
+- $95^{th}$ Percentile: $P_{95}$(Theory) $=18$, $P_{95}$(Sample)$=`r round(quantile(x, 0.95), 2)`$
+
+It seems our die is pretty much a fair die.
+
+The most important feature of the **scientific method** is that any scientific theory has to be **falsifyable**, that is it has to be possible to carry out experiments and compare the results of these experiments to predictions made by the theory. If they agree, the theory looks good, if not we need to change the theory or even find a new one. But how do we decide whether or not they "agree"? That is one place where Statistics comes into play.
+
+- Theory: our die is fair
+- predictions made using this theory: P(X=1)=0.167, $\mu=6.0$, ...
+
+- carry out an experiment (6, 1, 7, 4, 1, ...)
+- compare predictions with results of the experiment
+P(X=1)=0.168 (theory), P(X=1)=0.182 (experiment)
+$\mu=6$, $\overline{X}=`r round(mean(x), 2)`$
+
+- do they agree or is the theory bad? 
+
+Note: most "theories" we look at are not **big** scientific theories but simple things like "Our new drug works better than the currently available one". Well, if this a new drug for cancer maybe it is a pretty big theory after all!
+
+### Case Study: Normal Distribution
+
+Say a certain population is known to be described by a normal distribtuion with mean 100 and standard deviation 30. From textbooks we can find the following information:
+
+-  $\mu =100$  
+-  $\sigma = 30$  
+-  $Q_1 = 79.8$  
+-  Prob(X<80) = 0.252  
+-  Prob(90<X<110) = 0.383
+
+We can get simulated data from a normal distribtuion with mean 100 and standard deviation 30 with
+
+```{r}
+x <- rnorm(10000, 100, 30)
+round(mean(x), 1)
+round(sd(x), 1)
+round(quantile(x, 0.25), 1)
+sum(x<80)/10000
+sum(85<x &x<115)/10000
+```
+

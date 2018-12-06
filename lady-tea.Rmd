@@ -1,0 +1,126 @@
+---
+header-includes: \usepackage{color}
+output:
+  pdf_document:
+    fig_caption: no
+  html_document: default
+---
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+
+# The Lady tasting tea
+
+![](graphs\lady_tea.jpg)
+
+In 1935 Sir R.A. Fisher wrote a book with the title *The Design of Experiments*. This book and several others that he wrote were so important that today Fisher is often called the father of Statistics.
+
+In the book he tells the following story: one day one of his collegues at the Rothemstead Experimental Station, Muriel Bristol (Ph.D), claimed she could tell whether in a cup of tea the tea had been poured into the cup before the milk, or vice versa.  
+
+Fisher devised an experiment to test that claim as follows: He filled eight identical cups with milk and tea, four with the milk first and four with the tea first. Then he randomly put them on a table and asked Muriel to pick the four with the tea poured first. Muriel was told the experimental setup, so she knew there were four cups of each kind.
+
+What can we say about this experiment? Let's write down one possible arrangement. Here T is a cup where the tea has been poured first (of course without Muriel knowing this!), whereas M is one with the milk first:
+
+T M M T T T M M
+
+Let's also say that the first four cups are those the Lady has identified as the one with the milk poured first. So in this case she got two correct and two wrong. Not very good!
+
+Of course this is what we would expect to see if indeed the Lady knows what she is doing:
+
+M  M M M T T T T 
+
+Now Fisher decided to only accept Muriels claim if indeed she could identify all four cups with milk poured first correctly. If she was just guessing, how likely was it she would get that lucky? Well, how many possible arrangements of the cups she picks are there? Here they are:
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+require(combinat)
+x <- apply(t(combinat::combn(rep(c(" &nbsp;M&nbsp; ", " &nbsp;T&nbsp; "), each=4), 4)), 1, paste, collapse="")
+knitr::kable(data.frame(x=x[1:24], y=x[25:48],  
+              z=c(x[49:70], "&nbsp;", "&nbsp;")),
+             col.names=rep("&nbsp;",3))
+```
+
+Want to count them? Sometimes it helps to know some math: if there are $2n$ cups there are ${2n}\choose{n}$ such arrangements, or here:
+
+$$
+{{8}\choose{4}} = \frac{8!}{4!4!}= \frac{40320}{24 \times 24} = 70
+$$
+
+only the first one (M M M M) is correct, so her chances of getting it right if she were to just guess randomly were $\frac1{70}=0.0143$.
+
+Let's view this experiment in light of our previous discussion on hypothesis testing:
+
+### 1) Parameter of Interest
+
+One can view this as an experiment with two variables (actually tea first/actually milk first and identified as tea first/identified as milk first) and whether the two are independent or not. In this sense the parameter is a correlation, or as we say for categorical data, an association.
+
+### 2) Method of Analysis
+
+this idea of counting the total number of possible answers is now know as Fisher's Exact test.
+
+### 3) Assumptions of the Method
+
+the experiment has to be set up as described above. For example, it is very important that Muriel knew that exactly four cups had the milk poured first. 
+
+### 4) Type I error probability $\alpha$
+
+$\alpha=0.05$ 
+
+### 5) Null hypothesis H_0
+
+H_0: Muriel is just guessing.
+
+Notice that common feature of many hypothesis tests, namely to pick the "negative option" as the null.
+
+### 6) Alternative hypothesis H_a
+
+This is where it gets interesting, because there isn't one!
+
+The idea of an alternative hypothesis was invented a bit later by Jerzy Neyman and Egon Pearson (son of Karl Pearson of correlation fame). Fisher never liked it. They had some very good fights over this!
+
+One consequence of not having an alternative hypothesis is that one can not find the power of the test.
+
+### 7) p-value
+
+So, how did Muriel do? In fact she was perfect, she got all eight cups correct! Therefore we have $p=1/70=0.0143$.
+
+### 8) Decision of the test
+
+$p = 0.0143 < 0.05 = \alpha$, and so we reject the null hypothesis. 
+
+### 9) Conclusion
+
+Muriel certainly proved her claim.
+
+`r hl()$vspace()`
+
+### Type I error:
+
+Type I error =  
+
+reject the null hypothesis although it is true =  
+
+conclude that Muriel knows what she is doing although she was just guessing.
+
+### Type II error:
+
+Type II error =  
+
+fail to reject the null hypothesis although it is false =   
+
+conclude that Muriel was lying although she actually knows her tea (but unfortunately made a mistake).
+
+## Historical Importance
+
+Using this simple experiment, Fisher established most of the fundamental principles for hypothesis testing, which contributed to major advances across biological and physical sciences. A careful read of the original text shows a precise use of terms, in a concise and unambiguous presentation, in contrast with many textbooks written later that were more confusing than helpful.

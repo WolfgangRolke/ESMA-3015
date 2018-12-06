@@ -1,0 +1,378 @@
+---
+title: Two Quantitative Variables - Correlation
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+library(wolfr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+
+Generally if there are two or more variables we are interested in their relationships. We want to investigate the two questions:
+
+1. Is there a relationship? 
+
+2. If there is a relationship, can we describe it? 
+
+If both variables are quantitative, for the first question we can find the `r hl()$fontcolor("correlation")` and for the second we can do a `r hl()$fontcolor("regression")`. 
+
+### Case Study: Olympic Men's Long Jump
+
+Data on the gold medal winning performances in the men's long jump for the modern Olympic games.
+
+```{r}
+longjump
+```
+
+Both Year and LongJump are quantitative. Neither is very interesting by itself, the real interest is in their **relationship.** What does the year tell us about the length of the jump? 
+
+Here we usually start by drawing a **scatterplot**.
+
+```{r, warning=FALSE}
+attach(longjump)
+splot(LongJump, Year)
+```
+
+![](graphs/beamon.jpg)
+
+### Case Study: The 1970's Military Draft
+
+In 1970, Congress instituted a random selection process for the military draft. All 366 possible birth dates were placed in plastic capsules in a rotating drum and were selected one by one. The first date drawn from the drum received draft number one and eligible men born on that date were drafted first. In a truly random lottery there should be no relationship between the date and the draft number.
+
+Question: **was the draft was really "random"?**
+
+```{r}
+head(draft[, 4:5])
+```
+
+Let's have a look at the scatterplot of "Day.of.Year" and "Draft.Number": 
+
+```{r}
+attach(draft)
+splot(Draft.Number, Day.of.Year)
+```
+
+It certainly does not appear that there is a relationship between "Day of the Year" and "Draft Number", but is this really true?
+What we want is a number that can tell us if there is a relationship between two quantitative variables, and if so how strong it is. Consider the following two examples: 
+
+
+```{r, fig.width=8, out.width = "90%", echo=FALSE}
+set.seed(111)
+x <- runif(100)
+y <- x+rnorm(100, 0, 0.05)
+plt1 <- splot(y, x, return.graph = TRUE)
+plt1 <- plt1 + 
+  geom_vline(xintercept = 0.5) +
+  geom_hline(yintercept = c(0.4, 0.6))
+x <- runif(100)
+y <- x+rnorm(100, 0, 0.2)
+plt2 <- splot(y, x, return.graph = TRUE)
+plt2 <- plt2 + 
+  geom_vline(xintercept = 0.5) +
+  geom_hline(yintercept = c(0.1, 1))
+multiple.graphs(plt1, plt2)
+```
+
+Clearly in the case on the left we have a much stronger relationship than on the right. For example, if I knew x = 0.5, then on the left I could reasonably guess that y is between 0.4 and 0.6, whereas on the right I could only guess 0.1 to 1.0.
+
+The most popular choice for such a number is **Pearson's correlation coefficient r**, which we can find with the R command **cor**:
+
+```{r}
+cor(Draft.Number, Day.of.Year)
+```
+
+correlations are usually rounded to three digits:
+
+
+```{r}
+round(cor(Draft.Number, Day.of.Year), 3)
+```
+
+
+`r hl()$hr()`
+
+The correlation coefficient is like the mean, median, standard deviation, Q~1~ etc.: it comes in two versions:
+
+-  it is a statistic when it is found from a sample  
+-  it is a parameter when it belongs to a population  
+
+In the first case we use the symbol **r**, in the second case we use $\mathbf{\rho}$.
+
+**Properties of the Correlation Coefficient:**
+
+-  always $-1 \le r \le 1$  
+
+-  r close to 0 means very small or even no correlation   (relationship)  
+
+-  r close to $\pm 1$ means a very strong correlation  
+-  r = -1 or r = 1 means a perfect linear correlation (that is in the scatterplot the dots form a straight line)  
+
+-  r > 0 means a positive relationship (as x gets bigger y gets bigger)  
+
+-  r < 0 means a negative relationship (as x gets bigger y gets smaller)  
+
+-  r treats x and y symmetricaly, that is cor(x,y) = cor(y,x)  
+
+Peason's correlation coefficient only measures **linear** relationships, it does not work if a relationship is nonlinear. 
+
+Here is an example:
+
+```{r, echo=FALSE, out.width="90%"}
+set.seed(1)
+x <- runif(50, -1, 1)
+y1 <- x+rnorm(50, 0, 0.1)
+plt1 <- splot(y1, x, return.graph = TRUE)
+y2 <- (x+1)^2+rnorm(50, 0, 0.3)
+plt2 <- splot(y2, x, return.graph = TRUE)
+y3 <- (x+0.5)^2+rnorm(50, 0, 0.1)
+plt3 <- splot(y3, x, return.graph = TRUE)
+y4 <- x^2+rnorm(50, 0, 0.1)
+plt4 <- splot(y4, x, return.graph = TRUE)
+multiple.graphs(plt1, plt2, plt3, plt4)
+```
+
+All for of these have about the same "strength" of a relationship. 
+
+BUT
+
+```{r echo=FALSE}
+for(i in 1:4) {
+  y <- get(paste0("y", i))
+  cat(paste0("cor(x, y", i, ") = ", 
+      round(cor(x, y), 3) , "\n"))  
+}
+```
+
+Peason's correlation coefficient is only useful for the first case. 
+
+Another situation where Pearson's correlation coefficient does not work is if there are outliers in the dataset. Even just one outlier can determine the correlation coefficient:
+
+
+```{r, echo=FALSE, out.width="90%"}
+x1 <- runif(10)
+y1 <- runif(10)
+plt1 <- splot(y1, x1, return.graph = TRUE)
+x2 <- c(x1, 5)
+y2 <- c(y1, 5)
+plt2 <- splot(y2, x2, return.graph = TRUE)
+multiple.graphs(plt1, plt2)
+cat("Correlation between x1 and y1: ", round(cor(x1, y1), 3), "\n")
+cat("Correlation between x2 and y2: ", round(cor(x2, y2), 3), "\n")
+```
+
+
+**Weak vs. no Correlation** 
+
+It is important to keep two things separate: a situation with two variables which are **uncorrelated** ($\rho = 0$) and two variables with a weak correlation ($\rho \ne 0$ but small). 
+
+In either case we would find an r close to 0 (but never = 0 !) 
+Finding out which case it is might be impossible, especially for small datasets. 
+
+**App - correlation**
+
+```{r eval=FALSE}
+run.app(correlation)
+```
+
+this app  illustrates the correlation coeffcient.
+
+Move slider around to see different cases of the scatterplot of correlated variables
+
+include a few outliers and see how that effects that "look" of the scatterplot and the sample correlation coefficient 
+
+On the Histogram tab we can study the effect of changing $\rho$ and/or n on the sample correlation r.
+
+`r hl()$hr()` 
+
+**Back to the draft**
+
+So, how about the draft? Well, we found r = -0.226. But of course the question is whether -0.226 is close to 0, close enough to conclude that all went well. Actually, the question really is whether the corresponding parameter $\rho=0$! Let's do a 
+**simulation:**
+
+## Simulation for the 1970's Military Draft
+
+Doing a simulation means teaching the computer to repeat the **essential** part of an experiment many times. Here the experiment is the draft. What are the important features of this experiment?
+
+-  there are the numbers 1-366 in the order from 1 to 366 (in "Day.of.Year")
+
+-  there are the numbers 1-366 in some random order (in "Draft.Number")
+
+In R we can do this as follows: 
+
+-  get the numbers in Day.of.Year in random order with the *sample* command:
+
+```{r}
+sample(Day.of.Year)
+```
+-  and then calculate the correlation with 
+
+```{r}
+cor(Day.of.Year, sample(Day.of.Year)) 
+```
+
+Now of course we should do this many times:
+
+```{r echo=2:6}
+set.seed(1)
+cor(Day.of.Year, sample(Day.of.Year)) 
+cor(Day.of.Year, sample(Day.of.Year)) 
+cor(Day.of.Year, sample(Day.of.Year)) 
+cor(Day.of.Year, sample(Day.of.Year)) 
+cor(Day.of.Year, sample(Day.of.Year)) 
+```
+
+And so we have not yet seen a correlation as far from 0 as 0.226. But maybe we need to do it many more times than that. Here is how:
+
+```{r}
+r <- rep(0, 10000)
+for(i in 1:10000)
+  r[i] <- cor(Day.of.Year, sample(Day.of.Year))  
+hplot(r)
+length(r[abs(r)>0.226])
+```
+As you can see, none of the 10000 simulations had a sample correlation as far from 0 as -0.226! So either 
+
+-  The draft went fine, but something extremely unlikely happened (something with a probability less than 1 in 10000)
+
+-  Something went wrong in the draft.
+
+A probability of less than 1 in 10000 is generally considered to unlikely, so we will conclude that something did go wrong. 
+
+So the next time you see a sample correlation coefficient r=-0.226, can you again conclude that the corresponding population correlation coefficient $\rho \ne 0$? Unfortunately no! For example, say that instead of using the day of the year the military had used the day of the month (1-31). Now we do the simulation
+
+```{r}
+r <- rep(0, 10000)
+for(i in 1:10000)
+  r[i] <- cor(1:31, sample(1:31)) 
+hplot(r)
+length(r[abs(r)>0.226])
+```
+
+As you can see, now quite a few of the simulations had a sample correlation as far from 0 as - 0.226 (about 22%), so this would not be unusual. 
+ 
+In a while we learn more about doing simulations as well as how to decide whether something is or is not statistically significant.
+
+## Correlation vs. Causation
+
+Say we have found  correlation between variables "x" and "y". How can we understand and interpret that relationship?
+
+One possible explanation is a **Cause-Effect** relationship. This implies that if we can "change" x we expect a change in y.
+
+**Example**
+
+x = "hours you study for an exam"
+
+y = "score on exam"
+
+**Example**
+
+Say we have the following data: for one year in some city we have data on fires that happenend during the year. Specifically we recorded
+
+x = "Number of fireman responding to a fire"
+
+y = "damages done by the fire"
+
+say there is a positive correlation between x and y (and in real live there will be!).
+
+Now if the correlation is due to a Cause-Effect, than changing x means changing y. Clearly we want a small y (little or no damamges), and because the correlation is positive we can get that by making sure x is small. So never call the firebrigade!
+
+If this does not make sense, there has to be another explanation for the positive correlation:
+
+```{r, echo=FALSE, out.width="90%"}
+draw.cause.effect <- function() {
+  plot(c(10, 100), c(40, 100), axes=F, xlab="", ylab="", type="n")
+  text(15, 90, "Cause-Effect", cex=1.2, adj = 0)
+  text(c(20, 40), c(65, 65), c("X", "Y"), cex=1.1, adj=0)
+  arrows(25, 65, 38, 65)
+  text(56, 90, "Confounding Variable", cex=1.2, adj=0)
+  text(c(60, 70, 80), c(50, 75, 50), c("X", "Z", "Y"), cex=1.1, adj=0)
+  arrows(70, 70, 62, 55)  
+  arrows(70, 70, 78, 55)  
+  
+}
+draw.cause.effect()
+```
+
+Under the confounding variable explanation we find (if all correlations are positive):
+
+small z leads to small x and small y, so we get pairs of small (x, y)
+ 
+large z leads to large x and large y, so we get pairs of large (x, y)
+
+Finally cor(x, y) is positive!
+
+[Online Resource: Bizzare Correlations] (http://www.buzzfeed.com/kjh2110/the-10-most-bizarre-correlations")
+
+`r hl()$hr()`
+
+Please note saying `r hl()$fontcolor("x causes y")` is not the same as `r hl()$fontcolor("x by itself determines y")`. 
+
+There are usually many other factors besides x that influence y, maybe even some more important than x. 
+
+**Example**
+
+x = "hours you study for an exam
+
+y = "score on exam"
+
+but there are also many other factors that determine your score in an exam such as
+
+-  general ability  
+-  previous experience  
+-  being healthy on the day of the exam  
+-  exam anxiety  
+- having a hang-over  
+- etc. 
+
+### Case Study:  Smoking and Lung Cancer
+
+There have been hundreds of studies all over the world that have shown a correlation between smoking rates and lung cancer deaths, usually with correlations of about 0.5 to 0.7. And yet, none of these studies has shown that smoking causes lung cancer because all of the were observational studies, not clinical trial. 
+
+The only perfectly satisfactory way to establish a causation is to find a random sample, for example to do a **clinical trial**. An **observational study** is always somewhat suspect because we never know about hidden biases. Nevertheless, even only using observational studies the evidence for cause-effect can be quite strong:
+
+Things to look for when trying to establish a causation:
+
+- correlation is strong - the correlation between smoking and lung cancer is very strong  
+  
+- correlation is consistent over many experiments - many studies of different kinds of people in different countries over a long time period all have shown this correlation
+
+- higher doses are associated with stronger responses - people who smoke more have a higher chance of lung cancer
+
+- the cause comes before the response in time - lung cancer develops after years of smoking. The number of men dying of lung cancer rose as smoking became more common, with a lag of about 30 years. Lung cancer kills more men than any other form of cancer. Lung cancer was rare among women until women started to smoke. Lung cancer in women rose along with smoking, again with a lag of about 30 years, and has now passed breast cancer as the leading cause of cancer deaths among women.
+
+- the cause is plausible - lab experiments on animals show that nicotin causes cancer.
+
+### Case Study: Old Faithful Guyser
+
+[Old Faithful](https://en.wikipedia.org/wiki/Old_Faithful) is a cone geyser located in Yellowstone National Park in Wyoming, United States.
+
+```{r}
+head(faithful)
+attach(faithful)
+splot(Eruptions, Waiting.Time)
+round(cor(Eruptions, Waiting.Time), 3)
+```
+
+If the data is like this (two columns), than you can just find
+
+```{r}
+round(cor(faithful), 3)
+```
+
+Notice the curious hole in the middle. It has geological reasons.
+

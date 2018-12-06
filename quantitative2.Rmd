@@ -1,0 +1,310 @@
+---
+title: Percentiles and Boxplots
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+
+## Percentiles (Measures of Location)
+
+### Case Study: Population Sizes of States and Puerto Rico
+
+According to the 2010 US Census the population of Puerto Rico was 3725789. 
+
+```{r}
+us.population.2010
+```
+
+Previously we found the mean population size for the states to be 6053834, so that PR's population was lower than average. Here is a different way to compare PR to the states: If we order them from smallest to largest and add PR we find:
+
+
+```{r, echo=FALSE}
+x<-us.population.2010
+names(x)<-NULL
+x <- sort(x)
+txt1 <- hl()$fontcolor(paste0(x[1:23], collapse = "  "), "black")
+txt2 <- hl()$fontcolor(" 3725789  ")
+txt3 <- hl()$fontcolor(paste0(x[24:51], collapse = "  "), "black")
+txt <- paste0(txt1, " ", txt2, " ", txt3)
+```
+`r txt`
+
+so PR's population is the 24th. So of the 52 numbers 23 are smaller than PR's, 23 out of 52 is 23/52*100% = 44.2%. We say that 
+
+PR is at the `r hl()$fontcolor("44.2nd")` percentile.
+
+`r hl()$hr()` 
+
+
+**Definition:** 
+
+The $p^{th}$ percentile of a data set is the value that has at most $p\%$ of the data below it and at most $(100-p)\%$ above it.
+
+**Example** consider the first employee in our WRInc dataset. She has an income of $22800. 
+
+```{r, warning=FALSE}
+attach(wrinccensus)
+sum(Income<22800) 
+```
+
+shows that there are 2880 employees with a lower income. 2880 out of 23791 means she is at the $2880/23791 \times 100 = 12.1^{st}$ percentile.
+
+So $12.1\%$ have an income less than her and $(100-12.1)\%=87.9\%$ have an income higher than her. 
+
+The R command to find a percentile is *quantile*.
+
+### Case Study: Babe Ruth's Homeruns
+
+Find the 67^th^ percentile of the data
+
+```{r}
+attach(babe)
+quantile(Homeruns, 0.67) 
+```
+### Case Study: WRinc
+
+Find the $10^{th}$ and the $90^{th}$ percentile of the WRinc incomes:
+
+```{r}
+quantile(Income, c(0.1, 0.9))
+```
+
+## Quartiles, Five-Number Summary and IQR
+
+The quartiles of a data set are defined as
+
+**1^st^ quartile Q~1~ = 25^th^ percentile**
+  
+**3^rd^ quartile Q~3~ = 75^th^ percentile**
+
+Using these we can also find the **Interquartile Range**
+
+IQR = Q~3~ - Q~1~
+
+and the **five number summary**:
+
+**Minimum | Q~1~ | Median | Q~3~ | Maximum**
+
+### Case Study: Babe Ruth's Homeruns
+
+```{r}
+fivenumber(Homeruns)
+```
+
+### Case Study: WRInc
+
+Find the 5-number-summary and the IQR of the incomes of WRInc:
+
+```{r}
+fivenumber(Income)
+```
+
+What is the meaning of these percentiles?
+
+- Q~1~ = P~25~ =  \$26600, so 25% (or 1 in 4) of the employees make **less** than \$26600. 
+
+- Median = \$32400, so half of the employees make **less** than \$32400, half make **more**. 
+
+- Q~3~ = P~75~ =  \$39200, so 25% (or 1 in 4) of the employees make **more** than \$39200.
+
+What is the meaning of IQR? Actually it is a 3^rd^ way to calculate a measure of variation, after the range and the standard deviation. 
+
+**Example** The standard deviation of the incomes is s = 9424. Now IQR = 12600.
+
+
+### Case Study: WRInc
+
+Find the 5-number-summary and the IQR of the Years of WRInc:
+
+```{r}
+fivenumber(Years)
+```
+
+
+`r hl()$hr()`
+
+Now we have several formulas (methods) for finding an "average" (mean, median) and a variation (range/4, s, IQR). How do you decide which to use?
+
+- Use the range only if you can't find either of the other two, for example if you only know the smallest and the largest observation, or if you have to do a quick calculation in your head.
+
+-  decide whether to use mean or median as we discussed before.
+
+-  If you use the mean, also use the standard deviation. If you use the median, use IQR.
+
+### Case Study: Weights of Mammals
+
+Weights of the bodies of 62 mammals (in kg)
+
+We saw before that a few outliers can have a HUGE effect on the standard deviation: 
+
+```{r}
+attach(brainsize) 
+sd(body.wt.kg)
+sd(body.wt.kg[body.wt.kg<1000])
+```
+
+If we want to ignore the outliers we can use the median. But then we should also ignore the outliers in the calculation of a measure of variation, which happens if we use the IQR:
+
+```{r}
+IQR(body.wt.kg)
+IQR(body.wt.kg[body.wt.kg<1000])
+```
+
+## Boxplot 
+
+From the five number summary we can construct another graph for quantitative data, the boxplot:
+
+![](graphs/quant8.png)
+
+### Case Study: Babe Ruth's Homeruns
+
+```{r}
+bplot(Homeruns)
+```
+Note that by its definition the box contains 50% of the data  
+
+
+### Case Study: Simon Newcomb's Measurements of the Speed of Light
+
+![](graphs/newcomb.jpg)
+
+Simon Newcomb made a series of measurements of the speed of light between July and September 1880. He measured the time in seconds that a light signal took to pass from his laboratory on the Potomac River to a mirror at the base of the Washington Monument and back, a total distance of 7400m. His first measurement was 0.000024828 seconds, or 24,828 nanoseconds (10^9^ nanoseconds = 1 second). 
+
+```{r}
+attach(newcomb)
+bplot(Measurement, orientation="Horizontal")
+```
+
+Observations marked with a dot are (possible) outliers, that is "unusual" observations.
+
+One of the effects of outliers is that we then often get a difference between the mean and the median:
+
+```{r}
+mean(Measurement)
+median(Measurement)
+```
+
+How did Newcomb handle this problem? After careful consideration he dropped the 24756 and found the mean of the other 65 observations (24827.3), an answer much closer to the median than the original mean. Eliminating data from the analysis is something that should be done with great care! At very least one needs to be honest about this and discuss the issue, just like Newcomb.
+
+Notice also that the effect of outliers is even greater on the standard deviation, but not so much on the IQR 
+
+```{r}
+sd(Measurement)
+sd(Measurement[Measurement>24756])
+IQR(Measurement)
+IQR(Measurement[Measurement>24756])
+```
+
+
+
+### Case Study: Wrinccensus
+
+```{r}
+bplot(Income, orientation="Horizontal")
+bplot(Years, orientation="Horizontal")
+```
+
+both variables have many outliers
+
+### Case Study: Mammals
+
+```{r}
+attach(brainsize)
+bplot(body.wt.kg, orientation="Horizontal")
+```
+
+at least two, maybe more substancial outliers
+
+`r hl()$hr()`
+
+The handling of outliers is one of the more difficult and dangerous jobs in Statistics:
+
+
+### Case Study: Ozone Hole over South Pole
+
+In 1985 British scientists reported a hole in the ozone layer of the earth's atmosphere over the South Pole. 
+
+This news is disturbing, because ozone protects us from cancer-causing ultraviolet radiation. The British report was at first disregarded, because it was based on ground instruments looking up.
+
+More comprehensive observations from satellite instruments looking down had shown nothing unusual. 
+
+Then, examination of the satellite data revealed that the South Pole ozone readings were so low that the computer software used to analyze the data had automatically set these values aside as suspicious outliers. 
+
+Readings dating back to 1979 were reanalyzed and showed a large and growing hole in the ozone layer that is unexplained and considered dangerous.
+
+Computers analyzing large volumes of data are often programmed to suppress outliers as protection against errors in the data. As the example of the hole in the ozone illustrates, suppressing an outlier without investigating it can conceal valuable information. 
+
+(From More and McCabe) 
+
+Sometimes it is the outliers that are the most interesting feature of a dataset! 
+
+`r hl()$hr()`
+
+There is a nice alternative to the boxplot called the violinplot:
+
+```{r}
+bplot(Income)
+bplot(Income, do.violin = TRUE)
+```
+
+In addition to the box this also gives us some information on how many observations we have at various levels.
+
+### Case Study: Drug Use of Mothers and the Health of the Newborn
+
+Chasnoff and others obtained several measures and responses for newborn babies whose mothers were classified by degree of cocain use. The study was conducted in the Perinatal Center for Chemical Dependence at Northwestern University Medical School. The measurement given here is the length of the newborn.
+
+Source: Cocaine abuse during pregnancy: correlation between prenatal care and perinatal outcome  Authors: SN MacGregor, LG Keith, JA Bachicha, and IJ Chasnoff
+
+
+Obstetrics and Gynecology 1989;74:882-885
+
+Here we have two variables, Length (quantitative) and Status (categrorical). Another way (and in many ways a more natural way) to look at this data is as quantitative measurements from different groups. For this type of data we might first compute the summary statistics for each group separately: 
+
+```{r}
+attach(mothers)
+stat.table(Length, Status)
+```
+
+Note that the discussion on Mean vs. Median still holds: If there are outliers it might be better to use the median and IQR here.
+
+The standard graph for this data is a multiple boxplot. Note that all the boxes are on the same scale!
+
+```{r}
+bplot(Length,Status)
+``` 
+
+### Case Study:WRInc
+
+Recall that when we looked at the relationship of job level and income we did a scatterplot but then noticed that to be a bad graph. So here is a better one:
+
+```{r}
+bplot(Income, Job.Level)
+```
+
+and this shows much clearer the increase in income.
+
+```{r, echo=FALSE}
+detach(mothers)
+detach(brainsize)
+detach(newcomb)
+detach(babe)
+detach(wrinccensus)
+```     
+

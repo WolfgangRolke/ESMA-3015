@@ -1,0 +1,608 @@
+---
+title: Quantitative Variables
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+<style>
+table, th, td { text-align:right; }
+th, td {padding: 10px;}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+whichcomp <- strsplit(getwd(),"/")[[1]][3]
+load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
+library(knitr)
+library(wolfr)
+opts_chunk$set(fig.width=6, fig.align = "center", 
+      out.width = "70%", warning=FALSE, message=FALSE)
+library(ggplot2)
+library(grid)
+```
+`r hl()$basefontsize()`
+ 
+## Histogram
+
+The standard graph for one quantitative variable is the histogram:
+
+```{r,warning=FALSE}
+attach(wrinccensus) 
+hplot(Income)  
+```
+
+It can be useful to draw a couple of histograms, with different numbers of bins:
+ 
+```{r}
+hplot(Income, n=25)  
+```
+
+Now that we have numbers we can do arithmetic: 
+
+## Measures of Central Tendency
+
+### Case Study: Population Sizes of States and Puerto Rico
+
+According to the 2010 US Census the population of Puerto Rico was 3725789. How does this compare to the rest of the US? 
+
+Here is the data:
+
+```{r}
+us.population.2010
+```
+
+So how does Puerto Rico compare? One way to answer this question is to find the **average** population size:
+
+We want just **one** number to describe **all** the numbers in the dataset. 
+
+How do we calculate an "average"?
+
+Usual answer: **mean**
+
+**Example** Three of your friends are 19, 20 and 23 years old. What is their average age?
+
+Answer: (19+20+23)/3 = 62/3 = 20.7
+
+or
+
+```{r}
+x <- c(19, 20, 23)
+round(mean(x), 1)
+```
+
+In Statistcs the mean is important enough to have it's own symbol: $\bar X$ (say: x bar)
+
+### Case Study: Population Sizes of States and Puerto Rico
+
+We find 
+ 
+```{r}
+mean(us.population.2010)
+```
+
+PR had a population of $3725789$, so ours is lower than average. 
+
+
+**Note**  According to our rules we should round to one digit behind the decimal. Except that often for large numbers we actually round the other way, so here I might end up using 6,054,000!
+
+### Case Study: Babe Ruth's Homeruns
+
+![](graphs/babe.jpg)
+
+Many still consider Babe Ruth the greatest baseball player of all time. In 1919 he moved to the New York Yankees, where he played until 1934. Here are the number of homeruns he hit in those years
+
+```{r}
+babe
+```
+
+what was his homerun average while with the Yankees? 
+
+```{r}
+attach(babe)
+round(mean(Homeruns), 1)
+```
+
+`r hl()$hr()`
+
+`r hl()$fontcolor("Advice")`
+
+The most important thing you can do in this class (and, more importantly, in life!) after you did some calculation is to ask yourself:
+
+`r hl()$fontcolor("Does my answer make sense?")`
+
+If you find that the average age of your three friends in the example above is 507.9, you have to know that this answer **is wrong**. 
+
+**Example** Which of the following are obviously **not** correct for the mean of Babe Ruths homeruns, and why?
+
+a. 43.2 
+b. 17.9  
+c. -45.6  
+d. 49.5  
+e. 59.0  
+f. 35.4 
+
+`r hl()$hr()`
+
+There are other methods for computing an "average", though. For example:
+
+**Median**: the observation "in the middle" of the **ordered** data set:
+
+ 22, 25, 34, 35, 41, 41, 46, `r hl()$fontcolor("46")`, 46, 47, 49, 54, 54, 59, 60
+ 
+What if the Babe had left the Yankees a year earlier?
+
+ 25, 34, 35, 41, 41, 46, `r hl()$fontcolor("46, 46")`, 47, 49, 54, 54, 59, 60
+ 
+Median = (46+46)/2 = 46
+
+Using R: 
+
+```{r}
+median(Homeruns)
+```
+
+### Case Study: WRInc
+
+Let's find the mean and median of the salaries of the WRInc employees:
+
+```{r}
+mean(Income)
+median(Income)
+```
+
+Here there is a difference of almost $1000 between the mean and the median. So which one is the right "average"?
+
+## Mean vs. Median
+
+### Case Study: Weights of Mammals
+
+Weights of the bodies of 62 mammals (in kg)
+
+```{r}
+brainsize
+```
+
+```{r}
+attach(brainsize)
+round(mean(body.wt.kg), 3)
+round(median(body.wt.kg), 3)
+```
+
+here we find Mean=199.889 and Median=3.342!!!
+
+So what is the AVERAGE??? 
+
+The reason for this huge difference is obvious: there are two mammals that are much larger than the rest, the African and the Asian elephants. Observations like these that are "unusual"  are often called **outliers**. 
+
+`r hl()$hr()`
+
+Often the mean and the median are very similar if a histogram of the data is **symmetric**, that is it looks the same from right to left as from left to right:
+
+```{r, echo=FALSE}
+x <- rnorm(1e4, 10, 3)
+txt <- paste0("Mean=", round(mean(x), 1), ", Median=", round(median(x), 1))
+hplot(x, main_title = txt)
+```
+
+compared to for example the following, which is called **skewed to the right**:
+
+```{r, echo=FALSE}
+x <- rchisq(1e4, 2)
+txt <- paste0("Mean=", round(mean(x), 1), ", Median=", round(median(x), 1))
+hplot(x, main_title = txt)
+```
+
+### Case Study: WRInccensus
+
+Let's have a look at the years:
+
+```{r}
+hplot(Years)
+```
+
+The histogram is a bit skewed to the right, so we would expect the mean to be higher than the median.
+
+Let's see:
+
+```{r}
+round(mean(Years), 1)
+round(median(Years), 1)
+```
+
+and it is by a bit.
+
+`r hl()$hr()`
+Whether the mean or the median is a better measure of "average" is NOT a simple question. It often depends on the question asked:
+
+**Example 1**: what is the weight of a "typical" mammal? Median = 3.34kg 
+  
+**Example 2**: say we randomly choose 50 mammals. These are to be transported by ship. How large a ship do we need (what carrying capacity?) 
+
+Now if we use the median we find $50 \times 3.3 = 165$ kg, but if one of the 50 animals is an elephant we are sunk (literally!) So we should use
+
+estimated total weight = 50 &times; mean weight = $50 \times 199.9 = 9995$. 
+
+**Example** The government has just released the data for a study of Puerto Rican households. One of the variables was **household income**
+ 
+-  you read in El Nuevo Dia that the mean income in PR is $23100
+
+-  you hear on the local news that the median income in PR is $20400
+
+Which of these number is better?
+
+Without any explanation what the number will be used for this question has no answer, both the mean and the median are perfectly good ways to calculate an "average"
+
+**Misuse of Statistics**: Mean vs. Median
+
+Say the owner of a McDonalds wants to compute the "average" hourly wage for the people working there. Do you think she will use the mean or the median?  What if it is the Union that wants to find the "average"?
+
+## Measures of Variability
+
+
+*A statistician is standing with one foot in an icebucket and the other foot in a burning fire. He says: on average I feel fine.*
+
+A "measure of central tendency" is a good start for describing a set of numbers, but it does not tell the whole story. Consider the the two examples in the next graph:
+
+```{r, echo=FALSE, warning=FALSE}
+x <- rnorm(1000, 10, 3)
+y <- rnorm(1000, 10, 1)
+plt1 <- hplot(x, n = 50, label_x="x", return.graph = TRUE)
+plt1 <- plt1 + geom_vline(xintercept=10,size=2) + xlim(c(0,20))
+plt2 <- hplot(y, n = 50, label_x="y", return.graph = TRUE)
+plt2 <- plt2 + geom_vline(xintercept=10,size=2) + xlim(c(0,20))
+multiple.graphs(plt1 = plt1,plt2 = plt2, Horizontal=FALSE)
+```
+
+Here we have two datasets, both have a mean of 10 but they are clearly very different, with different "spreads". We would like to have some way to measure this "spread-out-ness".
+
+**Range**: the first is the range of the observations, defined as Largest-Smallest observation.
+
+**Example** in the graph above the x data seems to go from about 0 to about 19, so the range is 19-0=19. The y data seems to go from about 7 to about 13, so the range is 13-7=6. 
+
+**Example** For Babe Ruth Homeruns we find range = 60-22 = 38.  
+
+**Note** Some textbooks and/or computer programs define the range as the pair of numbers (smallest, largest). 
+
+```{r}
+range(Homeruns)
+```
+
+
+### Standard Deviation
+
+This is the most important measure of variation, so it is very important that you learn what it is and what it is telling you.
+
+Consider the following example. Say we have done a survey. We went to a number of locations, and among other things we asked people their age. We found:
+
+Mall: 3  7 13 14 16 18 20 22 23 24 25 27 33 34 40
+
+Plaza: 3 23 26 38 39 40 43 44 46 72 
+
+Let's look at the data with a graph:
+
+![](graphs/quant3.png)
+
+Now it seems the variation of the Y's is a bit larger than the variation of the X's. But also the mean of Y's and X's are different. If we want to concentrate on the variation we can  eliminate the differences of the means by subtracting them from each observation: 
+
+$\overline{X} = (3+7+..+40)/15 = 319/15 = 21.27$
+
+$\overline{Y} = (3+23+..+72)/10 = 374/10 = 37.40$
+
+and with this we get: 
+
+$x-\overline{X}$: -18.27 -14.27  -8.27  -7.27  -5.27  -3.27  -1.27   0.73 1.73 2.73 3.73 5.73 11.73 12.73 18.73 
+
+$y-\overline{Y}$: -34.4 -14.4 -11.4   0.6   1.6   2.6   5.6   6.6   8.6 34.6
+
+Let's look at these numbers with a graph again:
+
+![](graphs/quant4.png)
+
+and it is now more obvious that the variation of the Y's is little bit larger than those of the X's.
+
+Notice that the mean of the x-$\overline{X}$ numbers (and of course also the y-$\overline{Y}$ numbers) is now 0. 
+
+Because these new numbers are centered at 0, a larger variation means "farther away from 0", so how about as a measure of variation the "mean of x-$\overline{X}$", that is 
+
+$$\text{Mean} \left( x - \overline{ X} \right)$$
+
+
+But no, that won't work because 
+
+$$\text{Mean}  \left( x - \overline{ X} \right) = 0$$
+always! (Not obvious? Try it out!) 
+
+The problem is that some (actually about half) of the x-$\overline{X}$ are negative, the other are positive, so in the sum they just cancel out.
+
+So somehow we need to get rid of the - signs. One way to do that would be to use absolute values: |x-$\overline{X}$|. It turns out, though, that for some mathematical reasons it is better to use squares: 
+
+$$\text{Mean} \left( x - \overline{ X} \right)^2 $$
+Another change from the "obvious" is that we should devide this by n-1 instead of n, and with this we have the famous formula for the `r hl()$fontcolor("Variance")`:
+
+$$s^2=\frac{1}{n-1}\sum\left( x - \overline{ X} \right)^2$$
+
+So in essence the variance is the 
+
+**mean square distance from the sample mean**
+
+One problem with having squared everything is that now the units are in "squares". For example, if our data is the age of people, the variance is age^2^.
+
+Usually we want everything in the same units, and this is easy to do by taking square roots, and so we finally have the formula for the `r hl()$fontcolor("Standard Deviation")`:
+
+$$s = \sqrt{\frac{1}{n-1}\sum\left( x - \overline{ X} \right)^2}$$
+
+The R command to find a standard deviation is *sd*.
+
+### Case Study:  Babe Ruth Homeruns
+
+what was the standard deviation of his homeruns? 
+
+
+```{r}
+round(sd(Homeruns), 1)
+```
+
+Most of the time when you need to find a standard deviation you also want to find the mean, so it is better to use
+
+```{r}
+stat.table(Homeruns)
+```
+
+
+`r hl()$hr()`
+
+Now we have two ways to measure the "spread-out-ness", range and standard deviation. Unfortunately the two don't quite work together. For example we have found range=38 and s=11.2 for Babe Ruths Homeruns. As a rule of thumb we often have 
+
+**s is close to range/4**
+
+### Case Study:  Babe Ruth Homeruns
+
+range/4 = 38/4 = 9.5, s = 11.2.
+
+### Case Study: WRInccensus
+
+Let's have a look at Satisfaction:
+
+```{r}
+range(Satisfaction)
+(5-1)/4
+round(sd(Satisfaction), 1)
+```
+
+### Case Study: Weights of Mammals
+
+Weights of the bodies of 62 mammals (in kg)
+
+We saw before that a few outliers can have a HUGE effect on the mean. The same is true (actually even worse!) for the standard deviation: 
+
+```{r}
+sd(body.wt.kg)
+sd(body.wt.kg[body.wt.kg<1000])
+```
+
+If we want to ignore the outliers in the calculation of an average, we can use the median. What can we do if we want to find a measure of variation?
+
+We will see in a little bit! 
+
+## z score
+
+in the discussion of the standard deviation we saw that if we want to compare two sets of numbers, subtracting the mean is a good idea because then the datsets are both centered at 0. Now we go a step further and also divide by the standard deviation, getting to the **z scores**:
+
+$$
+z = \frac{x-\overline{X}}{s} 
+$$
+
+the idea here is that no matter what scale the original data is on, the z scores are of the same "size" and can therefore be compared directly.
+
+**Note** z scores are usually rounded to three digits behind the decimal.
+
+**Example** say you have taken two exams. In exam 1 you got 13 out of 20 points and in exam 2 you had a 58 out of 100 points. In which exam did you do better? 
+
+At first glance you might say exam 1, because if we want to rescale exam 1 to also have a total of 100 we need to multiply by 5 (20*5 = 100), so your "equivalent" score is 
+
+13*5 = 65 > 58
+
+But "doing better" often means doing better with respect to how everyone else did. So let's say 
+
+$\overline{X}_1 = 10.1$, $s_1 =4.5$
+
+$\overline{X}_2 = 45.7$, $s_2 =16.5$
+
+Let's find your respective z scores:
+$$
+z_1 = \frac{13-10.1}{4.5}=0.64 \\
+z_2 = \frac{58-45.7}{16.5}=0.745 \\
+$$
+
+and because your z score in exam 2 was higher, that is the one you did better.
+
+Clearly if x is close to the mean, the z score will be 0. It turns out that often z is somewhere between -2 and +2. Both of your z scores are a bit larger than 0 but not much, so they probably are B's! 
+
+### Case Study: Population Sizes of States and Puerto Rico
+
+What is the z score of PR's population of $3725789$?
+
+We have 
+
+```{r}
+mean(us.population.2010)
+sd(us.population.2010)
+```
+
+so
+
+$$
+\begin{aligned}
+&\overline{X}=6053834\\
+&s=6823984\\
+&z = \frac{3725789-6053834}{6823984}=-0.341 \\
+\end{aligned}
+$$
+and so PR's z score is -0.341.
+
+Of course we can use R as well:
+
+```{r}
+round((3725789 - mean(us.population.2010))/sd(us.population.2010), 3)
+```
+
+
+## Empirical Rule
+
+Above we learned the following:
+
+- If we have the dataset, how do we calculate the mean and the standard deviation?
+
+Now we will look at the following question:
+
+- If we know **only** the mean and the standard deviation, what do they tell us about the dataset, or more precisely, what do they tell us about an individual observation in the dataset?
+
+**Example** You read in the newspaper about a study on the age when a criminal committed his first crime. They found that the mean age was 18.3 with a standard deviation of 2.6 years. What is this telling you?
+
+The information "mean age was 18.3", or with our notation $\overline{X}=18.3$, is pretty easy to understand - somewhere around age 18 people start to commit crimes. But what about "with a standard deviation of 2.6 years"? 
+
+For this we can use the **empirical rule**
+
+if a data set has a bell-shaped histogram, then 95% of the observations fall into the interval 
+
+$$
+\left( \overline{X}-2s \text{, }\overline{X}+2s \right)
+$$
+    
+Notice the connection to the z scores. We previously said the z score is usually between -2 and 2, so z=2 would indicate a score almost at the maximum. But then
+
+$$
+\begin{aligned}
+&2 = z = \frac{ x-\overline{X} }{s} \\
+&2s = x-\overline{X} \\
+&x = \overline{X}+2s
+\end{aligned}
+$$
+
+**Example** Back to the example. We have $\overline{X}$=18.3 and s=2.6, so
+
+```{r}
+18.3 - 2*2.6
+18.3 + 2*2.6
+```
+
+so 95% of the criminals are between 13.1 and 23.5 years old when they first commit a crime.
+
+Knowing the mean and the standard deviation and using the empirical rule makes it possible to make a  guess about the size of the actual observations.
+
+`r hl()$hr()`
+
+Above we said that s is often close to range/4. The reason for this is explained by the empirical rule: $(\overline{X}-2s, \overline{X}+2s)$ contains 95% of the data, so $\overline{X}-2s$ should be close to the smallest observation and  $\overline{X}+2s$ should be close to the largest observation. So
+  
+range = largest-smallest is close to 
+
+$$
+(\overline{X}+2s) - (\overline{X}-2s) = 4s
+$$
+or
+ 
+**s is close to range/4**
+
+#### **Example** 
+
+Again back to the example with the criminals. For the empirical rule to work the data should have a bell shaped histogram. Do you think this is true for this example?
+
+#### **Example**:
+
+In some class the professor tells you that in the exam the mean score was 78 with a standard deviation of 12. There are 60 students in the class.
+
+So if the empirical rule holds we would expect 
+
+```{r}
+0.95*60
+```
+
+or 57 of the 60 students to have somewhere between
+
+```{r}
+78+2*12
+```
+
+and
+
+```{r}
+78-2*12
+```
+
+points on the exam.
+
+Of course if the highest possible score was 100 that emans we should expect someone to have gotton 100!
+
+### Case Study: WRInc
+
+let's check whether the empirical rule holds for the income data of the WRInc dataset.
+
+```{r}
+hplot(Income)
+```
+
+histogram is reasonably bell-shaped
+  
+What does the empirical rule say?
+  
+```{r}
+mean(Income) - 2*sd(Income)
+mean(Income) + 2*sd(Income)
+```
+
+so we should have about 95% of the incomes between \$14524 and \$52221.
+
+Let's check: 
+```{r}
+round(sum(Income>14524 & Income<52221)/length(Income)*100, 1)
+```
+
+looks about right! 
+
+`r hl()$hr()`
+
+#### **Example**: Artificial Examples
+
+consider this data set (just called x)
+
+```{r echo=FALSE}
+x <- rt(1000, 1)
+```
+
+```{r}
+hplot(x)
+```
+
+Now
+
+```{r}
+left <- mean(x)-2*sd(x)
+right <- mean(x)+2*sd(x)
+c(left, right)
+round(sum(left<x & x<right)/length(x)*100, 1)
+```
+
+and here it is much more than 95%
+
+Another example:
+
+```{r echo=FALSE}
+x <- rbeta(1000, 2, 2)
+```
+
+```{r}
+hplot(x)
+```
+
+Now
+
+```{r}
+left <- mean(x)-2*sd(x)
+right <- mean(x)+2*sd(x)
+c(left, right)
+round(sum(left<x & x<right)/length(x)*100, 1)
+```
+
+and again it is much more than 95%
+

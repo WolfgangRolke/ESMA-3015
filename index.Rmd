@@ -8,13 +8,13 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-whichcomp <- strsplit(getwd(),"/")[[1]][3]
-load(paste0("c:/users/", whichcomp, "/Dropbox/teaching/Resma3/Resma3.RData"))
-require(knitr)
-require(ggplot2)
-require(grid)
+source("setup.rmd.R", local=TRUE)
+setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
+`r hl()$style()`
+
+[ESMA 3015 Elementary Statistics.pdf](ESMA_3015_Elementary_Statistics.pdf)  
 
 [Resma3.RData](../Resma3/Resma3.RData?Ver3.1) (Ver 3.1)
 
@@ -32,11 +32,10 @@ For a nice introduction to Statistics watch the PBS-NOVA episode [Prediction by 
 
 ## 3 Computer and R
 
-3.1.  [Installation and Troubleshooting](../Resma3/computerandR.3015.html)  
-3.2   [Basic R commands](../Resma3/basic.R.commands.3015.html)  
-3.3.  [Short List of Important R commands](../Resma3/short.list.commands.html)    
-3.4.  [R routines](../Resma3/routines.html)  
-3.5.  [Resma3 vs base R](../Resma3/baseR.html)
+3.1.  [R - Installation and Troubleshooting ](computerandR.html)  
+3.2.   [Basic R commands](basic.R.commands.html)  
+3.3.  [Short List of Important R commands](short.list.commands.html)    
+3.4.  [R routines](routines.html)  
 
 ## 4 Descriptive Statistics
 

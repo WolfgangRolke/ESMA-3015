@@ -1,0 +1,1037 @@
+---
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+source("setup.rmd.R", local=TRUE)
+setup.rmd(local.env=environment())
+```
+`r hl()$basefontsize()`
+`r hl()$style()`
+
+# Routines in R/Resma3
+
+### Interactive Apps
+
+[idataio](#idataio) input and output of data into R.
+
+[isummary](#isummary) - graphs and numerical summaries, with or without groups.  
+
+[ihist](#ihistt) - histogram 
+
+[isplot](#isplot) - scatterplot, with or without groups 
+
+[isubset](#isubset) - data subsetting 
+
+### Routines
+
+[barchart](#barchart)  - Barcharts, one or two Variables
+
+[bplot](#bplot) - Boxplot  
+
+[change.order](#change.order)  - Change Ordering of Categorical Variable
+		 
+[chi.gof.test](#chi.gof.test) - Chisquare Goodnes-of-fit Test 
+
+[chi.ind.test](#chi.ind.test) - Chisquare Test for Independence 
+
+[ci.mean.sim](#ci.mean.sim) - Simulation of Confidence Intervals for one Mean 
+
+[dlr](#dlr) - Least Squares Regression with one Dummy Variable 
+
+[dlr.predict](#dlr.predict) Prediction for SLR with Dummy Variable  
+
+[fivenumber](#fivenumber) - Five Number Summary  
+
+[flplot](#flplot) - Fitted Line Graph
+
+[get.moodle.data](#get.moodle.data) - read data from moodle quizzes
+
+[hplot](#hplot) - Histogram  
+
+[iplot](#intplot) - Interaction Plot  
+
+[kruskalwallis](#kruskalwallis) - Kruskal-Wallis test
+
+[mallows](#mallows) - Best Subset Regression  
+
+[mlr](#mlr) Multiple Regression  
+
+[mlr.predict](#mlr.predict) - Prediction for Multiple Regression  
+
+[mplot](#mplot) - Marginal Plot  
+
+[multiple.graphs](#multiple.graphs) - Combine Several Graphs into one  
+
+[nplot](#nplot) - Normal Probability Plot  
+	
+[one.sample.t](#one.sample.t) - Infrerence for one Mean  
+
+[one.sample.prop](#one.sample.prop) - Inference for one Proportion  
+
+[one.sample.wilcoxon](#wilcoxon) - Wilcoxon Rank Sum Test, non parametric alternative to one.sample.t 
+
+[oneway](#oneway) - One-way ANOVA  
+
+[pearson.cor](#pearson.cor) - Test and Interval for Correlation  
+
+[prop.ps](#prop.ps) - Power and Sample Size for one Proportion  
+
+[slr](#slr) - Regression for One Predictor  
+
+[slr.predict](#slr.predict) Prediction for Regression with one Predictor 
+
+[splot](#splot) Scatterplot, also with groups  
+
+[stat.table](#stat.table) - Summary Statistics  
+
+ 
+[t.ps](#t.ps) - Power and Sample Size for one Mean  
+
+[test.mean.sim](#test.mean.sim) - Simulation of Hypothesis esting for one Mean  
+
+[tukey](#tukey) - Tukey Multiple Comparison, one or two Factors  
+
+[twoway](#twoway) - Two-way ANOVA  
+
+
+## Interactive Apps
+
+These are apps that open a new window and then allow the user to do all the work using (mostly) point and click.
+
+Most of these apps are called with data sets as arguments. They will accept any number of arguments, which can be either vectors, matrices or data frames. If any of the the later arguments do not match the first one in length they are ignored. Some apps also return a data set.
+
+Most of the apps also show the commands that could be used in R directly to produce the same results, either with the Resma3 commands or without them. 
+
+###  idataio {#idataio}
+
+Routine to read data into R and export data to a file. 
+It allows for
+
+- data entered from the keyboard into a spreadsheet &nbsp; 
+
+- data read from a file
+
+- data downloaded from the internet
+
+- data copied from another program such as a browser or an Excel spreadsheet
+
+Almost all standard file formats are supported, such as csv, excel, html, etc. For a complete list see [](href="https://cran.r-project.org/web/packages/rio/README.html}rio - R Input/Output)
+
+**Examples:**
+
+```{r,eval=FALSE}
+dta <- idataio() 
+```
+
+
+### isummary {#isummary} 
+
+graphical and numerical summaries of one numerical vector, optionally rouped by a categorical variable 
+
+**Examples**
+
+```{r,eval=FALSE}
+attach(mtcars)
+isummary(mtcars)
+isummary(mpg)
+isummary(mpg, gears)
+```
+
+### ihist {#ihist}
+
+draws histograms
+
+**Examples** 
+
+```{r, eval=FALSE}
+ihist(mtcars)
+```
+
+### isplot {#isplot}
+
+scatterplots
+
+**Examples** 
+
+```{r, eval=FALSE}
+isplot(mtcars)
+isplot(mpg, disp, gear, cyl) 
+```
+
+
+### isubset {#isubset}
+
+subsetting a data frame or vector
+
+**Examples: ** 
+
+```{r, eval=FALSE}
+new.mtcars <- isubset(mtcars)
+```
+
+## General Comments on Resma3 Routines
+
+The routines I wrote for this course all use the following standard (where it makes sense)
+
+first argument y is a numeric vector ("Response")
+
+second argument x is either a numeric or categorical vector or matrix ("Predictor" or "Factor") 
+
+Sometimes there is a third argument z, always a categorical vector ("Group")
+
+Obvious exceptions: routines for categorical data analysis (barchart, chi.ind.test, chi.gof.test)
+
+`r hl()$hr()` 
+
+Many of the routines have the following arguments:
+
+return.result=FALSE (Optional): if TRUE returns results as vector for further use. This allows storing the results, for example to do simulation.
+  
+`r hl()$hr()` 
+
+You can get all the routines and data sets by downloading and opening [Resma3.RData](href="http://academic.uprm.edu/wrolke/Resma/Resma3.RData)
+
+`r hl()$hr()`  
+
+sometimes you might make a mistake entering the data, or you want to change a few values. In that case use
+
+```{r, eval=FALSE}
+students <- edit(students)
+```
+
+This brings up the spreadsheet and you can do the changes there! 
+`r hl()$hr()` 
+
+
+## Standard R Routines
+
+
+### attach
+
+**Arguments**  
+x: a data frame  
+makes column names "visible" to R  
+
+Examples:
+
+```{r, eval=FALSE}
+attach(mothers) 
+mean(Length) 
+```
+
+Note: you need to do this only once in any R session, it will stay until you close R. 
+
+### mean, median, sd, IQR, quantile, cor 
+
+Summary statistics for quantitative data
+
+**Arguments**  
+x: a numeric vector  
+na.rm = FALSE 
+
+**Examples:**
+
+```{r, eval=FALSE}
+mean(Length)
+```
+
+```{r, eval=FALSE}
+median(Length)
+```
+
+```{r, eval=FALSE}
+sd(Length)
+```
+
+```{r, eval=FALSE}
+ IQR(Length)  
+```
+
+```{r, eval=FALSE}
+quantile(Length, c(0.25,0.75))
+```
+
+Note: all these routines have an argument na.rm = FALSE, so if the data set has missing values (NA) the result is NA. Simply use na.rm = TRUE 
+
+### table
+
+Tables and cross-tabulation for categorical data 
+
+**Arguments:**   
+x: either a categorical vector or a data frame with two categorical columns  
+y: a second categorical vector (if x is a vector as well)
+
+**Examples:** 
+
+```{r, eval=FALSE}
+head(rogaine,3) 
+```
+
+```{r, eval=FALSE}
+table(rogaine)
+```
+
+### cor
+
+Pearson's correlation coefficient
+**Arguments:**   
+x: either a numeric vector or a data frame with two or more numeric columns  
+y: a second numeric vector (if x is a vector as well)  
+use = "everything", set to use="complete.obs" if NA's in the data 
+
+**Examples:** 
+```{r, eval=FALSE}
+x <- rnorm(50)
+y <- rnorm(50) 
+cor(x, y) 
+```
+
+```{r, eval=FALSE}
+cor(cbind(x,y))  
+```
+
+### subset
+
+find a subset of a data set based on some condition(s) 
+
+**Arguments:**   
+
+x: a data frame  
+
+cond: some logical condition  
+
+select (Optional): which columns should be returned, default is all of them
+  
+drop=FALSE, if just one column is selected as output use drop=TRUE 
+
+**Examples:** 
+```{r, eval=FALSE}
+head(subset(wrinccensus, Satisfaction>=4, select=Income),3)
+head(subset(wrinccensus, Satisfaction>=4 & Gender=="Male"),3)
+head(subset(wrinccensus, Satisfaction>=4 & Gender=="Male", select=c(Income,Job.Level)),3)
+head(subset(wrinccensus, Satisfaction>=4 & Gender=="Male", select=Income),3)
+```
+
+Note that the last one results in a data frame with one column. You might want it as a numeric vector: 
+
+```{r, eval=FALSE}
+head(subset(wrinccensus, Satisfaction>=4 & Gender=="Male", select=Income, drop=TRUE),3)
+```
+
+NOTE: see also interactive app **isubset**
+
+## Transfer Data from Moodle
+
+### get.moodle.data {#get.moodle.data}
+
+read data from moodle quizzes
+
+highlight the data, use mouse to copy, switch to R and run
+
+```{r eval=FALSE}
+get.moodle.data()
+```
+
+
+## Routines for Summary Statistics 
+
+### stat.table {#stat.table} 
+   
+tables of summary statistics, with or without groups
+**Arguments**
+y: numeric vector (Required) 
+x: categorical variable (Optional)
+Mean=TRUE:  if set to FALSE table finds medians and IQRs 
+**Examples:**
+```{r, eval=FALSE}
+stat.table(Length)
+stat.table(Length,Status)
+stat.table(Length,Status,Mean=FALSE)
+```
+
+
+## Routines for One Variable
+
+### fivenumber {#fivenumber}
+ 
+five number summary and IQR, with or without groups
+
+**Arguments:**
+
+y: quantitative vector 
+x: (optional) categorical vector 
+
+**Example:**
+```{r, eval=FALSE}
+fivenumber(Length)
+```
+
+### one.sample.t {#one.sample.t}
+
+Confidence interval or hypothesis test for one mean
+
+**Arguments:**
+
+y: either a vector with numbers or the sample mean of the data
+shat, n: standard deviation and sample size (only needed if y is sample mean)
+
+mu.null: mean in null hypothesis (if missing confidence interval is found) 
+
+alternative = "equal": alternative hypothesis
+
+conf.level = 95
+
+ndigit = 1 (number of digits for rounding)
+
+**Examples:**
+
+```{r, eval=FALSE}
+one.sample.t(Length, conf.level=90)
+one.sample.t(49.55, 3.38, 94, conf.level=90, ndigit=2)
+one.sample.t(Length, mu.null=50, alternative="less")
+```
+
+
+### t.ps {#t.ps}
+
+ power and sample size calculations for one mean 
+ 
+**Arguments:**   
+  
+n: sample size 
+diff: difference in means  
+sigma: standard deviation  
+power: power of test  
+E (optional): error of confidence interval (for sample size calculation only)  
+conf.level=90: confidence level of confidence interval (for sample size calculation only)  
+alpha = 0.05: type I error probability  
+alternative = "equal": alternative hypothesis  
+routine finds whatever argument is left out (n, diff or power)  
+
+**Examples:**
+```{r, eval=FALSE}
+t.ps(n=100, diff=1.23, sigma=5, alpha=0.1, alternative="greater")
+t.ps(power=90, d=1, sigma=13, alpha=0.1, alternative="greater")
+t.ps(sigma= 0.5, E=0.125, conf.level=99)
+```
+
+### wilcoxon {#wilcoxon}
+
+Wilcoxon rank sum test for one quantitative variable - non parametric alternative to one.sample.t
+
+**Arguments:**   
+
+y: quantitative vector  
+  mu.null:  mean in null hypothesis (if missing confidence interval is found)  
+alternative = "equal": alternative hypothesis  
+conf.level = 95  
+
+**Examples:**
+
+```{r, eval=FALSE}
+wilcoxon(Length, conf.level=90)
+wilcoxon(Length, mu.null=50, alternative="greater")
+```
+
+
+### one.sample.prop {#one.sample.prop}
+
+Confidence interval or hypothesis test for one proportion (percentage, probability) 
+
+**Arguments:**
+
+x: number of successes  
+n: number of trials  
+pi.null: proportion in null hypothesis (if missing confidence interval is found)  
+alternative = "equal": alternative hypothesis  
+conf.level = 95  
+  
+**Examples:**
+```{r, eval=FALSE}
+one.sample.prop(40, 100, conf.level=90)
+one.sample.prop(40, 100, pi.null=0.5, alternative=less)
+```
+
+
+### prop.ps {#prop.ps}
+
+Power and sample size calculations for one proportion 
+
+**Arguments:**
+
+n: sample size 
+phat: alternative proportion  
+pi.null: proportion under null hypothesis  
+power: power of test  
+E (optional): error of confidence interval (for sample size calculation only)  
+conf.level=90: confidence level of confidence interval (for sample size calculation only)  
+alpha = 0.05: type I error probability  
+alternative = "two.sided": alternative hypothesis  
+routine finds whatever argument is left out (n, phat or power) 
+
+**Examples:**
+```{r, eval=FALSE}
+prop.ps(n=100, phat=0.65, pi.null=0.5)
+prop.ps(power=90, phat=0.65, pi.null=0.5)
+```
+
+### chi.gof.test {#chi.gof.test}
+
+Chisquare test for multinomial proportions
+
+**Arguments:**
+  
+x: observed counts
+p: hypothesized proportions
+
+**Example **
+```{r, eval=FALSE}
+chi.gof.test(c(12, 17, 20, 15, 10, 26), rep(1,6)/6) 
+```
+
+## Routines for Two Variables
+
+
+### pearson.cor {#pearson.cor}
+
+Confidence interval and hypothesis test for Pearson's correlation coefficient  
+
+**Arguments:**
+
+y: quantitative vector  
+x: quantitative vector   
+rho.null  (if missing confidence interval is found, only rho.null = 0 accepted)
+  
+conf.level = 95 confidence level of interval  
+
+**Note**: when the routine is run R sometimes gives a 
+
+Warning message:  
+  Continuous x aesthetic -- did you forget aes(group=...)?  
+
+just ignore this 
+
+**Example:**
+```{r, eval=FALSE}
+pearson.cor(Draft.Number, Day.of.Year, rho.null = 0)
+```
+
+
+## Routines for Simulations
+
+### ci.mean.sim {#ci.mean.sim}
+
+does a simulation for coverage of the t test confidence intervals
+
+**Arguments:**
+
+n : sample size mu: mean
+sigma: standard deviationconf.level: nominal coverage
+
+**Example**: 
+```{r, eval=FALSE}
+ ci.mean.sim(n=500,mu=75,sigma=30,conf.level=99)
+```
+
+
+### test.mean.sim {#test.mean.sim}
+
+does a simulation of the p value of the t test. If mu.null=mu it finds the true type I error $\alpha$, otherwise the power of the test. In either case it draws the histogram of p values. 
+
+**Arguments:**
+  
+  n : sample size  
+  mu: mean  
+  mu.null=mu: value of mean under null hypothesis  
+  sigma: standard deviation  
+  alpha: nominal alpha  
+  
+**Examples**:
+
+```{r, eval=FALSE}
+test.mean.sim(n=20, mu=5, sigma=1, alpha=0.1)
+test.mean.sim(n=20, mu=5, mu.null=5.5, sigma=1, alpha=0.1)
+```
+
+## Routines for Graphs
+
+### barchart {#barchart}
+
+bar charts
+
+**Arguments:**
+  
+y:  a vector of categorical data or a table
+x: (Optional) a vector of categorical data for contingency table  
+percentage: if not missing one of grand, row or col
+
+
+**Examples:**
+
+```{r, eval=FALSE}
+attach(rogaine)
+barchart(Growth)
+barchart(Growth, percentage="grand")
+barchart(Growth, Group)
+barchart(Growth, Group, percentage="row")
+```
+
+### hplot {#hplot}
+
+Histogram, if desired with fitted density
+
+**Arguments:**
+  
+x: numerical data  
+f: name of distribution (Optional)  
+par: parameters of distribution(Optional)  
+n: number of bins (Optional) 
+label_x, main_title: x axis label and graph title (Optional) 
+
+**Examples:**
+
+```{r, eval=FALSE}
+hplot(Length)
+hplot(Length, label_x = "Length of Babies (cm)", main_title = "Mothers, Babies and Cocain Use")
+hplot(Length, f = "norm", par = c(mean(Length), sd(Length))) 
+```
+
+
+### bplot {#bplot}
+
+Boxplot / do.violinplot
+
+**Arguments:**
+  
+  y: numeric vector or matrix or data frame  
+  x: catagorical vector (Optional)  
+  do.violin = FALSE: if TRUE does violin plot  
+  orientation="vertical", if orientation="horizontal" boxplot is drawn horizontally  
+  new_order: change the order of the boxes. Either a vector of position numbers or "Sort", then sorted from smallest mean to largest.  
+  label_x, label_y, main_title:  axes labels and graph title (Optional)  
+**Examples:**
+
+```{r, eval=FALSE}
+bplot(Length) 
+bplot(Length, Status)
+bplot(Length, Status, label_y  = "Length of Babies (cm)", 
+      label_x = "Drug Status", 
+      main_title = "Mothers, Babies and Cocain Use")
+```
+
+### splot {#splot}
+
+Scatterplot, possibly with groups and fits
+
+**Arguments:**
+  
+y: numeric vector , y axis  
+x: numeric vector, x axis  
+z: catagorical variable (Optional)  
+w: second catagorical variable (Optional)  
+plot.points=TRUE: if FALSE dots are not plotted 
+  add.line = 0:  adds lines, if add.line=1 least squares regression line, if add.line=2 LOESS, if add.line=3 it does the line graph
+  
+jitter = FALSE:  if true jitters dots  
+use.facets = FALSE: if TRUE usess facets instead of colors for z   
+errorbars = FALSE: if TRUE adds error band to fit  
+label_x, label_y, label_z, main_title: axes labels and graph title (Optional)  
+  add.text, add.text_x, add.text_y: add text to graph (Optional)  
+  plotting.size = 1: size of plotting symbols  
+  plotting.symbols: change plotting symbols. can use either symbols added on keyboard or numbers corresponding to R symbols key(Optional)  
+  
+plotting.colors: change colors, can use either numbers corresponding to R color key or explicit text : pcolor="red" (Optional) 
+
+ref_x, ref_y: add reference lines (Optional)
+
+log_x = FALSE, log_y = FALSE: change to log scale
+
+no.legends = FALSE: rmove all alegends 
+  
+**Examples: **
+```{r, eval=FALSE}
+attach(salaries)
+splot(Salary,Years)
+splot(Salary,Years, add.line=1)
+splot(Salary,Years, Level, add.line=1)
+splot(Salary,Years, add.line=3)
+```
+
+```{r, eval=FALSE}
+attach(upr)
+splot(y = Freshmen.GPA, x = IGS, z = Gender, use.facets = TRUE, add.line = 1, label_y = "Freshmen GPA", label_x = "Indice de Ingreso", main_title = "UPR Admissions", jitter=TRUE, plotting.symbols = ".", plotting.colors = "blue", ref_x = 300, ref_y=3.5)
+```
+
+NOTE: see also ineractive app **isplot**
+
+### mplot {#mplot}
+
+Marginal plot with scatterplot and boxplots 
+
+**Arguments:**   
+
+y: numeric vector , y axis
+
+x: numeric vector, x axis
+
+z: catagorical variable (Optional)
+
+add.line = 0: adds lines, if add.line=1 least squares regression line, if add.line=2 LOESS, if add.line=3 it does the line graph
+
+**Examples:**
+
+```{r, eval=FALSE}
+mplot(Salary, Years)
+```
+
+Note: when the routine is run R sometimes gives a 
+Warning message:
+Continuous x aesthetic -- did you forget aes(group=...)? 
+Just ignore that 
+
+### flplot {#flplot}
+
+Fitted line plot, allows for log transforms or polynomial fitting
+
+**Arguments:**
+  
+y: numeric vector , y axis
+
+x: numeric vector, x axis
+
+z: catagorical variable (Optional)
+
+additive = FALSE: if true fits parallel lines
+
+logx = FALSE, logy = FALSE: if true applies log transforms 
+
+polydeg = 1: degree of polynomial to be fit 
+
+jitter = FALSE:  if true jitters dots 
+  
+**Examples:**
+```{r, eval=FALSE}
+attach(longjump)
+flplot(LongJump, Year)
+flplot(LongJump, Year, polydeg=2)
+attach(elusage)
+flplot(elusage[,3], elusage[,4], logx=TRUE, logy=TRUE)
+```
+
+### nplot {#nplot}
+
+Normal probability plot 
+
+**Arguments:**
+  
+y: numerical vector
+
+x: categorical vector (Optional)
+
+**Examples:**
+```{r, eval=FALSE}
+nplot(euros[,1])
+```
+
+
+### iplot {#iplot}
+
+Interaction plot 
+
+**Arguments:**
+  
+y: numerical vector
+
+x and z: categorical vectors 
+
+**Examples:**
+
+```{r, eval=FALSE}
+attach(fermentation) 
+iplot(Ethanol, Sugar, Oxygen)
+```
+
+### multiple.graphs {#multiple.graphs}
+
+combine (up to four graphs) in one 
+
+####Arguments:
+
+ggplt objects, likely generated using other graph functions with the argument returnGraph=TRUE
+
+titles (Optional) titles for each graph 
+
+**Examples:**
+```{r, eval=FALSE}
+attach(gasoline)
+plt1 <- bplot(MPG, Gasoline, returnGraph=TRUE)
+plt2 <- bplot(MPG, Automobile, returnGraph=TRUE)
+multiple.graphs(plt1,plt2)
+```
+
+```{r, eval=FALSE}
+x<-rnorm(1000)
+multiple.graphs(
+  hplot(x, n=10, returnGraph=TRUE),   
+  hplot(x, n=25, returnGraph=TRUE), 
+  hplot(x, n=50, returnGraph=TRUE), 
+  hplot(x, n=100, returnGraph=TRUE),  
+  titles =  paste(c(10, 25, 50, 100), "bins")
+  )
+```
+
+## Routines for Testing with two or more Variables  
+
+### chi.ind.test {#chi.ind.test}
+
+Chisquare test of independence 
+
+**Arguments:**
+  
+x:  a table of counts
+
+**Examples:**
+
+```{r, eval=FALSE}
+chi.ind.test(table(rogaine))
+```
+
+
+### oneway {#oneway}
+
+ANOVA with one factor
+
+**Arguments:**
+  
+  y: numeric vector
+
+  x: categorical vector
+
+   ndigit = 1: rounding answer to 1 digit
+
+  var.equal = TRUE: assume equal variance
+
+conf.level = 95: in the case of a categorical variable with 2 levels finds a 95% confidence interval for the difference in means 
+
+**Examples:**
+```{r, eval=FALSE}
+oneway(Length, Status)
+```
+
+
+### kruskalwallis {#kruskalwallis}
+
+Non-parametric ANOVA 
+
+**Arguments:**
+  
+y: numeric vector
+
+x: categorical vector
+
+**Examples:**
+
+```{r, eval=FALSE}
+kruskalwallis(Length, Status)
+```
+
+### twoway {#twoway}
+
+ANOVA with two factors
+
+**Arguments:**
+  
+y: numeric vector
+
+x, z: categorical vectors
+
+with.interaction = TRUE: assume interaction is present (defaults to FALSE if there are no repeated measurements) 
+
+**Examples:**
+```{r, eval=FALSE}
+attach(gasoline)
+twoway(MPG, Gasoline, Automobile)
+twoway(MPG, Gasoline, Automobile, with.interaction="FALSE")
+```
+
+### tukey {#tukey}
+
+Tukey's Multiple Comparison in ANOVA
+
+**Arguments:**
+  
+y: numeric vector
+
+x : categorical vector
+
+z : second categorical vector (Optional) 
+
+with.interaction = TRUE: assume interaction is present (defaults to FALSE if there are no repeated measurements)
+
+which="first": do comparison for first categorical variable (x), or change to which="second" or which="interaction" 
+
+**Examples:**
+
+```{r, eval=FALSE}
+tukey(mothers[,2], mothers[,1])
+tukey(MPG, Gasoline, Automobile, which="first")
+tukey(MPG, Gasoline, Automobile, which="interaction")
+```
+
+
+### slr {#slr}
+
+Linear Regression with one predictor, including polynomial regression
+
+**Arguments:**
+  
+y, x: numerical vectors
+
+no.intercept = FALSE: fit intercept?
+
+polydeg = 1: fit polynomial of higher degree? 
+
+show.tests=FALSE: if TRUE t tests for coefficients are shown
+
+**Examples:**
+
+```{r, eval=FALSE}
+slr(wine[,3],wine[,2])
+slr(wine[,3],wine[,2],polydeg=2)
+slr(log(wine[,3]),wine[,2],polydeg=2)
+```
+
+### slr.predict {#slr.predict}
+
+Prediction for simple linear regression
+
+**Arguments:**   
+  
+same as slr. In addition: 
+
+newx = x: predict for values for x (can be vector). If missing predict for values in data set.
+
+interval: either "PI" for prediction intervals or "CI" for confidence intervals
+
+conf.level = 95 
+
+**Examples:**
+
+```{r, eval=FALSE}
+slr.predict(wine[,3], wine[,2],newx=c(2,2.5,3), interval="PI", conf.level=90) 
+```
+
+### mlr {#mlr}
+
+Linear Regression with more than one predictor
+
+**Arguments:**
+  
+y: numerical vector
+
+x: numeric matrix with predictors in columns 
+
+show.tests=FALSE: if TRUE t tests for coefficients are shown
+
+returnModel=FALSE, if TRUE fit object is returned (and can be used in other routines) 
+
+**Examples**:
+
+```{r, eval=FALSE}
+mlr(houseprice[,1], houseprice[, -1])
+```
+
+
+### mlr.predict {#mlr.predict}
+
+Prediction for  regression with more than one predictor
+
+**Arguments:**   
+
+same as slr.predict but here x and newx are matrices 
+
+**Examples:**
+
+```{r, eval=FALSE}
+newx <- cbind(c(2000, 2100, 2200), rep(1, 3), rep(2, 3), rep(2, 3))
+mlr.predict(houseprice[,1], houseprice[, -1], newx=newx, interval="PI", conf.level = 99)
+```
+
+### mallows {#mallows}
+
+Best subset regression with Mallow's Cp
+
+**Arguments:**   
+
+same as mlr
+
+**Examples:**
+
+```{r, eval=FALSE}
+mallows(houseprice[,1], houseprice[, -1] ) 
+```
+
+
+### dlr {#dlr}
+
+Linear regression with one dummy variable
+
+**Arguments:**
+  
+y: numerical vector
+
+x: numeric vectorz: categorical vector
+
+additive = FALSE: if parallel lines set to TRUE
+
+show.tests=FALSE: if TRUE t tests for coefficients are shown
+
+**Examples:**
+
+```{r, eval=FALSE}
+dlr(salaries[,1], salaries[,2], salaries[,3]) 
+dlr(salaries[,1], salaries[,2], salaries[,3], additive=T)
+```
+
+
+### dlr.predict {#dlr.predict}
+
+Prediction for regression with a dummy variable
+
+**Arguments:**
+
+same as slr.predict but also needs newz: values of categorical variable for prediction
+
+**Examples:**
+
+```{r, eval=FALSE}
+dlr.predict(salaries[, 1], salaries[, 2], salaries[, 3], 
+  newx=5, newz="Low", interval="PI")
+```
+
+## Miscellaneous Routines
+
+
+### change.order {#change.order}
+
+Change the order of a categorical variable 
+
+**Arguments:**
+
+z: categorical variable 
+
+NewOrder: can be a numeric vector specifying a certain order or a categorical vector with ordered values of z 
+
+**Examples:**
+
+```{r, eval=FALSE}
+bplot(Length, Status)
+bplot(Length, change.order(Status, c(2,1,3)))
+bplot(Length, change.order(Status, c("Throughout","First Trimester","Drug Free")))
+```
+

@@ -1,0 +1,116 @@
+---
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+source("setup.rmd.R", local=TRUE)
+setup.rmd(local.env=environment())
+```
+`r hl()$basefontsize()`
+`r hl()$style()`
+
+# R - Installation and Troubleshooting 
+
+The class web pages are at [http://academic.uprm.edu/wrolke/esma3015](http://academic.uprm.edu/wrolke/esma3015)
+
+At the end of each session  log off 
+
+## General Info
+
+You can get a free version of R for your computer from a number of sources. The download is about 70MB and setup is fully automatic. Here are some links: 
+
+[Windows](https://cran.r-project.org/bin/windows/base)
+
+[MacOS](https://cran.r-project.org/bin/macosx)
+
+After the installation is finished close R (if it is open). From now on `r hl()$fontcolor("ALWAYS")` open R by clicking on the link to to the RESMA3 file on top of the home page. You can also download and save that file to your own computer and start R from there. 
+
+The first time you do this the program will download a number of additional stuff, just let it do that. It can take a while, be patient. Also a window might pop up and ask whether to save something, if so click on yes. 
+
+If you see a message: Welcome to Resma3! everything is good!
+
+**Note** 
+
+-  You might be asked at several times whether you want to do something (allow access, run a program, save a library, ...), always just say yes!
+
+-  You will need to connect to a reasonably fast internet for these steps.
+
+`r hl()$hr()`
+
+**FOR MAC OS USERS ONLY**
+
+There are a few things that are different from MacOS and Windows. Here is one thing you should do:
+
+Download XQuartz - XQuartz-2.7.11.dmg  
+Open XQuartz      
+Type the letter R (to make XQuartz run R)        
+Hit enter
+          Open R 
+          Run the command .First()          
+Then, every command should work correctly. 
+
+## Troubleshooting
+
+if you try to run a command and get an error
+
+could not find function "ggplot" 
+
+or a similar error message
+
+first try this: run the command
+```{r, eval=FALSE}
+ls() 
+```
+
+You should see a listing of many things (over 200). If you do not Resma3 did not load correctly (did you see the welcome message?). Close R and restart it by clicking on the link to Resma3 on the home page.
+
+If you do see the listing, type
+```{r, eval=FALSE}
+one.time.setup() 
+```
+
+A number of things should be happening, just wait until you see the > again and see whether that fixes the problem. 
+
+If this does not work turn off R and restart it with a new version of Resma3 from the top of the class home page. 
+
+If this also does not work send me an email with the explanation of the problem. The best thing to do is to include a  screenshot. Here is how:
+
+[Windows](https://www.cnet.com/how-to/how-to-take-a-screenshot-in-any-version-of-windows/)
+
+[MacOS](http://www.imore.com/screenshot-mac)
+
+You can also just use your cell phone to take a picture of the screen, but make sure it is is readable! 
+
+`r hl()$hr()`
+
+I often get an email saying that something is not working, and my answer is simply:  
+
+**RGDM**
+
+this means: **R**ead the **G**od-**D**amn **M**anual! 
+
+that is the answer to your problem is somewhere on these pages, and you should have found it there before sending an email! 
+
+`r hl()$hr()`
+
+Throughout this class when you see something like this:
+```{r, eval=FALSE}
+text 
+```
+it means commands you should type (or copy-paste) what is in the box ("text") into the R console. If you type it be careful to get it exactly right!    
+
+`r hl()$vs()`
+
+To see whether everything is installed correctly copy-paste the following line into R and hit enter:  
+
+```{r}
+hplot(rnorm(1000))
+```
+ 
+You should see a graph like this (called a histogram)
+ 
+For a much more extensive introduction to R go [here](href="http://academic.uprm.edu/wrolke/research/Introduction%20%20to%20R.pdf") 

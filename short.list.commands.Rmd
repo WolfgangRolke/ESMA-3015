@@ -1,0 +1,91 @@
+---
+header-includes: \usepackage{color}
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: no
+---
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+source("setup.rmd.R", local=TRUE)
+setup.rmd(local.env=environment())
+```
+`r hl()$basefontsize()`
+`r hl()$style()`
+
+# Short List of Important R Commands
+
+-  **head**: show the first k elements of a dataset
+
+```{r}
+head(agesex, 3)
+```
+
+-  **ls**:  list of all elements of the RData file
+
+```{r}
+head(ls())
+```
+
+
+-  **attach**:  make column names of a data frame usable
+
+```{r, eval=FALSE}
+table(Gender)
+```
+
+```{r,echo=FALSE}
+"Error: object Gender not found"
+```
+
+
+```{r}
+attach(upr)
+head(Gender)
+```
+
+-  **args**: show arguments of a routine
+
+```{r}
+args(stat.table)
+```
+
+this does not always work:
+
+```{r}
+args(mean)
+```
+
+in that case use
+
+-  **?**: show details of routine
+
+```{r, eval=FALSE}
+?mean
+```
+ will open a help file in a browser.
+ 
+-  **length**: number of elements of a vector
+ 
+-  **dim**: number of row and columns of a data frame
+
+-  **colnames**:  names of columns of a data frame
+
+-  **rownames**:  names of rows of a data frame
+
+-  **sum, mean, sd**
+
+-  **table**:  count the number of occurances
+
+```{r echo=FALSE}
+rm(Gender)
+```
+
+
+```{r}
+table(Gender)
+table(Gender, Year)
+```
+
+
+

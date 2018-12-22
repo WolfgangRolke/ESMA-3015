@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,7 +14,7 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Routines in R/Resma3
+## Routines in R/Resma3
 
 ### Interactive Apps
 
@@ -99,7 +100,7 @@ setup.rmd(local.env=environment())
 [twoway](#twoway) - Two-way ANOVA  
 
 
-## Interactive Apps
+### Interactive Apps
 
 These are apps that open a new window and then allow the user to do all the work using (mostly) point and click.
 
@@ -174,7 +175,7 @@ subsetting a data frame or vector
 new.mtcars <- isubset(mtcars)
 ```
 
-## General Comments on Resma3 Routines
+### General Comments on Resma3 Routines
 
 The routines I wrote for this course all use the following standard (where it makes sense)
 
@@ -208,7 +209,7 @@ This brings up the spreadsheet and you can do the changes there!
 `r hl()$hr()` 
 
 
-## Standard R Routines
+### Standard R Routines
 
 
 ### attach
@@ -325,7 +326,7 @@ head(subset(wrinccensus, Satisfaction>=4 & Gender=="Male", select=Income, drop=T
 
 NOTE: see also interactive app **isubset**
 
-## Transfer Data from Moodle
+### Transfer Data from Moodle
 
 ### get.moodle.data {#get.moodle.data}
 
@@ -338,7 +339,7 @@ get.moodle.data()
 ```
 
 
-## Routines for Summary Statistics 
+### Routines for Summary Statistics 
 
 ### stat.table {#stat.table} 
    
@@ -355,7 +356,7 @@ stat.table(Length,Status,Mean=FALSE)
 ```
 
 
-## Routines for One Variable
+### Routines for One Variable
 
 ### fivenumber {#fivenumber}
  
@@ -494,7 +495,7 @@ p: hypothesized proportions
 chi.gof.test(c(12, 17, 20, 15, 10, 26), rep(1,6)/6) 
 ```
 
-## Routines for Two Variables
+### Routines for Two Variables
 
 
 ### pearson.cor {#pearson.cor}
@@ -522,7 +523,7 @@ pearson.cor(Draft.Number, Day.of.Year, rho.null = 0)
 ```
 
 
-## Routines for Simulations
+### Routines for Simulations
 
 ### ci.mean.sim {#ci.mean.sim}
 
@@ -558,7 +559,7 @@ test.mean.sim(n=20, mu=5, sigma=1, alpha=0.1)
 test.mean.sim(n=20, mu=5, mu.null=5.5, sigma=1, alpha=0.1)
 ```
 
-## Routines for Graphs
+### Routines for Graphs
 
 ### barchart {#barchart}
 
@@ -785,7 +786,7 @@ multiple.graphs(
   )
 ```
 
-## Routines for Testing with two or more Variables  
+### Routines for Testing with two or more Variables  
 
 ### chi.ind.test {#chi.ind.test}
 
@@ -1014,7 +1015,7 @@ dlr.predict(salaries[, 1], salaries[, 2], salaries[, 3],
   newx=5, newz="Low", interval="PI")
 ```
 
-## Miscellaneous Routines
+### Miscellaneous Routines
 
 
 ### change.order {#change.order}

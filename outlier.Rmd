@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,7 +14,7 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Outliers - Detection  and Treatment
+## Outliers - Detection  and Treatment
 
 Many of the methods discussed in this class don't work well if the dataset has **outliers**. An outlier is any observation that is in some way `r hl()$fontcolor("unusual/strange/weird")`.
 
@@ -32,7 +33,7 @@ Unfortunately there are no hard rules exactly when an observation becomes an out
 
 In addition to the case discussed above, there are other ways in which an observation can be an outlier: 
 
-### Case Study: Alcohol vs. Tobacco Expenditure
+#### **Case Study:** Alcohol vs. Tobacco Expenditure
 
 Data from a British government survey of household spending may be used to examine the relationship between household spending on tobacco products and alcoholic beverages. The numbers are the average expenditure for each of the 11 regions of England.
 
@@ -92,7 +93,7 @@ mplot(y, x)
 
 How many outliers does this data set  have? Actually just one, but it appears in each of three graphs.
 
-## Treatment of Outliers
+### Treatment of Outliers
 
 If we have an outlier in a dataset, what do we do then? First and foremost, **don't ignore them!** Most statistical methods are very sensitive to outliers, often they simply don't work.
 
@@ -117,7 +118,7 @@ So, if there are outliers, what do we do?
 
 4. If all else fails, eliminate the outlier(s)
 
-### Case Study: Body and Brain Weight of Mammals
+#### **Case Study:** Body and Brain Weight of Mammals
 
 ```{r}
 attach(brainsize)

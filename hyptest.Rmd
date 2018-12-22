@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,7 +14,7 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Hypothesis Testing 
+## Hypothesis Testing 
 
 ### Table of Contents
 
@@ -34,7 +35,7 @@ setup.rmd(local.env=environment())
 [Warning](#a8) 
 
 
-### Case Study: Common Cold
+#### **Case Study:** Common Cold
 
 Say we face the following question: we believe we have finally found a cure for the common cold! 
 
@@ -53,7 +54,7 @@ Somehow we want to rule out this possibility, we want to make as  sure as we can
 A *hypothesis test* is a statistical procedure designed to do just that!
 
 
-## Introduction
+### Introduction
 
 A hypothesis test is a statistical method that answers a yes-no question.
 
@@ -137,7 +138,7 @@ $$
 $$
 
 
-## Hypothesis Testing: Formalism and Notation {#a1}
+### Hypothesis Testing: Formalism and Notation {#a1}
 
 A `r hl()$fontcolor("complete")` hypothesis test has to have `r hl()$fontcolor("all")` of the following parts:
 
@@ -154,7 +155,7 @@ A `r hl()$fontcolor("complete")` hypothesis test has to have `r hl()$fontcolor("
 9. Conclusion (in plain language)  
 
 
-## p-value {#a2}
+### p-value {#a2}
 
 In step 8 we have to make a decision on the test - reject the null hypothesis or not. This is done by comparing the p value from step 8 with the $\alpha$ from step 4:
 
@@ -288,7 +289,7 @@ In these "borderline" cases it might be better not to either reject or not rejec
 
 **"reserve judgement"**.
 
-## $H_0$ and  $H_a$ {#a3}
+### $H_0$ and  $H_a$ {#a3}
 
 **Example** Say a pharmaceutical company has developed a new drug, and they want to show that it is better than the currently available ones.
 
@@ -379,7 +380,7 @@ Say you are asked to find a p-value and you find 0.123. Next you are asked to ch
 
 It turns out, though, you made a mistake, the correct p-value is 0.0123. Then of course the correct answer to the second part is to reject H_0, but you didn't do that, based on your wrong calculation you made the right choice. Nevertheless, Moodle will only accept "reject H_0" as the right answer.
 
-### Practice Example 
+#### **Example** 
 
 A Biologist reads in a journal article that in the population of a certain animal historically more than 10% of the newborns carry a special gene defect. He takes samples from 250 newborns and tests them. He finds 30 of them have this defect.
 
@@ -409,7 +410,7 @@ $H_0: \pi = 0.1$ (Percentage in his population is 10%)
 
 $H_a: \pi > 0.1$ (Percentage in his population is higher than 10%) 
 
-## Type I and Type II errors {#a4}
+### Type I and Type II errors {#a4}
 
 When we carry out a hypothesis test in the end we always face one of the following situations:
 
@@ -502,7 +503,7 @@ $$
 \alpha = 2.9 \cdot 10^{-7} = 0.000000029
 $$
  
-###  Example 
+###  **Example** 
 
 A pharmaceutical company has developed a new treatment for terminal cancer. They do a clinical trial and at the end do the following hypothesis test:
 
@@ -533,7 +534,7 @@ They could have lived longer but they won't.
 Clearly the worst thing here is for people to die quicker than they might have. This is a consequence of the type II error, so if we want to make that less likely we need $\beta$ to be smaller, which we can get by allowing $\alpha$ to be larger, say 10% instead of 5%. 
 
 
-## Type II error $\beta$ and Power {#a5}
+### Type II error $\beta$ and Power {#a5}
 
 In hypothesis testing we choose $\alpha$ but we don't have any influence on $\beta$. One thing we can do is study its behaviour:
 
@@ -728,7 +729,7 @@ so the large the sample size, the higher the power, or
 
 The more evidence for guilt is presented, the more likely we are to get a guilty verdict (= reject the null hypothesis of innocence) 
 
-## Power Curve
+### Power Curve
 
 **Example** Let's return to the textbook example. There we we have the test
 
@@ -761,7 +762,7 @@ t.ps(n = 27, diff = 75.5-73, sigma = 7.1,
 
 With this we can consider different scenarios: if the true mean is 77.0, the difference is 77.0-73=4.0, and the power is about 90% 
 
-### Practice Example 
+### **Example** 
 
 Let's say we are planning a survey of the students at the Colegio. We will interview 100 randomly selected students and ask them what their GPA is. Then we will do the test at the 5% level of
 
@@ -776,7 +777,7 @@ t.ps(n = 100, diff = 2.8-2.7, sigma = 0.45,
 
 with a sample of 100 students we will correctly reject the null hypothesis with a probability of 71.2% 
 
-## Importance of Sample Size {#a6}
+### Importance of Sample Size {#a6}
 
 **Example** Using the best currently available treatment the mean survival time of patients with a certain type of terminal cancer is 122 days. A pharmaceutical company has just developed a new drug for these patients which they believe will lead to longer survival times.
 
@@ -859,7 +860,7 @@ So, after we carried out a hypothesis test, what can we conclude? There are alwa
 
  **Example** So in the case of the company in real live they would not (yet) give up on the new drug, but understanding that n=13 is very small they would repeat the clinical trial (if possible) with a larger sample size.
 
-## "Accept $H_0$" vs "Fail to reject $H_0$"
+### "Accept $H_0$" vs "Fail to reject $H_0$"
 
 When we do a hypothesis test and find p > $\alpha$, we say we **failed to reject** the null hypothesis. Why is it wrong to say we **accept** the null hypothesis? 
 
@@ -881,7 +882,7 @@ The way hypothesis testing works we can prove that a null hypothesis is wrong (b
 
 We do actually say: the jury found the accused "not guilty".  A jury aquits a person if there is not enough evidence to find them guilty. That is not to say they are innocent, maybe they are - maybe they are not. We just don't have sufficient proof of guilt. 
 
-## Statistical vs. Practical Significance {#a7}
+### Statistical vs. Practical Significance {#a7}
 
 Often you read something like: the new drug was shown to be statistically significantly better than previous drugs. What does that mean? First of all it (usually) means that somebody carried out a hypothesis test and rejected the null hypothesis of no difference between the drugs. But should you care?
 
@@ -895,7 +896,7 @@ Where will you go?
 
 Just because something is statistically significant does not automatically mean it is important, and just because something is not statistically significant does not mean you should not care.
 
-## The Silly Hypothesis Test
+### The Silly Hypothesis Test
 
 Consider the following research question: Is the median income of men and women in Puerto Rico the same? Say to answer this question we do a survey of 1000 randomly selected men and women and find out their income. Then we do the hypothesis test with
 
@@ -913,7 +914,7 @@ There are of course null hypotheses that could really be true:
 
 $H_0$: nothing can move faster than the speed of light.
 
-## Warning {#a8}
+### Warning {#a8}
 
 There is one common misuse of hypothesis testing you should be aware of. It concerns searching for something, anything significant:
 

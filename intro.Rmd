@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   pdf_document:
     fig_caption: no
@@ -13,11 +14,11 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Introduction
+## General Concepts
 
 This page discusses some general concepts of Statistics.
 
-## Motivation for learning Statistics
+### Motivation for learning Statistics
 
 Quote: 
 
@@ -41,7 +42,7 @@ Amazingly enough, a person investigating any of these questions might well end u
 
 The power, strength (and beauty) of statistics lies in its universal applicability!
 
-## What is Statistics?
+### What is Statistics?
 
 Answer 1: Statistics is the Science of **data** (or information)
 
@@ -55,7 +56,7 @@ Answer 2: Statistics is the Science of **Uncertainty**
 - what types are there
 - how to deal with it
  
-## Why everybody should know a little bit about Statistics - Misuse of Statistics
+### Why everybody should know a little bit about Statistics - Misuse of Statistics
 
 Statistics can be used in many ways to make things appear to be something that it is not (lying!)
 
@@ -65,9 +66,9 @@ Another quote:
 
 (maybe Benjamin Disraeli, probably not)
 
-## What can we do with Statistics?
+### What can we do with Statistics?
 
-### Case Study: WRInc 
+#### **Case Study:** WRInc 
 
 WR Inc. is a large (ficticous) company. It recently did a survey of all its employees, asking them to fill out a questionnaire with questions regarding their gender, income etc.   
 In addition they randomly selected 500 employees and asked them some additional questions. 
@@ -173,7 +174,7 @@ Careful, though: although the difference is statistically significant, it still 
 `r hl()$fontcolor("Correlation does not imply Causation ")` 
 or here: there is some connection between gender and income (specifically men are paid more than women) but it is not clear yet why that is. One possible reason is discrimination, but there could be others.
 
-## Some Basic Terminology of Statistics
+### Some Basic Terminology of Statistics
 
 **`r hl()$fontcolor("Population")` **: all of the entities (people, events, things etc.) that are the focus of a study
   
@@ -292,7 +293,7 @@ or
 
 Small Variance - Large Bias 
 
-### App
+#### **App:**
 
 for an illustration of the bias vs variance issue run
 
@@ -306,7 +307,7 @@ For a discussion of these terms as well as much more you can look at the web sit
 
 [Australian Bureau of Statistics] ("http://www.abs.gov.au/websitedbs/a3121120.nsf/home/statistical+language")
 
-## Categorical vs. Quantitative Variables
+### Categorical vs. Quantitative Variables
 
 **Example** Let's consider again **WRInc**
 
@@ -393,7 +394,7 @@ Categorical data comes in one of two versions - **ordered or unordered**:
 
 One consequence of having an ordering is that it should be used in graphs, tables etc.
 
-### Case Study: WRInc
+#### **Case Study:** WRInc
 
 Let's look at the variables in the survey of **wrinccensus**
 

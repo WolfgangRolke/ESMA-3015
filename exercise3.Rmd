@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   pdf_document:
     fig_caption: no
@@ -13,7 +14,7 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Exercise 3 - Inference
+## Exercise 3 - Inference
 
 ### Problem 1: 
 In a sample of 130 birds of a certain species 24 were found to have specific genetic variation. Find a 90% confidence interval for the population percentage of birds with this variation. If the true percentage is 19.5%, how large a sample would be needed to get a 90% confidence interval with a width of 6%? 

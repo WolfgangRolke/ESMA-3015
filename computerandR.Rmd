@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,13 +14,13 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# R - Installation and Troubleshooting 
+###  R - Installation and Troubleshooting 
 
 The class web pages are at [http://academic.uprm.edu/wrolke/esma3015](http://academic.uprm.edu/wrolke/esma3015)
 
 At the end of each session  log off 
 
-## General Info
+###  General Info
 
 You can get a free version of R for your computer from a number of sources. The download is about 70MB and setup is fully automatic. Here are some links: 
 
@@ -53,7 +54,7 @@ Hit enter
           Run the command .First()          
 Then, every command should work correctly. 
 
-## Troubleshooting
+###  Troubleshooting
 
 if you try to run a command and get an error
 

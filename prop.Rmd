@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,7 +14,7 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Inference for a Proportion (Percentage) $\pi$
+## Inference for a Proportion (Percentage) $\pi$
 
 [Assumptions](#a1)  
 [Confidence Interval](#a2)  
@@ -45,7 +46,7 @@ $$
 
 **Note: Rounding**: generally proportions and probabilities are rounded to **3** digits, percentages to **1** digit.
 
-## Method
+### Method
 
 Exact Binomial
 
@@ -54,14 +55,14 @@ R commands:
 -  *one.sample.prop*  confidence intervals and hypothesis testing
 -  *prop.ps*  power and sample size
 
-## Assumptions {#a1}
+### Assumptions {#a1}
 
 `r hl()$fontcolor("None!")`
 
-## Confidence Interval {#a2}
+### Confidence Interval {#a2}
 A $100(1-\alpha)\%$ confidence interval for the population proportion $\pi$ is found with the **one.sample.prop** command. 
 
-### Case Study: Binge Drinking in College 
+#### **Case Study:** Binge Drinking in College 
 
 Alcohol on college campuses is a very serious problem. But how common is it? A survey of 17,096 students in US four-year colleges collected information on drinking behavior and alcohol-related problems.
 
@@ -89,7 +90,7 @@ or $(18.6, 20.2)$ percent.
 
 **Note** unlike the *one.sample.t* command the *one.sample.prop* command has no argument *shat*. As we said before, a Bernoulli trial has only one parameter ($\pi$) and the the standard deviation follows from it.
 
-### Case Study: Vacations of Puerto Ricans 
+#### **Case Study:** Vacations of Puerto Ricans 
 
 The website of the Puerto Rico Tourism Company had the results of a survey of Puerto Ricans and their vacation travel. The study measures short trip leisure travel habits of average Puerto Rican families and allows for the monitoring of consumer preferences on a continuous basis. According to the report for July - September 2009 10% of the respondents had made a trip to Cabo Rojo, the highest number of any place in PR. 
 
@@ -116,7 +117,7 @@ one.sample.prop(x = 457, n = 1200)
 
 or $(35.3\%, 40.9\%)$
 
-## Hypothesis Test {#a3}
+### Hypothesis Test {#a3}
 
 Null Hypothesis: $H_0: \pi = \pi_0$ 
 
@@ -128,7 +129,7 @@ c. $H_a: \pi \ne \pi_0$
 
 Again we can use the one.sample.prop command. To get the p value of a test we need to use the argument pi.null 
 
-### Case Study: Jon Kerrichs Coin 
+#### **Case Study:** Jon Kerrichs Coin 
 
 Test at the 5% level of significance whether 5067 heads in 10000 flips are compatible with a fair coin. 
 
@@ -214,11 +215,11 @@ one.sample.prop(x = 200, n = 350,
 9. it appears that indeed more than half of the people prefer Coke over Pepsi.
 
 
-## Power of the Test {#a4}
+### Power of the Test {#a4}
 
 Again we need to worry about the power of our test. 
 
-### Case Study: Jon Kerrichs Coin 
+#### **Case Study:** Jon Kerrichs Coin 
 
 let's assume his coin had a probability of 0.505 to come up heads.
 
@@ -260,7 +261,7 @@ prop.ps(n=150, phat=0.2, pi.null=0.12,
 
 so the power is $81.9\%$.
 
-## Sample Size Calculation {#a5}
+### Sample Size Calculation {#a5}
 
 As with the mean the sample size calculation is different depending on whether we want to do a hypothesis test or find a confidence interval.
 
@@ -272,7 +273,7 @@ prop.ps(power=95, phat=0.2, pi.null=0.12,
 ```
 
 
-### Case Study: Jon Kerrichs Coin 
+#### **Case Study:** Jon Kerrichs Coin 
 
 If indeed his coin had a probability of Heads of 0.505, how often would he have to flip his coin to have a power of 90%?
 

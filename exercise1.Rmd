@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,9 +14,9 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Exercises - Descriptive Statistics - Data Summaries
+## Exercises - Descriptive Statistics - Data Summaries
 
-### Problem 1
+#### Problem 1
 
 For each of the following variables decide whether the data is categorical or quantitative
 
@@ -31,7 +32,7 @@ Weight lost in a weight loss program
 
 Time spent on studying for the class during last week
 
-### Problem 2
+#### Problem 2
 
 ```{r, echo=FALSE}
 x <-
@@ -48,11 +49,11 @@ b. Find the 20^th^ and the 64^th^ percentile of this dataset.
 
 c. draw the boxplot for this dataset
 
-### Problem 3
+#### Problem 3
 
 Using the data from problem 2, find the z score of x = 3.6. What x would have a z score = 1?  
 
-### Problem 4
+#### Problem 4
 
 Consider the data set for Friday the 13^th^. This data set has several comparisons of a Friday the 13th and the previous Friday the 6th, for example the number of cars passing through a junction (traffic), shoppers for a supermarket (shopping), or admissions due to transport 
 accidents (accident) 
@@ -66,7 +67,7 @@ Use R to compute the mean and the standard deviation for the two Fridays and the
 Does any of these numbers support the idea that Friday the 13^th^ is special? 
 
 
-###Problem 5
+#### Problem 5
 
 Consider the data in AIDS in Americas in 1995.
 
@@ -84,7 +85,7 @@ c. According to the boxplot, which countries are outliers in this data set?
 d. Let's say the WHO wants to use the "average" rate of AIDS infection (together with the number of people living in the Americas) to estimate the number of AIDS infected people in the Americas. Should they use the mean or the median to find the "average"?
 
 
-##Problem 6
+#### Problem 6
 
 In this exercise we study the dataset 
 
@@ -99,12 +100,12 @@ b. Find the mean and standard deviation of Time.
 
 c. Find the 5-number summary and draw the boxplot of Time
 
-### Problem 7
+#### Problem 7
 
 Company XYZ has a contract with a supplier for metal rods. The contract says that all the rods have to be between 15.26cm and 15.47cm long. XYZ just received a shipment of 50000 rods. They randomly select 100 of them and measure the length of each. They find $\overline{X}=15.344$ and $s=0.041$. Should they except this shipment?
 
 
-### Problem 8
+#### Problem 8
 
 Consider the following data set:
 
@@ -129,9 +130,9 @@ round(cor(c(x, a), c(y, b)), 3)
 round(cor(c(x, 19.9), c(y, -0.5)), 3)
 ```
 
-## Solutions
+### Solutions
 
-###Problem 1
+#### Problem 1
 
 For each of the following variables decide whether the data is categorical or quantitative
 
@@ -148,7 +149,7 @@ Weight lost in a weight loss program - quantitative
 Time spent on studying for the class during last week - quantitative
 
 
-###Problem 2
+#### Problem 2
 
 ```{r, echo=FALSE}
 x <-
@@ -182,7 +183,7 @@ c) draw the boxplot for this dataset
 bplot(x)
 ```
 
-### Problem 3
+#### Problem 3
 Using the data from problem 2, find the z score of x = 3.6. What x would have a z score = 1?
 
 We found $\overline{X}=4.76$ and $s= 4.519$, so the z score of x=3.6 is  
@@ -202,7 +203,7 @@ $x = s+\overline{X} = 4.519+4.76 = 9.279$
 
 <HR class="pagebreak" size="1" />	
 
-### Problem 4
+#### Problem 4
 
 Consider the data set for Friday the 13^th^. This data set has several comparisons of a Friday the 13th and the previous Friday the 6th, for example the number of cars passing through a junction (traffic), shoppers for a supermarket (shopping), or admissions due to transport accidents (accident) 
 
@@ -244,7 +245,7 @@ There does not appear to be anything special about Friday the 13^th^
 
 <HR class="pagebreak" size="1" />
 
-### Problem 5
+#### Problem 5
   
 Consider the data in AIDS in Americas in 1995. 
 
@@ -278,7 +279,7 @@ Should they use the mean or the median to find the "average"?
 Mean, because the countries with the highest AIDS rates have to influence our "average", and they don't if we use the median.
 
 
-### Problem 6
+#### Problem 6
 
 In this exercise we study the dataset **headache** 
   
@@ -308,7 +309,7 @@ fivenumber(Time)
 ```
 
 
-### Problem 7
+#### Problem 7
 
 Company XYZ has a contract with a supplier for metal rods. The contract says that all the rods have to be between 15.26cm and 15.47cm long. XYZ just received a shipment of 50000 rods. They randomly select 100 of them and measure the length of each. They find $\overline{X}=15.344$ and $s=0.041$. Should they except this shipment? 
 
@@ -318,7 +319,7 @@ $\overline{X} \pm 2s =  15.344 \pm 2 \times 0.041 = (15.262, 15.426)$
 
 The interval is supposed to include 95% the observations (or lengths of the rods), so we can conclude that 95% the rods have a length at least 15.262cm and at most 15.462cm, which is in accordance with the contract. So XYZ should accept the shipment.
 
-### Problem 8 
+#### Problem 8 
  Consider the following data set:
 ```{r}
 x <- 1:10

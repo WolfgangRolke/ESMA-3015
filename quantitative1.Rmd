@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,9 +14,9 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Quantitative Data
+## Quantitative Data
  
-## Histogram
+### Histogram
 
 The standard graph for one quantitative variable is the histogram:
 
@@ -32,9 +33,9 @@ hplot(Income, n=25)
 
 Now that we have numbers we can do arithmetic: 
 
-## Measures of Central Tendency
+### Measures of Central Tendency
 
-### Case Study: Population Sizes of States and Puerto Rico
+#### **Case Study:** Population Sizes of States and Puerto Rico
 
 According to the 2010 US Census the population of Puerto Rico was 3725789. How does this compare to the rest of the US? 
 
@@ -65,7 +66,7 @@ round(mean(x), 1)
 
 In Statistcs the mean is important enough to have it's own symbol: $\bar X$ (say: x bar)
 
-### Case Study: Population Sizes of States and Puerto Rico
+#### **Case Study:** Population Sizes of States and Puerto Rico
 
 We find 
  
@@ -78,7 +79,7 @@ PR had a population of $3725789$, so ours is lower than average.
 
 **Note**  According to our rules we should round to one digit behind the decimal. Except that often for large numbers we actually round the other way, so here I might end up using 6,054,000!
 
-### Case Study: Babe Ruth's Homeruns
+#### **Case Study:** Babe Ruth's Homeruns
 
 ![](graphs/babe.jpg)
 
@@ -134,7 +135,7 @@ Using R:
 median(Homeruns)
 ```
 
-### Case Study: WRInc
+#### **Case Study:** WRInc
 
 Let's find the mean and median of the salaries of the WRInc employees:
 
@@ -145,9 +146,9 @@ median(Income)
 
 Here there is a difference of almost $1000 between the mean and the median. So which one is the right "average"?
 
-## Mean vs. Median
+### Mean vs. Median
 
-### Case Study: Weights of Mammals
+#### **Case Study:** Weights of Mammals
 
 Weights of the bodies of 62 mammals (in kg)
 
@@ -185,7 +186,7 @@ txt <- paste0("Mean=", round(mean(x), 1), ", Median=", round(median(x), 1))
 hplot(x, main_title = txt)
 ```
 
-### Case Study: WRInccensus
+#### **Case Study:** WRInccensus
 
 Let's have a look at the years:
 
@@ -229,7 +230,7 @@ Without any explanation what the number will be used for this question has no an
 
 Say the owner of a McDonalds wants to compute the "average" hourly wage for the people working there. Do you think she will use the mean or the median?  What if it is the Union that wants to find the "average"?
 
-## Measures of Variability
+### Measures of Variability
 
 
 *A statistician is standing with one foot in an icebucket and the other foot in a burning fire. He says: on average I feel fine.*
@@ -326,7 +327,7 @@ $$s = \sqrt{\frac{1}{n-1}\sum\left( x - \overline{ X} \right)^2}$$
 
 The R command to find a standard deviation is *sd*.
 
-### Case Study:  Babe Ruth Homeruns
+#### **Case Study:**  Babe Ruth Homeruns
 
 what was the standard deviation of his homeruns? 
 
@@ -348,11 +349,11 @@ Now we have two ways to measure the "spread-out-ness", range and standard deviat
 
 **s is close to range/4**
 
-### Case Study:  Babe Ruth Homeruns
+#### **Case Study:**  Babe Ruth Homeruns
 
 range/4 = 38/4 = 9.5, s = 11.2.
 
-### Case Study: WRInccensus
+#### **Case Study:** WRInccensus
 
 Let's have a look at Satisfaction:
 
@@ -362,7 +363,7 @@ range(Satisfaction)
 round(sd(Satisfaction), 1)
 ```
 
-### Case Study: Weights of Mammals
+#### **Case Study:** Weights of Mammals
 
 Weights of the bodies of 62 mammals (in kg)
 
@@ -377,7 +378,7 @@ If we want to ignore the outliers in the calculation of an average, we can use t
 
 We will see in a little bit! 
 
-## z score
+### z score
 
 in the discussion of the standard deviation we saw that if we want to compare two sets of numbers, subtracting the mean is a good idea because then the datsets are both centered at 0. Now we go a step further and also divide by the standard deviation, getting to the **z scores**:
 
@@ -411,7 +412,7 @@ and because your z score in exam 2 was higher, that is the one you did better.
 
 Clearly if x is close to the mean, the z score will be 0. It turns out that often z is somewhere between -2 and +2. Both of your z scores are a bit larger than 0 but not much, so they probably are B's! 
 
-### Case Study: Population Sizes of States and Puerto Rico
+#### **Case Study:** Population Sizes of States and Puerto Rico
 
 What is the z score of PR's population of $3725789$?
 
@@ -440,7 +441,7 @@ round((3725789 - mean(us.population.2010))/sd(us.population.2010), 3)
 ```
 
 
-## Empirical Rule
+### Empirical Rule
 
 Above we learned the following:
 
@@ -526,7 +527,7 @@ points on the exam.
 
 Of course if the highest possible score was 100 that emans we should expect someone to have gotton 100!
 
-### Case Study: WRInc
+#### **Case Study:** WRInc
 
 let's check whether the empirical rule holds for the income data of the WRInc dataset.
 

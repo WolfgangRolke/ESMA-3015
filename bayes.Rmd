@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,7 +14,7 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Bayesian Statistics
+## Bayesian Statistics
 
 Say you pick a coin from your pocket. It's just any coin, nothing special. You flip it 10 times and get 3 heads . What can we conclude about this coin?
 
@@ -55,6 +56,7 @@ ibayesprop()
 
 when it opens it looks like this:
 
+
 ![](graphs/bayes1.png)
 
 The first thing we need to do is specify the prior distribution. 
@@ -64,6 +66,7 @@ There are several ways to do this, listed on the left side. The default option i
 Below the graph we see the interval (30.6%, 69.3%). If our prior distribution is reasonable for our problem than the true percentage should be inside.
 
 Now let's enter our data, Sample Size = 10 and Number of Successes = 3: 
+
 
 ![](graphs/bayes2.png)
 
@@ -152,14 +155,14 @@ Can you think of any situation where this might actually be an apprioriate prior
 
 <hr>
 
-#### Example
+#### **Example**
 
 We have collected data from some recent classes. For each student in each class we we found their gender. What would be an appropriate prior to use here?
 
 Actually it will depend on the class. For example, if this is a class in engineering, the percentage of females is likely smaller than 50% but if it is a course in nursing it likely larger than 50%. If we don't know what class it is we should use a prior which allows for some range. So maybe
 Location and Range with most likely value = 50 and likely range of values = 60 
 
-#### Example
+#### **Example**
 
 We have collected data from some recent introductory statistics classes. For each student in each class we we know whether they got an A or not. What would be an appropriate prior to use here?
 
@@ -167,7 +170,7 @@ Here a prior with a peak at 10% seems appropriate. Moreover, any number above 20
 
 Try Beta prior with $\alpha = 2$ and $\beta = 20$.
 
-#### Example
+#### **Example**
 
 We have collected data from some experiment. We know the following:
 
@@ -181,7 +184,7 @@ Here is one way to encode this prior knowledge with the Discrete prior option:
 
 ![](graphs/bayes8.png)
 
-#### Example
+#### **Example**
 
 So, how about our coin? What should we do here? 
 

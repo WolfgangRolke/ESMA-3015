@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,15 +14,15 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Checking for Normality
+## Checking for Normality
 
 As you will see shortly, many of the methods for statistical inference we discuss here (and that are widely used in practise) require the data to come from a normal distribution. How do we check that?
 
-## Histogram
+### Histogram
 
 It would seem that the obvious thing to do would be to draw a histogram and see whether it is bell-shaped. This however does not work. First, to do a decent histogram we need a lot of data (at least a few hundred observations) and second they can be quite hard to read.
 
-## Boxplot
+### Boxplot
 
 We can check the assumption of normality using a boxplot. Here are some boxplots for data from a normal distribution:
 
@@ -50,7 +51,7 @@ y <- rchisq(4000, 1)
 bplot(y)
 ```
 
-## Normal Probability Plot
+### Normal Probability Plot
 
 This is a graph specifically designed to check for normality. If the data comes from a normal distribution the points should form a line. Again, let's start with some examples of normal data:
 
@@ -73,7 +74,7 @@ y <- rchisq(4000, 1)
 nplot(y)
 ```
 
-### Case study: Euro coins 
+#### **Case study:** Euro coins 
 
 The data is the weight of 2000 1-euro coins, 250 each in eight "rolls". The data were collected by Herman Callaert at Hasselt University in Belgium. The euro coins were "borrowed" at a local bank. Two assistants, Sofie Bogaerts and Saskia Litiere weighted the coins one by one, in laboratory conditions on a weighing scale of the type Sartorius BP 310s.
 
@@ -91,7 +92,7 @@ nplot(Weight)
 
 both the boxplot and the normal probability plot indicate that the data does **not** come from a normal distribution but from some symmetric distribution with **heavier tails**, that is some outliers on both sides.
 
-### Case Study: Lengths of Babies
+#### **Case Study:** Lengths of Babies
 
 ```{r}
 attach(mothers)

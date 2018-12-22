@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,7 +14,7 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Inference for a Population Mean $\mu$
+## Inference for a Population Mean $\mu$
 
 [Assumptions](#a1)  
 [Confidence Interval](#a2)  
@@ -23,11 +24,11 @@ setup.rmd(local.env=environment())
 
 After all the theory, here are some examples. Actually, we have discussed almost everything here already.
 
-## Method
+### Method
 
 1-sample t 
 
-## Assumptions {#a1}
+### Assumptions {#a1}
 
 The methods discussed here work if:
   
@@ -40,15 +41,15 @@ The last assumption is a bit vague, just how large is "large enough"? The basic 
 
 - If the distribution of the data is very non-normal (large outliers etc..), a sample size as large as 100 might be needed.
 
-## R Routines 
+### R Routines 
 
 *one.sample.t* - test and confidence interval 
 
 *t.ps* - power and sample size 
 
-## Confidence Interval {#a2}
+### Confidence Interval {#a2}
 
-### Case Study: Drug Use of Mothers and the Health of the Newborn
+#### **Case Study:** Drug Use of Mothers and the Health of the Newborn
 
 Consider again the data set for newborn babies and the drug status of their mothers. Find a 90% confidence interval for the length of babies: 
 
@@ -89,7 +90,7 @@ one.sample.t(Income, conf.level=90, ndigit=-1)
 
 Assumptions: normal plot ok
 
-## Hypothesis Test {#a3}
+### Hypothesis Test {#a3}
 
 The details of the hypothesis test for a population mean are as follows:
 
@@ -104,7 +105,7 @@ b. $H_a: \mu > \mu_0$
 c. $H_a: \mu \ne \mu_0$   
 
 
-### Case Study: Simon Newcomb's Measurements of the Speed of Light
+#### **Case Study:** Simon Newcomb's Measurements of the Speed of Light
 
 ```{r}
 attach(newcomb)
@@ -135,7 +136,7 @@ one.sample.t(speed.of.light, mu.null = 24833)
 9. Newcomb's experiment did not measure correct value  
 Assumptions: normal plot ok 
 
-### Case Study: Resting Period of Monarch Butterflies 
+#### **Case Study:** Resting Period of Monarch Butterflies 
 
 ![](graphs/monarch.jpg)
 
@@ -182,7 +183,7 @@ one.sample.t(y = 63, shat = 18, n = 43,
 
 `r hl()$hr()`
 
-## Power {#a4}
+### Power {#a4}
 
 Recall that the power of a test is the probability to reject the null hypothesis when the null hypothesis is indeed wrong.
 
@@ -219,7 +220,7 @@ t.ps(n=50, diff=5.6-5.0, sigma=1.4,
 ```
 
 
-## Sample Size Calculations {#a5}
+### Sample Size Calculations {#a5}
 
 One of the most important questions facing a researcher is how large a sample he needs to be able to draw valid conclusions. If the goal is to do a hypothesis test the *t.ps* command is again the way to go:
 

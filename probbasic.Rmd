@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,9 +14,9 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Why Probability?
+## Why Probability?
 
-### Case Study: Is this Coin Fair?
+#### **Case Study:** Is this Coin Fair?
 
 Let's say you have a specific coin and you want to see whether it is actually a **fair**  coin, or whether it comes up heads more than tails. So you sit down and flip the coin 1000 times and get $N$ heads. 
 
@@ -44,7 +45,7 @@ The topics we have discussed so far in this class (making graphs, computing thin
 
 By the way eventually we will call the probabilities in the table **p-values**.  
 
-## Statistically Significant
+### Statistically Significant
 
 In Statistics you often hear statements like: 
 
@@ -54,7 +55,7 @@ What does this mean?
 
 The statement **"The new drug is statistically significantly better than the old one"** means that an experiment was carried out, and the new drug  performed better than the old one. More than that, if the same experiment were repeated again (with different subjects) we expect the new drug to perform better again **with a high probability** (90%? 99%?)
 
-## Probability  Distributions
+### Probability  Distributions
 
 A **probability distribution ** is a model for a real live experiment
 
@@ -67,7 +68,7 @@ out <- data.frame(Roll=x, Probability=p)
 kable(out)
 ```
 
-**Example** we flip a fair coin 5 times. Consider the number of heads.
+#### **Example** we flip a fair coin 5 times. Consider the number of heads.
 
 ```{r, echo=FALSE}
 x <- 0:5
@@ -77,7 +78,7 @@ kable(out)
 ```
 
 
-**Example** We roll a fair die until the first six appears. How many rolls are needed? 
+#### **Example** We roll a fair die until the first six appears. How many rolls are needed? 
 
 This one is a bit more complicated because in theory it might take a very long time until we get a six (though in practise it won't). Let's do some calculations:
 
@@ -95,7 +96,7 @@ So for example
 
 Prob(first six on the 5^th^ roll) = P(X=5) = $(5/6)^{5-1} 1/6$ = 0.0804
 
-### App
+#### **App:**
 To illustrate this experiment run the app
 
 ```{r eval=FALSE}
@@ -109,7 +110,7 @@ Probability distributions describe populations. The distribution in the first ex
 
 There is a fairly small list of "basic" distributions that cover a wide variety of everyday experiments and random phenomena. Here is one: 
 
-### Case Study: Bernoulli trials
+#### **Case Study:** Bernoulli trials
 
 The most basic experiment possible is one that has only two possible outcomes:
 
@@ -139,13 +140,13 @@ kable(out)
 
 Note that this does not describe the experiment completely but only up to the p. This lets us "tailor" the distribution to specific experiments: 
 
-**Example**: Flip a fair coin, Heads = success = 1: p = 0.5
+#### **Example**: Flip a fair coin, Heads = success = 1: p = 0.5
 
-**Example**: Roll a fair die,  "get a six" =  success = 1: p=1/6
+#### **Example**: Roll a fair die,  "get a six" =  success = 1: p=1/6
 
-**Example**: Choose employee from WRInc, employee is female = success = 1, p=9510/23791=0.3997 
+#### **Example**: Choose employee from WRInc, employee is female = success = 1, p=9510/23791=0.3997 
 
-**Example** choose people from some population, person has a genetic condition = success = 1: p=0.015
+#### **Example** choose people from some population, person has a genetic condition = success = 1: p=0.015
 
 The number p then is a number that belongs to the population described by the distribution: it is a **parameter**! 
 
@@ -157,9 +158,9 @@ Once we have a distribution we can find formulas for the **population** mean and
   
 Notice how both the mean and the standard deviation depend on p alone. This will have some consequences later.
 
-## Continuous Distributions
+### Continuous Distributions
 
-### Case Study: Weight of Subjects
+#### **Case Study:** Weight of Subjects
 
 Consider a weight loss study. At the beginning and at the end all subjects are weighed, and the difference in weight is found. What can we say about the *population* of weight differences?
 

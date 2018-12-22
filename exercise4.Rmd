@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color} 
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,7 +14,7 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Exercise 4 -  Correlation and Regression
+## Exercise 4 -  Correlation and Regression
 
 ### Problem 1:
 Consider round 1 and and 2 of the Sony open golf tournament (data set **golfscores**). Is there a statistically significant relationship between the scores?

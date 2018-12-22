@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,11 +14,11 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Percentiles and Boxplots
+## Percentiles and Boxplots
 
-## Percentiles (Measures of Location)
+### Percentiles (Measures of Location)
 
-### Case Study: Population Sizes of States and Puerto Rico
+#### **Case Study:** Population Sizes of States and Puerto Rico
 
 According to the 2010 US Census the population of Puerto Rico was 3725789. 
 
@@ -63,7 +64,7 @@ So $12.1\%$ have an income less than her and $(100-12.1)\%=87.9\%$ have an incom
 
 The R command to find a percentile is *quantile*.
 
-### Case Study: Babe Ruth's Homeruns
+#### **Case Study:** Babe Ruth's Homeruns
 
 Find the 67^th^ percentile of the data
 
@@ -71,7 +72,7 @@ Find the 67^th^ percentile of the data
 attach(babe)
 quantile(Homeruns, 0.67) 
 ```
-### Case Study: WRinc
+#### **Case Study:** WRinc
 
 Find the $10^{th}$ and the $90^{th}$ percentile of the WRinc incomes:
 
@@ -79,7 +80,7 @@ Find the $10^{th}$ and the $90^{th}$ percentile of the WRinc incomes:
 quantile(Income, c(0.1, 0.9))
 ```
 
-## Quartiles, Five-Number Summary and IQR
+### Quartiles, Five-Number Summary and IQR
 
 The quartiles of a data set are defined as
 
@@ -95,13 +96,13 @@ and the **five number summary**:
 
 **Minimum | Q~1~ | Median | Q~3~ | Maximum**
 
-### Case Study: Babe Ruth's Homeruns
+#### **Case Study:** Babe Ruth's Homeruns
 
 ```{r}
 fivenumber(Homeruns)
 ```
 
-### Case Study: WRInc
+#### **Case Study:** WRInc
 
 Find the 5-number-summary and the IQR of the incomes of WRInc:
 
@@ -122,7 +123,7 @@ What is the meaning of IQR? Actually it is a 3^rd^ way to calculate a measure of
 **Example** The standard deviation of the incomes is s = 9424. Now IQR = 12600.
 
 
-### Case Study: WRInc
+#### **Case Study:** WRInc
 
 Find the 5-number-summary and the IQR of the Years of WRInc:
 
@@ -141,7 +142,7 @@ Now we have several formulas (methods) for finding an "average" (mean, median) a
 
 -  If you use the mean, also use the standard deviation. If you use the median, use IQR.
 
-### Case Study: Weights of Mammals
+#### **Case Study:** Weights of Mammals
 
 Weights of the bodies of 62 mammals (in kg)
 
@@ -160,13 +161,13 @@ IQR(body.wt.kg)
 IQR(body.wt.kg[body.wt.kg<1000])
 ```
 
-## Boxplot 
+### Boxplot 
 
 From the five number summary we can construct another graph for quantitative data, the boxplot:
 
 ![](graphs/quant8.png)
 
-### Case Study: Babe Ruth's Homeruns
+#### **Case Study:** Babe Ruth's Homeruns
 
 ```{r}
 bplot(Homeruns)
@@ -174,7 +175,7 @@ bplot(Homeruns)
 Note that by its definition the box contains 50% of the data  
 
 
-### Case Study: Simon Newcomb's Measurements of the Speed of Light
+#### **Case Study:** Simon Newcomb's Measurements of the Speed of Light
 
 ![](graphs/newcomb.jpg)
 
@@ -207,7 +208,7 @@ IQR(Measurement[Measurement>24756])
 
 
 
-### Case Study: Wrinccensus
+#### **Case Study:** Wrinccensus
 
 ```{r}
 bplot(Income, orientation="Horizontal")
@@ -216,7 +217,7 @@ bplot(Years, orientation="Horizontal")
 
 both variables have many outliers
 
-### Case Study: Mammals
+#### **Case Study:** Mammals
 
 ```{r}
 attach(brainsize)
@@ -230,7 +231,7 @@ at least two, maybe more substancial outliers
 The handling of outliers is one of the more difficult and dangerous jobs in Statistics:
 
 
-### Case Study: Ozone Hole over South Pole
+#### **Case Study:** Ozone Hole over South Pole
 
 In 1985 British scientists reported a hole in the ozone layer of the earth's atmosphere over the South Pole. 
 
@@ -259,7 +260,7 @@ bplot(Income, do.violin = TRUE)
 
 In addition to the box this also gives us some information on how many observations we have at various levels.
 
-### Case Study: Drug Use of Mothers and the Health of the Newborn
+#### **Case Study:** Drug Use of Mothers and the Health of the Newborn
 
 Chasnoff and others obtained several measures and responses for newborn babies whose mothers were classified by degree of cocain use. The study was conducted in the Perinatal Center for Chemical Dependence at Northwestern University Medical School. The measurement given here is the length of the newborn.
 
@@ -283,7 +284,7 @@ The standard graph for this data is a multiple boxplot. Note that all the boxes 
 bplot(Length,Status)
 ``` 
 
-### Case Study:WRInc
+#### **Case Study:**WRInc
 
 Recall that when we looked at the relationship of job level and income we did a scatterplot but then noticed that to be a bad graph. So here is a better one:
 

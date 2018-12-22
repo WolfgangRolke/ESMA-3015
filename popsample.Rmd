@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,7 +14,7 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Population - Sample
+## Population - Sample
 
 Now we can go back to Statistics. To begin with, recall the following:
 
@@ -30,9 +31,10 @@ After our discussion of probability we can now be a little bit more precise
 
 `r hl()$hr()`
 
-**Example** Say we roll a fair die until the first time we get a six. We always are in one of two situations:
+#### **Example** 
+Say we roll a fair die until the first time we get a six. We always are in one of two situations:
 
-## Theoretical
+### Theoretical
 
 We have not actually rolled any die, maybe we don't even have a die, we are just studying this exercise theoretically. That is we are studying the **population** of all possible outcomes of the experiment "Number of rolls of a fair die until a six". We now have a **theoretical description** of this experiment., namely its distribution.
 
@@ -57,7 +59,7 @@ and so on.
 
 But because they are computed for the whole population they are **parameters.**
 
-## Practical
+### Practical
 
 On the other hand we can study this exercise by actually rolling a fair die many times and observing what happens. Actually (a lot faster and less work!) we can do a simulation. The distribution discribing this experiment is called a **geometric** and we can generate data with **rgeom(B, 1/6)+1**
 
@@ -94,7 +96,7 @@ round(quantile(x, c(0.75, 0.95)), 2)
 
 Because these are computed from a sample they are **statistics** 
 
-## Population - Sample
+### Population - Sample
 
 The real powerful idea here is to **combine** these two approaches: Say we have a die that we suspect is **not** a fair die and we wish to test this. So we roll the die and then compare the practical results with the theoretical ones. For our die we find (for one run of the simulation) 
 
@@ -132,7 +134,7 @@ $\mu=6$, $\overline{X}=`r round(mean(x), 2)`$
 
 Note: most "theories" we look at are not **big** scientific theories but simple things like "Our new drug works better than the currently available one". Well, if this a new drug for cancer maybe it is a pretty big theory after all!
 
-### Case Study: Normal Distribution
+#### **Case Study:** Normal Distribution
 
 Say a certain population is known to be described by a normal distribtuion with mean 100 and standard deviation 30. From textbooks we can find the following information:
 

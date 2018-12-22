@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,7 +14,7 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Normal (Gaussian) Distribution
+## Normal (Gaussian) Distribution
 
 Named after [Karl Friedrich Gauss](href="http://en.wikipedia.org/wiki/Carl_Friedrich_Gauss")
 
@@ -29,7 +30,9 @@ A normal random distribution has two parameters, denoted by $\mu$ and $\sigma$.
 
 What is the meaning (interpretation) of the parameters? It is of course that $\mu$  is the **population mean **and $\sigma$ is the **population standard deviation**.
 
-**Example**: In the next picture we have 4 examples of normal distributions with different means and standard deviations, drawn on the same scale: 
+#### **Example**: 
+
+In the next picture we have 4 examples of normal distributions with different means and standard deviations, drawn on the same scale: 
 
 ```{r, warning=FALSE, echo=FALSE}
 x <- seq(0, 10, length=1000)
@@ -49,7 +52,7 @@ multiple.graphs(plt1, plt2, plt3, plt4)
 ```
 
 
-### App
+#### **App:**
 
 ```{r eval=FALSE}
 run.app(normal)
@@ -57,11 +60,13 @@ run.app(normal)
 
 this app draws the histogram of data from a normal distribution with different means and standard deviations.
 
-## Central Limit Theorem
+### Central Limit Theorem
 
 Why is the normal distribution so important? The reason is the **Central Limit Theorem**, which states that under some very general conditions the **sample mean** has (approximately) a normal distribution, no matter what the distribution of the observations.
 
-**Example** As an illustration let's do the following. We start by getting some data that is very much NOT normally distributed. I have a routine to that called **clt_illustration**. To see what the data looks like run
+#### **Example** 
+
+As an illustration let's do the following. We start by getting some data that is very much NOT normally distributed. I have a routine to that called **clt_illustration**. To see what the data looks like run
 
 ```{r}
 clt.illustration(1)
@@ -86,7 +91,7 @@ clt.illustration(10)
 
 There is very nice way to illustrate the workings of the central limit theorem called a [Galton Board Video](http://www.youtube.com/watch?v=3m4bxse2JEQ)
 
-### App
+#### **App:**
 
 this app does various illustrations of the central limit theorem 
 
@@ -94,13 +99,17 @@ this app does various illustrations of the central limit theorem
 run.app(clt)
 ```
 
-## Theory of Errors
+### Theory of Errors
 
 In real life almost any measuring device makes some errors. Some instruments are lousy and make big ones, other instruments are excellent and make small ones.
 
-**Example** You want to measure the length a certain streetlight is red. You ask 10 friends to go with you and everyone makes a guess.
+#### **Example** 
 
-**Example** You want to measure the length a certain streetlight is red. You ask 10 friends to go with you. You have a stopwatch that you give to each friend.
+You want to measure the length a certain streetlight is red. You ask 10 friends to go with you and everyone makes a guess.
+
+#### **Example** 
+
+You want to measure the length a certain streetlight is red. You ask 10 friends to go with you. You have a stopwatch that you give to each friend.
 
 Clearly in the second case we expect to get much smaller errors.
 

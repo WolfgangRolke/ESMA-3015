@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,7 +14,7 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Two Quantitative Variables - Correlation
+## Two Quantitative Variables - Correlation
 
 Generally if there are two or more variables we are interested in their relationships. We want to investigate the two questions:
 
@@ -23,7 +24,7 @@ Generally if there are two or more variables we are interested in their relation
 
 If both variables are quantitative, for the first question we can find the `r hl()$fontcolor("correlation")` and for the second we can do a `r hl()$fontcolor("regression")`. 
 
-### Case Study: Olympic Men's Long Jump
+#### **Case Study:** Olympic Men's Long Jump
 
 Data on the gold medal winning performances in the men's long jump for the modern Olympic games.
 
@@ -42,7 +43,7 @@ splot(LongJump, Year)
 
 ![](graphs/beamon.jpg)
 
-### Case Study: The 1970's Military Draft
+#### **Case Study:** The 1970's Military Draft
 
 In 1970, Congress instituted a random selection process for the military draft. All 366 possible birth dates were placed in plastic capsules in a rotating drum and were selected one by one. The first date drawn from the drum received draft number one and eligible men born on that date were drafted first. In a truly random lottery there should be no relationship between the date and the draft number.
 
@@ -105,7 +106,7 @@ The correlation coefficient is like the mean, median, standard deviation, Q~1~ e
 
 In the first case we use the symbol **r**, in the second case we use $\mathbf{\rho}$.
 
-**Properties of the Correlation Coefficient:**
+### Properties of the Correlation Coefficient
 
 -  always $-1 \le r \le 1$  
 
@@ -168,14 +169,14 @@ cat("Correlation between x2 and y2: ", round(cor(x2, y2), 3), "\n")
 ```
 
 
-**Weak vs. no Correlation** 
+### Weak vs. no Correlation
 
 It is important to keep two things separate: a situation with two variables which are **uncorrelated** ($\rho = 0$) and two variables with a weak correlation ($\rho \ne 0$ but small). 
 
 In either case we would find an r close to 0 (but never = 0 !) 
 Finding out which case it is might be impossible, especially for small datasets. 
 
-**App - correlation**
+#### **App** - correlation
 
 ```{r eval=FALSE}
 run.app(correlation)
@@ -196,7 +197,7 @@ On the Histogram tab we can study the effect of changing $\rho$ and/or n on the 
 So, how about the draft? Well, we found r = -0.226. But of course the question is whether -0.226 is close to 0, close enough to conclude that all went well. Actually, the question really is whether the corresponding parameter $\rho=0$! Let's do a 
 **simulation:**
 
-## Simulation for the 1970's Military Draft
+### Simulation for the 1970's Military Draft
 
 Doing a simulation means teaching the computer to repeat the **essential** part of an experiment many times. Here the experiment is the draft. What are the important features of this experiment?
 
@@ -259,19 +260,19 @@ As you can see, now quite a few of the simulations had a sample correlation as f
  
 In a while we learn more about doing simulations as well as how to decide whether something is or is not statistically significant.
 
-## Correlation vs. Causation
+### Correlation vs. Causation
 
 Say we have found  correlation between variables "x" and "y". How can we understand and interpret that relationship?
 
 One possible explanation is a **Cause-Effect** relationship. This implies that if we can "change" x we expect a change in y.
 
-**Example**
+#### **Example**
 
 x = "hours you study for an exam"
 
 y = "score on exam"
 
-**Example**
+#### **Example**
 
 Say we have the following data: for one year in some city we have data on fires that happenend during the year. Specifically we recorded
 
@@ -316,7 +317,7 @@ Please note saying `r hl()$fontcolor("x causes y")` is not the same as `r hl()$f
 
 There are usually many other factors besides x that influence y, maybe even some more important than x. 
 
-**Example**
+#### **Example**
 
 x = "hours you study for an exam
 
@@ -331,7 +332,7 @@ but there are also many other factors that determine your score in an exam such 
 - having a hang-over  
 - etc. 
 
-### Case Study:  Smoking and Lung Cancer
+#### **Case Study:**  Smoking and Lung Cancer
 
 There have been hundreds of studies all over the world that have shown a correlation between smoking rates and lung cancer deaths, usually with correlations of about 0.5 to 0.7. And yet, none of these studies has shown that smoking causes lung cancer because all of the were observational studies, not clinical trial. 
 
@@ -349,7 +350,7 @@ Things to look for when trying to establish a causation:
 
 - the cause is plausible - lab experiments on animals show that nicotin causes cancer.
 
-### Case Study: Old Faithful Guyser
+#### **Case Study:** Old Faithful Guyser
 
 [Old Faithful](https://en.wikipedia.org/wiki/Old_Faithful) is a cone geyser located in Yellowstone National Park in Wyoming, United States.
 

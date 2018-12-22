@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,9 +14,9 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Estimation
+## Estimation
 
-## Point Estimation
+### Point Estimation
 
 Here is the type of problem we often see in Statistics:
 
@@ -32,7 +33,7 @@ $\overline{X} \sim \mu = \pi$ (roughly)
 
 and so we can **estimate** the parameter $\pi$ with $\overline{X}$
 
-**Example** Confused? For once I actually on purpose made something simple look complicated. All I just told you is this: if you ask 500 people whether they like Coca-Cola and 300 say yes, your best guess for the proportion of people who like Coca-Cola is 300/500! Here $\overline{X}$ = 300/500.
+Confused? For once I actually on purpose made something simple look complicated. All I just told you is this: if you ask 500 people whether they like Coca-Cola and 300 say yes, your best guess for the proportion of people who like Coca-Cola is 300/500! Here $\overline{X}$ = 300/500.
 
 The point is that this simple idea is useful in much more complicated cases as well.
 
@@ -63,7 +64,7 @@ etc ....
   
 Each of these sample numbers is called a **point estimate**.
 
-**Example:** for data from a geometric distribution we have 
+#### **Example:** for data from a geometric distribution we have 
 $$
 \begin{aligned}
 \mu &= \frac{1}{\pi} \\
@@ -115,7 +116,7 @@ round(1/mean(x), 3)
 
 In principle we could also have used the formula for $\sigma$, but then we would have to solve a quadratic equation...
 
-## Interval Estimation
+### Interval Estimation
 
 In real life a point estimate is rarely enough, usually we also need some estimate of the **error** in our estimate.
 
@@ -138,7 +139,9 @@ First notice that the interval is given in the form
 
 We already know all the ingredients of this formula with the exception of $t_{n-1, \alpha/2}$. You can think of this as a mathematical adjustment factor. At any rate, R will do all of this for us:
 
-**Example** Say in our survey we found a sample mean GPA of 2.53 with a standard deviation of 0.65. Find a 90% confidence interval for the mean GPA.
+#### **Example** 
+
+Say in our survey we found a sample mean GPA of 2.53 with a standard deviation of 0.65. Find a 90% confidence interval for the mean GPA.
 
 This is done with
 
@@ -179,7 +182,7 @@ We want to repeat these steps many times. There is R routine that does this for 
 ci.mean.sim(n=500, mu=75, sigma=30, conf.level = 99)
 ```
 
-### App
+#### **App:**
 
 ```{r eval=FALSE}
 run.app(confint)

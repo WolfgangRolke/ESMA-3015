@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,7 +14,7 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# The Lady tasting tea
+## The Lady tasting tea
 
 ![](graphs\lady_tea.jpg)
 
@@ -113,6 +114,6 @@ fail to reject the null hypothesis although it is false =
 
 conclude that Muriel was lying although she actually knows her tea (but unfortunately made a mistake).
 
-## Historical Importance
+### Historical Importance
 
 Using this simple experiment, Fisher established most of the fundamental principles for hypothesis testing, which contributed to major advances across biological and physical sciences. A careful read of the original text shows a precise use of terms, in a concise and unambiguous presentation, in contrast with many textbooks written later that were more confusing than helpful.

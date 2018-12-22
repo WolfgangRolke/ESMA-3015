@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,9 +14,9 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Categorical Data
+###  Categorical Data
 
-### Case Study: wrinccensus
+#### **Case Study:** wrinccensus
 
 Consider the variable Gender. Clearly this is categorical data. Usually the first thing one would do is simply count how many of each type there are:
 
@@ -24,7 +25,7 @@ attach(wrinccensus)
 table(Gender)
 ```
 
-### Case Study: Race and Education
+#### **Case Study:** Race and Education
 
 According to a table from the [US Department of Education](http://nces.ed.gov/programs/digest/d11/tables/dt11_237.asp) there were 19,980,000 students in US colleges in the fall of 2010. Their breakdown by race was as follows:
  
@@ -54,7 +55,7 @@ Percentages are usually rounded to one digit behind the decimal, like above.
 
 As we said before, some categorical variables have a built-in (natural) ordering, for example t-shirt size (small, medium, large, x-large) or grades (A,B, ...). Such an ordering can also be used.
 
-### Case Study: Satisfaction in WRInc
+#### **Case Study:** Satisfaction in WRInc
 
 ```{r}
 attach(wrinccensus)
@@ -65,7 +66,7 @@ perc
 ```
 
 
-## Graphs for Categorical Data
+###  Graphs for Categorical Data
 
 A very popular Choice: Pie Charts
 
@@ -76,14 +77,14 @@ A very popular Choice: Pie Charts
 
 Much better: **Bar charts**
 
-### Case Study: Race and Education
+#### **Case Study:** Race and Education
 
 ```{r}
 barchart(race.table)
 ```
 
 
-### Case Study: WRInc
+#### **Case Study:** WRInc
 
 
 ```{r}
@@ -103,7 +104,7 @@ barchart(change.order(Gender, new.order=2:1))
 barchart(Gender, percentage = "grand")
 ```
 
-### Case Study: Race and Education
+#### **Case Study:** Race and Education
 
 Let's do the graph based on percentages. Also let's change order of the bars from largest to smallest. Here we use the table as the argument to barchart, so we need to change the order in the table:
 
@@ -120,7 +121,7 @@ barchart(race.table[c(5, 3, 4, 2, 1)],
 ```
 
 
-### WRInc
+#### **Case Study:** WRInc
 
 ```{r}
 attach(wrinccensus)
@@ -135,7 +136,7 @@ barchart(change.order(Job.Level,
 ![](graphs/smoking.png)
 
 
-## Totals (Frequencies) vs. Percentages
+###  Totals (Frequencies) vs. Percentages
 
 Decide based on the background of the data which number is more relevant/important/interesting. 
 
@@ -187,7 +188,7 @@ and in general the smaller a table, the better (as long as it has all the inform
 
 These are just guidelines, there can always be exceptions if there is a good reason.
 
-## Rounding
+###  Rounding
 
 When doing a calculation the rule (generally) is to round to 1 digit more than the data. 
 
@@ -257,9 +258,9 @@ stat.table(x, ndigit=-1)
 
 -  probabilities and proportions are usually rounded to 3 digits (0.348)
 
-## Contingency Tables 
+###  Contingency Tables 
 
-### Case Study: Treatment of Drug Addiction
+#### **Case Study:** Treatment of Drug Addiction
 
 Cocaine addiction is hard to break. Addicts need cocaine to feel any pleasure, so perhaps giving them an antidepressant drug will help. A 3 year study with 72 chronic cocaine users compared an antidepressant called desipramine with standard treatment for cocaine addiction (lithium) and a placebo. One third of the subjects chosen at random received each drug. After 3 years for each addict it was determined whether he/she was drug free or relapsed. 
 
@@ -335,7 +336,7 @@ knitr::kable(x1)
 `r hl()$hr()`
 Which of these 4 tables is the most interesting? It depends on the story behind the data and the result you wish to highlight. Here it is probably the third table which shows clearly that the "relapse rate" for desipramine is much smaller (41.7%) than for either Lithium (75%) or the Placebo (83.3%) 
 
-### Case Study: Treatment for Hair Loss, Rogaine
+#### **Case Study:** Treatment for Hair Loss, Rogaine
 
 ```{r}
 attach(rogaine)
@@ -373,7 +374,7 @@ round(rog.tbl[, 2]/714*100, 1)
 
 `r hl()$hr()`
 
-## Graphs for Contigency Tabels
+###  Graphs for Contigency Tabels
 
 The standard graph for this data is a **multiple bar chart**. It is done with the same command as before.
 
@@ -392,7 +393,7 @@ barchart(Relapse, Drug, percentage = "col")
 ```
 
 
-### Case Study: Rogaine
+#### **Case Study:** Rogaine
 
 ```{r}
 barchart(Growth, Group)
@@ -408,7 +409,7 @@ barchart(change.order(Growth, c(3, 5, 2, 1, 4)),
 
 not that this makes much sense here!
 
-### Case Study: Drownings in Los Angeles
+#### **Case Study:** Drownings in Los Angeles
 
 Data is from O'Carroll PW, Alkon E, Weiss B. Drowning mortality in Los Angeles County, 1976 to 1984, JAMA, 1988 Jul 15;260(3):380-3.
 

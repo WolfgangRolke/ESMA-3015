@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   html_document: default
   pdf_document:
@@ -13,7 +14,7 @@ setup.rmd(local.env=environment())
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-# Data Collection - Design of Experiments
+## Data Collection - Design of Experiments
 
 Things to decide before collecting data:
 
@@ -51,7 +52,7 @@ A sampling frame is a "listing" of all the elements of a population.
 
 **Example** Phone surveys (random dialing, bias, recalls etc.)
 
-## Sampling Methods 
+### Sampling Methods 
 
 We already mentioned the Simple Random Sample, the most basic sampling method. There are others, though:
 
@@ -79,7 +80,7 @@ We already mentioned the Simple Random Sample, the most basic sampling method. T
 
 **Example 3 ** divide by week, randomly select 10 weeks, do SRS for hurricanes that formed that week.
 
-### App
+#### **App:**
 
 for an illustration of several sampling strategies run the **sampling** app 
 
@@ -88,7 +89,7 @@ run.app(sampling)
 ```
 
 
-## Designed Experiments
+### Designed Experiments
 
 There are two basic methods for designing experiments with people.
 
@@ -115,7 +116,7 @@ This type of problem is called `r hl()$fontcolor("confounding")`.
 
 The big advantage of doing a designed experiment is that such a confounding variable is certain to not exist.
 
-### Case Study: Physicians Health Study 
+#### **Case Study:** Physicians Health Study 
 
 Does Aspirin lower the risk of heart disease? By 1980 there was a lot of `r hl()$fontcolor("anectotal evidence")`  to suggest this was true, so in 1982 a large scale `r hl()$fontcolor("clinical trial")`  was conducted.
 

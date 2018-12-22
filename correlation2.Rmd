@@ -1,5 +1,6 @@
 ---
 header-includes: \usepackage{color}
+                 \usepackage{float}
 output:
   pdf_document:
     fig_caption: no
@@ -15,7 +16,7 @@ setup.rmd(local.env=environment())
 
 
 
-# Correlation Test 
+## Correlation Test 
 
 
 We can now return to the case of two quantitative variables and the question of whether or not they are related. Specifically, we have a test of 
@@ -24,7 +25,7 @@ $H_0: \rho =0$ (no relationship) vs $H_a: \rho \ne 0$ (some relationship)
 
 The assumptions of the test are that the relationship is linear and that there are no outliers. We can use the **mplot** command to check them. The command to find the p value is  **pearson.cor.**
 
-### Case Study: The 1970's Military Draft
+#### **Case Study:** The 1970's Military Draft
 
 We have previously used simulation to see that a sample correlation r=-0.226 is very unusual (for n=366). Now we can do the formal test:
 
@@ -45,7 +46,7 @@ pearson.cor(Draft.Number, Day.of.Year, rho.null = 0)
 
 Assumptions: boxplots and scatterplot show no outliers. No non-linear relationship.   
   
-### Case Study: Alcohol vs. Tobacco Expenditure
+#### **Case Study:** Alcohol vs. Tobacco Expenditure
 Data from a British government survey of household spending may be used to examine the relationship between household spending on tobacco products and alcoholic beverages. The numbers are the average expenditure for each of the 11 regions of England. 
 
 The marginal plot shows one outlier:

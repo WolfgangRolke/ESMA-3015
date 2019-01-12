@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -51,7 +51,7 @@ PR is at the `r hl()$fontcolor("44.2nd")` percentile.
 
 The $p^{th}$ percentile of a data set is the value that has at most $p\%$ of the data below it and at most $(100-p)\%$ above it.
 
-**Example** consider the first employee in our WRInc dataset. She has an income of $22800. 
+**Example** consider the first employee in our WRInc data set. She has an income of $22800. 
 
 ```{r, warning=FALSE}
 attach(wrinccensus)
@@ -224,7 +224,7 @@ attach(brainsize)
 bplot(body.wt.kg, orientation="Horizontal")
 ```
 
-at least two, maybe more substancial outliers
+at least two, maybe more substantial outliers
 
 `r hl()$hr()`
 
@@ -247,7 +247,7 @@ Computers analyzing large volumes of data are often programmed to suppress outli
 
 (From More and McCabe) 
 
-Sometimes it is the outliers that are the most interesting feature of a dataset! 
+Sometimes it is the outliers that are the most interesting feature of a data set! 
 
 `r hl()$hr()`
 
@@ -262,14 +262,14 @@ In addition to the box this also gives us some information on how many observati
 
 #### **Case Study:** Drug Use of Mothers and the Health of the Newborn
 
-Chasnoff and others obtained several measures and responses for newborn babies whose mothers were classified by degree of cocain use. The study was conducted in the Perinatal Center for Chemical Dependence at Northwestern University Medical School. The measurement given here is the length of the newborn.
+Chasnoff and others obtained several measures and responses for newborn babies whose mothers were classified by degree of cocaine use. The study was conducted in the Perinatal Center for Chemical Dependence at Northwestern University Medical School. The measurement given here is the length of the newborn.
 
 Source: Cocaine abuse during pregnancy: correlation between prenatal care and perinatal outcome  Authors: SN MacGregor, LG Keith, JA Bachicha, and IJ Chasnoff
 
 
 Obstetrics and Gynecology 1989;74:882-885
 
-Here we have two variables, Length (quantitative) and Status (categrorical). Another way (and in many ways a more natural way) to look at this data is as quantitative measurements from different groups. For this type of data we might first compute the summary statistics for each group separately: 
+Here we have two variables, Length (quantitative) and Status (categorical). Another way (and in many ways a more natural way) to look at this data is as quantitative measurements from different groups. For this type of data we might first compute the summary statistics for each group separately: 
 
 ```{r}
 attach(mothers)

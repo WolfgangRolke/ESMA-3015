@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -16,7 +16,7 @@ setup.rmd(local.env=environment())
 
 ## Checking for Normality
 
-As you will see shortly, many of the methods for statistical inference we discuss here (and that are widely used in practise) require the data to come from a normal distribution. How do we check that?
+As you will see shortly, many of the methods for statistical inference we discuss here (and that are widely used in practice) require the data to come from a normal distribution. How do we check that?
 
 ### Histogram
 

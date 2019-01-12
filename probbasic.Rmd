@@ -8,11 +8,13 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
 `r hl()$style()`
+
+# Chapter 5: Probability
 
 ## Why Probability?
 
@@ -80,7 +82,7 @@ kable(out)
 
 #### **Example** We roll a fair die until the first six appears. How many rolls are needed? 
 
-This one is a bit more complicated because in theory it might take a very long time until we get a six (though in practise it won't). Let's do some calculations:
+This one is a bit more complicated because in theory it might take a very long time until we get a six (though in practice it won't). Let's do some calculations:
 
 Prob(six on first roll) = 1/6
 
@@ -128,7 +130,7 @@ any such experiment is called a **Bernoulli trial**, named after the Swiss mathe
  
 - person has open heart surgery - person survives (=failure) or dies (=success) 
 
-Usualy we "code" one outcome as $x=0$ (=failure) and the other as $x=1$ (=success) . Then the distribution is given by
+Usually we "code" one outcome as $x=0$ (=failure) and the other as $x=1$ (=success) . Then the distribution is given by
 
 ```{r, echo=FALSE}
 x <- 0:1
@@ -176,7 +178,7 @@ plt
 
 the idea behind such a curve is simple: the probability for a an outcome to be in a certain range is the area under the curve!
 
-So if this curve describes the differences in weights (before-after), the people who lost weight are left of 0, so the proability that a randomly selected person on this program looses weight would be this area:
+So if this curve describes the differences in weights (before-after), the people who lost weight are left of 0, so the probability that a randomly selected person on this program looses weight would be this area:
 
 ```{r echo=FALSE}
 plt + geom_area(aes(x = ifelse(x<0 , x, 0), 

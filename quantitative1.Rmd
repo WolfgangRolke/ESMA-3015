@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -47,7 +47,7 @@ us.population.2010
 
 So how does Puerto Rico compare? One way to answer this question is to find the **average** population size:
 
-We want just **one** number to describe **all** the numbers in the dataset. 
+We want just **one** number to describe **all** the numbers in the data set. 
 
 How do we calculate an "average"?
 
@@ -64,7 +64,7 @@ x <- c(19, 20, 23)
 round(mean(x), 1)
 ```
 
-In Statistcs the mean is important enough to have it's own symbol: $\bar X$ (say: x bar)
+In Statistics the mean is important enough to have it's own symbol: $\bar X$ (say: x bar)
 
 #### **Case Study:** Population Sizes of States and Puerto Rico
 
@@ -83,13 +83,13 @@ PR had a population of $3725789$, so ours is lower than average.
 
 ![](graphs/babe.jpg)
 
-Many still consider Babe Ruth the greatest baseball player of all time. In 1919 he moved to the New York Yankees, where he played until 1934. Here are the number of homeruns he hit in those years
+Many still consider Babe Ruth the greatest baseball player of all time. In 1919 he moved to the New York Yankees, where he played until 1934. Here are the number of home runs he hit in those years
 
 ```{r}
 babe
 ```
 
-what was his homerun average while with the Yankees? 
+what was his home run average while with the Yankees? 
 
 ```{r}
 attach(babe)
@@ -106,7 +106,7 @@ The most important thing you can do in this class (and, more importantly, in lif
 
 If you find that the average age of your three friends in the example above is 507.9, you have to know that this answer **is wrong**. 
 
-**Example** Which of the following are obviously **not** correct for the mean of Babe Ruths homeruns, and why?
+**Example** Which of the following are obviously **not** correct for the mean of Babe Ruths home runs, and why?
 
 a. 43.2 
 b. 17.9  
@@ -247,13 +247,13 @@ plt2 <- plt2 + geom_vline(xintercept=10,size=2) + xlim(c(0,20))
 multiple.graphs(plt1 = plt1,plt2 = plt2, Horizontal=FALSE)
 ```
 
-Here we have two datasets, both have a mean of 10 but they are clearly very different, with different "spreads". We would like to have some way to measure this "spread-out-ness".
+Here we have two data sets, both have a mean of 10 but they are clearly very different, with different "spreads". We would like to have some way to measure this "spread-out-ness".
 
 **Range**: the first is the range of the observations, defined as Largest-Smallest observation.
 
 **Example** in the graph above the x data seems to go from about 0 to about 19, so the range is 19-0=19. The y data seems to go from about 7 to about 13, so the range is 13-7=6. 
 
-**Example** For Babe Ruth Homeruns we find range = 60-22 = 38.  
+**Example** For Babe Ruth home runs we find range = 60-22 = 38.  
 
 **Note** Some textbooks and/or computer programs define the range as the pair of numbers (smallest, largest). 
 
@@ -311,7 +311,7 @@ The problem is that some (actually about half) of the x-$\overline{X}$ are negat
 So somehow we need to get rid of the - signs. One way to do that would be to use absolute values: |x-$\overline{X}$|. It turns out, though, that for some mathematical reasons it is better to use squares: 
 
 $$\text{Mean} \left( x - \overline{ X} \right)^2 $$
-Another change from the "obvious" is that we should devide this by n-1 instead of n, and with this we have the famous formula for the `r hl()$fontcolor("Variance")`:
+Another change from the "obvious" is that we should divide this by n-1 instead of n, and with this we have the famous formula for the `r hl()$fontcolor("Variance")`:
 
 $$s^2=\frac{1}{n-1}\sum\left( x - \overline{ X} \right)^2$$
 
@@ -329,7 +329,7 @@ The R command to find a standard deviation is *sd*.
 
 #### **Case Study:**  Babe Ruth Homeruns
 
-what was the standard deviation of his homeruns? 
+what was the standard deviation of his home runs? 
 
 
 ```{r}
@@ -345,7 +345,7 @@ stat.table(Homeruns)
 
 `r hl()$hr()`
 
-Now we have two ways to measure the "spread-out-ness", range and standard deviation. Unfortunately the two don't quite work together. For example we have found range=38 and s=11.2 for Babe Ruths Homeruns. As a rule of thumb we often have 
+Now we have two ways to measure the "spread-out-ness", range and standard deviation. Unfortunately the two don't quite work together. For example we have found range=38 and s=11.2 for Babe Ruths home runs. As a rule of thumb we often have 
 
 **s is close to range/4**
 
@@ -380,7 +380,7 @@ We will see in a little bit!
 
 ### z score
 
-in the discussion of the standard deviation we saw that if we want to compare two sets of numbers, subtracting the mean is a good idea because then the datsets are both centered at 0. Now we go a step further and also divide by the standard deviation, getting to the **z scores**:
+in the discussion of the standard deviation we saw that if we want to compare two sets of numbers, subtracting the mean is a good idea because then the tsetse are both centered at 0. Now we go a step further and also divide by the standard deviation, getting to the **z scores**:
 
 $$
 z = \frac{x-\overline{X}}{s} 
@@ -392,7 +392,7 @@ the idea here is that no matter what scale the original data is on, the z scores
 
 **Example** say you have taken two exams. In exam 1 you got 13 out of 20 points and in exam 2 you had a 58 out of 100 points. In which exam did you do better? 
 
-At first glance you might say exam 1, because if we want to rescale exam 1 to also have a total of 100 we need to multiply by 5 (20*5 = 100), so your "equivalent" score is 
+At first glance you might say exam 1, because if we want to re-scale exam 1 to also have a total of 100 we need to multiply by 5 (20*5 = 100), so your "equivalent" score is 
 
 13*5 = 65 > 58
 
@@ -445,11 +445,11 @@ round((3725789 - mean(us.population.2010))/sd(us.population.2010), 3)
 
 Above we learned the following:
 
-- If we have the dataset, how do we calculate the mean and the standard deviation?
+- If we have the data set, how do we calculate the mean and the standard deviation?
 
 Now we will look at the following question:
 
-- If we know **only** the mean and the standard deviation, what do they tell us about the dataset, or more precisely, what do they tell us about an individual observation in the dataset?
+- If we know **only** the mean and the standard deviation, what do they tell us about the data set, or more precisely, what do they tell us about an individual observation in the data set?
 
 **Example** You read in the newspaper about a study on the age when a criminal committed his first crime. They found that the mean age was 18.3 with a standard deviation of 2.6 years. What is this telling you?
 
@@ -525,11 +525,11 @@ and
 
 points on the exam.
 
-Of course if the highest possible score was 100 that emans we should expect someone to have gotton 100!
+Of course if the highest possible score was 100 that means we should expect someone to have gotten 100!
 
 #### **Case Study:** WRInc
 
-let's check whether the empirical rule holds for the income data of the WRInc dataset.
+let's check whether the empirical rule holds for the income data of the WRInc data set.
 
 ```{r}
 hplot(Income)

@@ -8,11 +8,13 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
 `r hl()$style()`
+
+# Chapter 6: Statistical Inference
 
 ## Population - Sample
 
@@ -38,7 +40,7 @@ Say we roll a fair die until the first time we get a six. We always are in one o
 
 We have not actually rolled any die, maybe we don't even have a die, we are just studying this exercise theoretically. That is we are studying the **population** of all possible outcomes of the experiment "Number of rolls of a fair die until a six". We now have a **theoretical description** of this experiment., namely its distribution.
 
-For the first couple of values of the number of rolls neded we find
+For the first couple of values of the number of rolls needed we find
 
 ```{r,echo=FALSE}
 x <- 0:5
@@ -61,14 +63,14 @@ But because they are computed for the whole population they are **parameters.**
 
 ### Practical
 
-On the other hand we can study this exercise by actually rolling a fair die many times and observing what happens. Actually (a lot faster and less work!) we can do a simulation. The distribution discribing this experiment is called a **geometric** and we can generate data with **rgeom(B, 1/6)+1**
+On the other hand we can study this exercise by actually rolling a fair die many times and observing what happens. Actually (a lot faster and less work!) we can do a simulation. The distribution describing this experiment is called a **geometric** and we can generate data with **rgeom(B, 1/6)+1**
 
 ```{r}
 B <- 10000
 x <- rgeom(B,1/6)+1 
 ```
 
-Now we can use this dataset to find probabilities:
+Now we can use this data set to find probabilities:
 
 ```{r}
 round(table(x)/B, 3)
@@ -136,7 +138,7 @@ Note: most "theories" we look at are not **big** scientific theories but simple 
 
 #### **Case Study:** Normal Distribution
 
-Say a certain population is known to be described by a normal distribtuion with mean 100 and standard deviation 30. From textbooks we can find the following information:
+Say a certain population is known to be described by a normal distribution with mean 100 and standard deviation 30. From textbooks we can find the following information:
 
 -  $\mu =100$  
 -  $\sigma = 30$  
@@ -144,7 +146,7 @@ Say a certain population is known to be described by a normal distribtuion with 
 -  Prob(X<80) = 0.252  
 -  Prob(90<X<110) = 0.383
 
-We can get simulated data from a normal distribtuion with mean 100 and standard deviation 30 with
+We can get simulated data from a normal distribution with mean 100 and standard deviation 30 with
 
 ```{r}
 x <- rnorm(10000, 100, 30)

@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -70,7 +70,7 @@ Question: Was his coin fair?
 
 **Analogy: Criminal Trial**
 
-You can think of a hypothesis test as a trial in a criminal court: is the accused guilty or innocent? Sometimes there is overwhelming proof of guilt - maybe a video showing the crime. Similarly sometimes the data is so obvious no statistics is needed. Usually, though, there is only circumstancial evidence - partial fingerprints, a motive, no alibi, and then the jury has to make a decision. 
+You can think of a hypothesis test as a trial in a criminal court: is the accused guilty or innocent? Sometimes there is overwhelming proof of guilt - maybe a video showing the crime. Similarly sometimes the data is so obvious no statistics is needed. Usually, though, there is only circumstantial evidence - partial fingerprints, a motive, no alibi, and then the jury has to make a decision. 
 
 A hypothesis test is usually phrased in the form of **two statements** rather than a question. These statements are called the 
 **null hypothesis** ($H_0$) and the **alternative** or research hypothesis ($H_1$ or $H_a$)
@@ -300,15 +300,15 @@ Let $\mu_T$ be the mean number of days for the treatment group, and $\mu_C$ be t
 $H_0: \mu_T = \mu_C$ (the new drug does **not** work better)  
 $H_a: \mu_T < \mu_C$ (the new drug does work better)
 
-At first it seems a little strange to students that we would choose "new drug is not better than the old one" as $H_0$, but there are good reasons for this approach as we will see later. In practise it is very easy for us: 
+At first it seems a little strange to students that we would choose "new drug is not better than the old one" as $H_0$, but there are good reasons for this approach as we will see later. In practice it is very easy for us: 
 
 **$H_0$ always has the = sign!**
 
-There is another reason why the null hypothesis has to be  "new drug is not better than the old one", and that has to do with the Philosophie of Science. In general in Science we have  that
+There is another reason why the null hypothesis has to be  "new drug is not better than the old one", and that has to do with the Philosophy of Science. In general in Science we have  that
 
 **it is in principle impossible to prove that a scientific theory is correct but it must always be possible to prove that the theory is false (a theory can be falsified)**
 
-**Example**: Newton's theory of gravity has been tested numerous time since it was invented in 1687, in fact everytime someone drops something it is tested again, and (as far as I now) so far the object has always fallen down. Yet strictly speaking the theory of gravity has not been proven to be correct, and it never will be! 
+**Example**: Newton's theory of gravity has been tested numerous time since it was invented in 1687, in fact every time someone drops something it is tested again, and (as far as I now) so far the object has always fallen down. Yet strictly speaking the theory of gravity has not been proven to be correct, and it never will be! 
 
 (Of course I do think it is a very good theory and I do trust it quite a bit, and so I am careful when I hold something valuable and fragile!) 
 
@@ -322,13 +322,13 @@ as the null because if this is wrong then the two treatments are exactly the sam
 
 Here is another way to figure this out: the null hypothesis has to specify the state of nature **completely**. So a coin is fair in one and only one way: it is fair ($\pi=0.5$)! On the other hand there are many ways in which a coin can be unfair:
 
--  it favours heads over tails a little bit ($\pi=0.55$?)
+-  it favors heads over tails a little bit ($\pi=0.55$?)
 
--  it favours heads over tails a lot ($\pi=0.75$?)
+-  it favors heads over tails a lot ($\pi=0.75$?)
 
--  it favours heads over tails completely ($\pi=1.0$?)
+-  it favors heads over tails completely ($\pi=1.0$?)
 
--  it favours tails over heads a tiny little bit ($\pi=0.48$?)
+-  it favors tails over heads a tiny little bit ($\pi=0.48$?)
 
 -  and so on 
 
@@ -386,7 +386,7 @@ A Biologist reads in a journal article that in the population of a certain anima
 
 Write down the null hypothesis and alternative both in terms of a parameter and in words. 
 
-First of remember that the null hypothsis and alternative **can not depend on anything from the sample**. Therefore the information 
+First of remember that the null hypothesis and alternative **can not depend on anything from the sample**. Therefore the information 
 
 "He takes samples from 250 newborns and tests them. He finds 30 of them have this defect."
 
@@ -481,7 +481,7 @@ Consequences?
 - Professors will consider other new textbooks, but those might really be worse than the one we just rejected.
 
 
-Note that in this example we will probably find out that we committed the type I error because we will observe that over the next few years the scores are **not** going up. On the other hand if we comit the type II error we are not likely to ever find out!
+Note that in this example we will probably find out that we committed the type I error because we will observe that over the next few years the scores are **not** going up. On the other hand if we commit the type II error we are not likely to ever find out!
 
 Many fields such as psychology, biology etc. have developed standards over the years. The most common one is $\alpha$ = 0.05 or 5%. It has mainly historical reasons:
 
@@ -536,7 +536,7 @@ Clearly the worst thing here is for people to die quicker than they might have. 
 
 ### Type II error $\beta$ and Power {#a5}
 
-In hypothesis testing we choose $\alpha$ but we don't have any influence on $\beta$. One thing we can do is study its behaviour:
+In hypothesis testing we choose $\alpha$ but we don't have any influence on $\beta$. One thing we can do is study its behavior:
 
 **Example** Let's illustrate the issue with a little simulation. For this we will generate some data and carry out a hypothesis test as follows:
 
@@ -661,7 +661,7 @@ so the further the true mean is from the one specified in $H_0$, the less likely
   
 **Analogy: Criminal Trial**
 
-If there is a very clear evidence that the accused is guilty it should be easy to find him guilty. For example, if we have a video of the person committing the crime it is much easier to find them guilty than if we just have some circumstancial evidence.
+If there is a very clear evidence that the accused is guilty it should be easy to find him guilty. For example, if we have a video of the person committing the crime it is much easier to find them guilty than if we just have some circumstantial evidence.
 
 ### Effect of the standard deviation
 
@@ -781,7 +781,7 @@ with a sample of 100 students we will correctly reject the null hypothesis with 
 
 **Example** Using the best currently available treatment the mean survival time of patients with a certain type of terminal cancer is 122 days. A pharmaceutical company has just developed a new drug for these patients which they believe will lead to longer survival times.
 
-To test this they randomly select 13 patients and give them this treatment. The mean survival time of these patients turns out to be 127 days with a standard deviation of 45 days. So they carry out the following hypothsis test.
+To test this they randomly select 13 patients and give them this treatment. The mean survival time of these patients turns out to be 127 days with a standard deviation of 45 days. So they carry out the following hypothesis test.
 
 1. Parameter: mean $\mu$  
 2. Method: 1-sample t test  
@@ -880,7 +880,7 @@ The way hypothesis testing works we can prove that a null hypothesis is wrong (b
 
 **Analogy: Criminal Trial**
 
-We do actually say: the jury found the accused "not guilty".  A jury aquits a person if there is not enough evidence to find them guilty. That is not to say they are innocent, maybe they are - maybe they are not. We just don't have sufficient proof of guilt. 
+We do actually say: the jury found the accused "not guilty".  A jury acquits a person if there is not enough evidence to find them guilty. That is not to say they are innocent, maybe they are - maybe they are not. We just don't have sufficient proof of guilt. 
 
 ### Statistical vs. Practical Significance {#a7}
 
@@ -902,7 +902,7 @@ Consider the following research question: Is the median income of men and women 
 
 $H_0$: Median Incomes are the same vs. $H_0$: Median Incomes are not the same
 
-But why do this survey and test at all? After all, we already know the answer: there is absolutly no chance at all that the true population median incomes of men and women are **exactly** the same! 
+But why do this survey and test at all? After all, we already know the answer: there is absolutely no chance at all that the true population median incomes of men and women are **exactly** the same! 
 In many fields generally it is known apriori that the null hypothesis is wrong, so why do a test?
 
 There are two answers to this:
@@ -918,7 +918,7 @@ $H_0$: nothing can move faster than the speed of light.
 
 There is one common misuse of hypothesis testing you should be aware of. It concerns searching for something, anything significant:
 
-**Example**: There is a famous (infamous?) case of three psychiatrists who studied a sample of schizophrenic persons and a sample of nonschizophrenic persons. They measured 77 variables for each subject - religion, family background, childhood experiences etc. Their goal was to discover what distinguishes persons who later become schizophrenic. Using their data they ran 77 hypothesis tests of the significance of the differences between the two groups of subjects, and found 2 significant at the 2% level.They immediately published their findings.
+**Example**: There is a famous (infamous?) case of three psychiatrists who studied a sample of schizophrenic persons and a sample of non schizophrenic persons. They measured 77 variables for each subject - religion, family background, childhood experiences etc. Their goal was to discover what distinguishes persons who later become schizophrenic. Using their data they ran 77 hypothesis tests of the significance of the differences between the two groups of subjects, and found 2 significant at the 2% level.They immediately published their findings.
 
 What's wrong here? Remember, if you run a hypothesis test at the 2% level you expect to reject the null hypothesis of no relationship 2% of the time, but 2% of 77 is about 1 or 2, so just by random fluctuations they could (should?) have rejected that many null hypotheses!  This is not to say that the variables they found to be different between the two groups were not really different, only that their method did not proof that. 
 

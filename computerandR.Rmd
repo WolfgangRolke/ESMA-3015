@@ -2,23 +2,46 @@
 header-includes: \usepackage{color}
                  \usepackage{float}
 output:
-  html_document: default
   pdf_document:
     fig_caption: no
+  html_document: default
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-###  R - Installation and Troubleshooting 
+# Chapter 3:  Computer and R
+
+##  Loging in
+
+-  CH115A
+
+Username: .\\esma ( important: do not forget to include “. " before the word esma )  
+Password: Mate1234 ( important: uppercase letter”M" )
+
+-  SH005
+
+Username: Estudiante  
+Password: salon005
+
+-  FA
+
+wifi: RUMNET or RUMNETFISH   
+Password: Colegio2017
+
+wifi:RUMNETEP
+Password: Acad2017 
+
+At the end of each class log off 
+
+##  R - Installation and Troubleshooting 
 
 The class web pages are at [http://academic.uprm.edu/wrolke/esma3015](http://academic.uprm.edu/wrolke/esma3015)
 
-At the end of each session  log off 
 
 ###  General Info
 

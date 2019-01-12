@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -146,7 +146,7 @@ one.sample.prop(x = 5067, n = 10000, pi.null = 0.5)
 ```
   
 8. $p = 0.1835 > \alpha=0.05$, so we fail to reject the null hypothesis.  
-9. it appears Jon Kerrich's coin was indead fair.
+9. it appears Jon Kerrich's coin was indeed fair.
 
 **Example** Let's assume for a moment that Jon Kerrichs coin was actually **not** a fair coin but one with $\pi = 0.505$. How often would he have had to flip his coin to reject the null hypothesis?
 
@@ -195,13 +195,13 @@ one.sample.prop(x = 100, n = 500, pi.null = 1/6)
 8. $p = 0.0524 > \alpha=0.05$, so we fail to reject the null hypothesis.  
 9. it appears this is a fair die 
 
-**Example** if in a survey of 350 people 200 say that they prefer Coke over Pepsi, can Coka-Cola claim that more than half of the people prefer Coke over Pepsi? Test at the 5% level.
+**Example** if in a survey of 350 people 200 say that they prefer Coke over Pepsi, can Coca-Cola claim that more than half of the people prefer Coke over Pepsi? Test at the 5% level.
 
 1. Parameter: proportion $\pi$  
 2. Method: exact binomial  
 3. Assumptions: None  
 4. $\alpha = 0.05$  
-5. $H_0: \pi = 0.5$ (half like Coke, halp Pepsi)  
+5. $H_0: \pi = 0.5$ (half like Coke, half Pepsi)  
 6. $H_a: \pi > 0.5$ (more than half like Coke)  
 7. $p = 0.0044$  
 
@@ -243,7 +243,7 @@ prop.ps(n = 10000, phat = 0.505, pi.null = 0.5)
 prop.ps(n = 10000, phat = 0.5, pi.null = 0.505)
 ```
 
-**Example** In the past about $12\%$ of the students in a class received an A. After some substancial changes to the class we hope that the percentage has gone up to 20. If we test at the $5\%$ and if there are 150 students in the class, what is the power of this test?
+**Example** In the past about $12\%$ of the students in a class received an A. After some substantial changes to the class we hope that the percentage has gone up to 20. If we test at the $5\%$ and if there are 150 students in the class, what is the power of this test?
 
 We will do the test
 
@@ -265,7 +265,7 @@ so the power is $81.9\%$.
 
 As with the mean the sample size calculation is different depending on whether we want to do a hypothesis test or find a confidence interval.
 
-**Example** Same story as above: in the past about $12\%$ of the students in a class received an A. After some substancial changes to the class we hope that the percentage has gone up to 20. If we test at the $5\%$ and if there are 150 students in the class, we found that we would have a power of $81.9\%$. What sample size would we need to have a power of $95\%$?
+**Example** Same story as above: in the past about $12\%$ of the students in a class received an A. After some substantial changes to the class we hope that the percentage has gone up to 20. If we test at the $5\%$ and if there are 150 students in the class, we found that we would have a power of $81.9\%$. What sample size would we need to have a power of $95\%$?
 
 ```{r}
 prop.ps(power=95, phat=0.2, pi.null=0.12,
@@ -299,7 +299,7 @@ prop.ps(E = 0.03)
 prop.ps(phat = 0.05, E = 0.03)
 ```
 
-Look again at the prop.ps command for the sample size. There is something truely amazing about what is **not** part of command!
+Look again at the prop.ps command for the sample size. There is something truly amazing about what is **not** part of command!
 
 **Example **
 

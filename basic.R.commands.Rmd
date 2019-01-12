@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -169,9 +169,9 @@ if the data is a table it is immediately attached and you can use the column nam
 mean(RPM)
 ```
 
-*Note* on rare occasions the routine can fail if the data is a table but everyting is text. In that case use the argument is.table=TRUE.
+*Note* on rare occasions the routine can fail if the data is a table but everything is text. In that case use the argument is.table=TRUE.
 
-*Note* sometimes you might get a warning from R, as long as the data is transfered correctly you can ignore that. 
+*Note* sometimes you might get a warning from R, as long as the data is transferred correctly you can ignore that. 
 
 ## Data Types in R
 
@@ -600,7 +600,7 @@ Country[InfantMortality==2]
 #### **Case Study:** Age and Sex in US, by State
 
 
-We saw before that in PR 0.0225 percent of the population is 100 years old or oder. How does that compare to the other states?
+We saw before that in PR 0.0225 percent of the population is 100 years old or older. How does that compare to the other states?
 
 The data set agesexUS has the the numbers for all states. The total population in 2000 was
 

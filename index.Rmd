@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -19,8 +19,7 @@ setup.rmd(local.env=environment())
 
 1.1. [Syllabus](syl.html)  
 1.2.  [ESMA 3015 Elementary Statistics.pdf](ESMA_3015_Elementary_Statistics.pdf)  
-1.3.  [Resma3.RData](../Resma3/Resma3.RData?Ver3.1) (Ver 3.1)  
-1.4.  For a nice introduction to Statistics watch the PBS-NOVA episode [Prediction by the Numbers](http://www.pbs.org/video/prediction-by-the-numbers-hg2znc/)
+1.3.  [Resma3.RData](../Resma3/Resma3.RData?Ver3.2) (Ver 3.2)  
 
 
 # 2 Some Basic Ideas and Concepts
@@ -31,8 +30,8 @@ setup.rmd(local.env=environment())
 # 3 Computer and R
 
 3.1.  [R - Installation and Troubleshooting ](computerandR.html)  
-3.2.   [Basic R commands](basic.R.commands.html)  
-3.3.  [Short List of Important R commands](short.list.commands.html)    
+3.2.  [Basic R commands](basic.R.commands.html)  
+3.3.  [Short List of Important R commands](short.list.commands.html)  
 3.4.  [R routines](routines.html)  
 
 # 4 Descriptive Statistics
@@ -49,7 +48,6 @@ setup.rmd(local.env=environment())
 5.1.  [Introduction to Probability](probbasic.html)  
 5.2. [Normal Distribution and the Central Limit Theorem](normal.html)  
 5.3.  [Checking for Normality](normalcheck.html)  
-5.4.  [Exercise Problems](exercise2.html)
 
 # 6 Statistical Inference
 

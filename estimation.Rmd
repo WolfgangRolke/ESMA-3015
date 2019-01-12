@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -39,7 +39,7 @@ The point is that this simple idea is useful in much more complicated cases as w
 
 `r hl()$vs()`
 
-Often in Statistics we use greek letters for parameters and regular letters with a hat or a bar for estimators.
+Often in Statistics we use Greek letters for parameters and regular letters with a hat or a bar for estimators.
 
 `r hl()$vs()`
 

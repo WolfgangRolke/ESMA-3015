@@ -2,19 +2,19 @@
 header-includes: \usepackage{color}
                  \usepackage{float}
 output:
+  html_document: default
   pdf_document:
     fig_caption: no
-  html_document: default
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-
+# Chapter 7: Correlation and Regression
 
 ## Correlation Test 
 
@@ -56,7 +56,7 @@ attach(alcohol)
 mplot(Tobacco, Alcohol)
 ```
 
-This is Northern Ireland, observation # 11. Eliminating this observations show no more outleirs, and a linear relationship:
+This is Northern Ireland, observation # 11. Eliminating this observations show no more outliers, and a linear relationship:
 
 ```{r}
 mplot(Tobacco[-11], Alcohol[-11])
@@ -80,7 +80,7 @@ pearson.cor(Tobacco[-11], Alcohol[-11], rho.null = 0)
 9) There is a statistically significant relationship between
 Alcohol and Tobacco
 
-**Note:** Running the test with Northen Ireland would have given the wrong answer:
+**Note:** Running the test with Northern Ireland would have given the wrong answer:
 
 ```{r fig.show='hide'}
 pearson.cor(Tobacco, Alcohol, rho.null = 0)
@@ -89,7 +89,7 @@ pearson.cor(Tobacco, Alcohol, rho.null = 0)
 
 p value of test for now is:  0.5087 > 0.05
 
-**Example** below is the data from the following experiment: on 30 consecutive days we recorded the number of sales in store. During this time an add campain wos run. Find a $90\%$ confidence interval for the correlation of Day and Sales.
+**Example** below is the data from the following experiment: on 30 consecutive days we recorded the number of sales in store. During this time an add campaign was run. Find a $90\%$ confidence interval for the correlation of Day and Sales.
 
 ```{r echo=FALSE}
 sales <- data.frame(Day=1:30,

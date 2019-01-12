@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -73,7 +73,7 @@ It seems k = 3, 6 and 9 have a normal distribution
 
 b. for those that do not come from a normal distribution, how large a sample size is needed so that the mean has a normal distribution? 
 
-for this we keep generating data, add them to the vector and check whether the result has anormal distribution. For example
+for this we keep generating data, add them to the vector and check whether the result has a normal distribution. For example
 
 ```{r}
 xbar <- normal.ex(1)
@@ -284,7 +284,7 @@ Let's denote the denominations by numbers 1-13. Each of them appears 4 times in 
 den <- rep(1:13, 4)
 ```
 
-We draw 5 cards without repitition, so we can do that with 
+We draw 5 cards without repetition, so we can do that with 
 
 ```{r}
 x <- sample(den,5)

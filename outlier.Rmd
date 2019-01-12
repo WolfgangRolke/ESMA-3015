@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -16,7 +16,7 @@ setup.rmd(local.env=environment())
 
 ## Outliers - Detection  and Treatment
 
-Many of the methods discussed in this class don't work well if the dataset has **outliers**. An outlier is any observation that is in some way `r hl()$fontcolor("unusual/strange/weird")`.
+Many of the methods discussed in this class don't work well if the data set has **outliers**. An outlier is any observation that is in some way `r hl()$fontcolor("unusual/strange/weird")`.
 
 We have already seen that an observation that is unusual with respect to one variable appears as a separate dot in an R boxplot:
 
@@ -75,7 +75,7 @@ If we have two quantitative variables an outlier can happen in one of three ways
 
 - in the y variable, which we can check in the boxplot of y 
 
-- in the relationship between the xand the y variable, which we can check in the scatterplot of x and y
+- in the relationship between the x and the y variable, which we can check in the scatterplot of x and y
 
 In fact we can do all three in one step:
  
@@ -95,7 +95,7 @@ How many outliers does this data set  have? Actually just one, but it appears in
 
 ### Treatment of Outliers
 
-If we have an outlier in a dataset, what do we do then? First and foremost, **don't ignore them!** Most statistical methods are very sensitive to outliers, often they simply don't work.
+If we have an outlier in a data set, what do we do then? First and foremost, **don't ignore them!** Most statistical methods are very sensitive to outliers, often they simply don't work.
 
 **Example** Is there a relationship between Alcohol and Tobacco expenditures in England? Because we have two quantitative variables we might use Pearson's correlation coefficient to answer this question:
 

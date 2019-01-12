@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -116,7 +116,7 @@ mn
 ```
 
 
-We have previously seen that (after eliminating the outlier 24756) the mean of Newcombs measurements of the speed of light is 24827.3, whereas using modern instruments the equivalent measurement is 24833. Does this say his measuring method was bad?  The question is whether this sample mean is statistically significantly dfferent from the population mean.
+We have previously seen that (after eliminating the outlier 24756) the mean of Newcombs measurements of the speed of light is 24827.3, whereas using modern instruments the equivalent measurement is 24833. Does this say his measuring method was bad?  The question is whether this sample mean is statistically significantly different from the population mean.
 
 Let's answer this question now:
 
@@ -163,7 +163,7 @@ one.sample.t(RIP.sec., mu.null=133, alternative = "less")
 
 Assumptions: normal plot ok
 
-**Example** In the past the average purchase of a customer in a certain store was \$55 . The store just ran an ad in the newspaper and wants to know whether it increased sales. In week following the ad 43 customers spent an average of \$63 with a standard devation of \$18. Test at the 10% level whether the promotion was a success.
+**Example** In the past the average purchase of a customer in a certain store was \$55 . The store just ran an ad in the newspaper and wants to know whether it increased sales. In week following the ad 43 customers spent an average of \$63 with a standard deviation of \$18. Test at the 10% level whether the promotion was a success.
 
 1. Parameter: mean $\mu$  
 2. Method: 1-sample t  
@@ -262,7 +262,7 @@ $$
 
 The error E is equivalent to what power we want in the hypothesis testing case above.
 
-Notice that the caclulation of the interval also involves *shat*. This of course is the sample standard deviation, an estimate of the population standard deviation $\sigma$. Here are several possible ideas: 
+Notice that the calculation of the interval also involves *shat*. This of course is the sample standard deviation, an estimate of the population standard deviation $\sigma$. Here are several possible ideas: 
 
 -  Is there already an estimate of $\sigma$ we can use, maybe from a previous or from a  similar study? 
 
@@ -319,7 +319,7 @@ t.ps(sigma= 0.8, E = 1/12, conf.level = 90)
 t.ps(sigma=7500, E=1000, conf.level=90)
 ```
 
-if instead we plan on doing a hypothesis test at the 10% level to see whether the income has increased to \$36000, what sample size is needed for the test to have a ower of 90\%?
+if instead we plan on doing a hypothesis test at the 10% level to see whether the income has increased to \$36000, what sample size is needed for the test to have a power of 90\%?
 
 ```{r}
 t.ps(diff=36000-34500, 

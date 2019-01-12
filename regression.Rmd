@@ -2,13 +2,13 @@
 header-includes: \usepackage{color}
                  \usepackage{float}
 output:
+  html_document: default
   pdf_document:
     fig_caption: no
-  html_document: default
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -72,7 +72,7 @@ this app  illustrates the meaning of the line as the mean response.
 
 $\beta_0$ and $\beta_1$ are numbers that depend on the population from which the data (X,Y) is drawn. Therefore they are **parameters** just like the mean or the median. 
 
-A standard problem is this: we have a dataset and we believe there is a linear relationship between x and y. We would like to know the equation 
+A standard problem is this: we have a data set and we believe there is a linear relationship between x and y. We would like to know the equation 
 
 $$
 y = \beta_0 + \beta_1 x
@@ -188,7 +188,7 @@ and the
 
 #### **Case Study:** The Sports Illustrated Jinx
 
-It has often been noted that anyone featured with his/her picture on the cover of Sports Illustrated is then jinxed, that is their performance goes down. Some people have tried to find an explanation for this, for example that an athlete gets lazy after being successful, or maybe that they have to many media days and can't practise enough. In reality this is just an example of **regression to the mean**.
+It has often been noted that anyone featured with his/her picture on the cover of Sports Illustrated is then jinxed, that is their performance goes down. Some people have tried to find an explanation for this, for example that an athlete gets lazy after being successful, or maybe that they have to many media days and can't practice enough. In reality this is just an example of **regression to the mean**.
 
 #### **Case Study:** Galton's Data on the Heights of Parents and their Children 
 
@@ -244,7 +244,7 @@ Maybe, but maybe it also just an example of regression to the mean!
 #### **Example** 
 say we have the following data: a group of subjects is participating in a weight loss program. They are weighted before and after the program. Now we pick out the (say) 10% people that were the heaviest at the beginning, and we notice that their average weight was 207 pounds then but is only 201 pounds at the end of the program. Can we conclude the program worked (at least for  heavy people)?
 
-Maybe, but not necesserily. Again the same outcome could be due to regression to the mean.  
+Maybe, but not necessarily. Again the same outcome could be due to regression to the mean.  
 
 #### **Case Study:** The Sports Illustrated Jinx
 

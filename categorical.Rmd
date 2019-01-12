@@ -8,13 +8,15 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-###  Categorical Data
+# Chapter 4: Descriptive Statistics
+
+##  Categorical Data
 
 #### **Case Study:** wrinccensus
 
@@ -364,7 +366,7 @@ there is an easier way to do this:
 apply(rog.tbl, 1, sum)
 ```
 
--  percentages based on colum totals:
+-  percentages based on column totals:
 
 ```{r}
 apply(rog.tbl, 2, sum)
@@ -423,7 +425,6 @@ round(drownings[, "Female"]/sum(drownings[, "Female"])*100, 1)
 ```
 
 or with a barchart:
-
 
 ```{r}
 barchart(drownings, percentage = "col")

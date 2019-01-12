@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -119,9 +119,9 @@ In the first case we use the symbol **r**, in the second case we use $\mathbf{\r
 
 -  r < 0 means a negative relationship (as x gets bigger y gets smaller)  
 
--  r treats x and y symmetricaly, that is cor(x,y) = cor(y,x)  
+-  r treats x and y symmetrically, that is cor(x,y) = cor(y,x)  
 
-Peason's correlation coefficient only measures **linear** relationships, it does not work if a relationship is nonlinear. 
+Pearson's correlation coefficient only measures **linear** relationships, it does not work if a relationship is nonlinear. 
 
 Here is an example:
 
@@ -151,9 +151,9 @@ for(i in 1:4) {
 }
 ```
 
-Peason's correlation coefficient is only useful for the first case. 
+Pearson's correlation coefficient is only useful for the first case. 
 
-Another situation where Pearson's correlation coefficient does not work is if there are outliers in the dataset. Even just one outlier can determine the correlation coefficient:
+Another situation where Pearson's correlation coefficient does not work is if there are outliers in the data set. Even just one outlier can determine the correlation coefficient:
 
 
 ```{r, echo=FALSE, out.width="90%"}
@@ -174,7 +174,7 @@ cat("Correlation between x2 and y2: ", round(cor(x2, y2), 3), "\n")
 It is important to keep two things separate: a situation with two variables which are **uncorrelated** ($\rho = 0$) and two variables with a weak correlation ($\rho \ne 0$ but small). 
 
 In either case we would find an r close to 0 (but never = 0 !) 
-Finding out which case it is might be impossible, especially for small datasets. 
+Finding out which case it is might be impossible, especially for small data sets. 
 
 #### **App** - correlation
 
@@ -182,7 +182,7 @@ Finding out which case it is might be impossible, especially for small datasets.
 run.app(correlation)
 ```
 
-this app  illustrates the correlation coeffcient.
+this app  illustrates the correlation coefficient.
 
 Move slider around to see different cases of the scatterplot of correlated variables
 
@@ -274,7 +274,7 @@ y = "score on exam"
 
 #### **Example**
 
-Say we have the following data: for one year in some city we have data on fires that happenend during the year. Specifically we recorded
+Say we have the following data: for one year in some city we have data on fires that happened during the year. Specifically we recorded
 
 x = "Number of fireman responding to a fire"
 
@@ -282,7 +282,7 @@ y = "damages done by the fire"
 
 say there is a positive correlation between x and y (and in real live there will be!).
 
-Now if the correlation is due to a Cause-Effect, than changing x means changing y. Clearly we want a small y (little or no damamges), and because the correlation is positive we can get that by making sure x is small. So never call the firebrigade!
+Now if the correlation is due to a Cause-Effect, than changing x means changing y. Clearly we want a small y (little or no damages), and because the correlation is positive we can get that by making sure x is small. So never call the fire brigade!
 
 If this does not make sense, there has to be another explanation for the positive correlation:
 
@@ -309,7 +309,7 @@ large z leads to large x and large y, so we get pairs of large (x, y)
 
 Finally cor(x, y) is positive!
 
-[Online Resource: Bizzare Correlations] (http://www.buzzfeed.com/kjh2110/the-10-most-bizarre-correlations")
+[Online Resource: Bizarre Correlations] (http://www.buzzfeed.com/kjh2110/the-10-most-bizarre-correlations")
 
 `r hl()$hr()`
 
@@ -348,7 +348,7 @@ Things to look for when trying to establish a causation:
 
 - the cause comes before the response in time - lung cancer develops after years of smoking. The number of men dying of lung cancer rose as smoking became more common, with a lag of about 30 years. Lung cancer kills more men than any other form of cancer. Lung cancer was rare among women until women started to smoke. Lung cancer in women rose along with smoking, again with a lag of about 30 years, and has now passed breast cancer as the leading cause of cancer deaths among women.
 
-- the cause is plausible - lab experiments on animals show that nicotin causes cancer.
+- the cause is plausible - lab experiments on animals show that nicotine causes cancer.
 
 #### **Case Study:** Old Faithful Guyser
 

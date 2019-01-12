@@ -2,19 +2,21 @@
 header-includes: \usepackage{color}
                  \usepackage{float}
 output:
+  html_document: default
   pdf_document:
     fig_caption: no
-  html_document: default
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
 `r hl()$style()`
 
-## General Concepts
+# Chapter 2: Some Basic Ideas and Concepts
+
+## Introduction
 
 This page discusses some general concepts of Statistics.
 
@@ -70,7 +72,7 @@ Another quote:
 
 #### **Case Study:** WRInc 
 
-WR Inc. is a large (ficticous) company. It recently did a survey of all its employees, asking them to fill out a questionnaire with questions regarding their gender, income etc.   
+WR Inc. is a large (fictitious) company. It recently did a survey of all its employees, asking them to fill out a questionnaire with questions regarding their gender, income etc.   
 In addition they randomly selected 500 employees and asked them some additional questions. 
 
 Let's start by checking what's in the data set:
@@ -115,7 +117,7 @@ colnames(out)[2] <- "N"
 kable(out)
 ```
 
-Another good way to study a dataset is via **graphs**. For example, it seems reasonable that there should be a connection between job level and income, after all usually people with a better job make more money. Is this true for our company? For this we can use 
+Another good way to study a data set is via **graphs**. For example, it seems reasonable that there should be a connection between job level and income, after all usually people with a better job make more money. Is this true for our company? For this we can use 
 
 ```{r}
 splot(Income, Job.Level)
@@ -132,7 +134,7 @@ An important question would be whether there is **job discrimination** in this c
 
 In fact even if there is no job discrimination there is a 50-50 chance that the average income of the men is (a little bit) higher than the average income of the women. Of course if there is job discrimination we would expect the average income of the men to be substantially higher than the average income of the women. What we need to find out is whether the men's income is `r hl()$fontcolor("statistically significantly higher")`!
  
-Something is statistically significant if it cannot be expained by `r hl()$fontcolor("random chance")` alone.
+Something is statistically significant if it cannot be explained by `r hl()$fontcolor("random chance")` alone.
 
 **Example** 4 heads in 4 flips of a fair coin has a probability of 1 in 16 or 6.25%, so this would not be considered unusual
 
@@ -233,7 +235,7 @@ Clearly this last one is  much more complicated population than the undergraduat
   
 **Example 2** list of answers (yes - I would buy the product, no - I would not) 
 
-**Example 3 ** all the data available about a hurricane: track, windspeed, air pressure etc.
+**Example 3 ** all the data available about a hurricane: track, wind speed, air pressure etc.
 
 [Hurricane Maria](https://www.wunderground.com/hurricane/atlantic/2017/hurricane-Maria)
 
@@ -245,7 +247,7 @@ Clearly this last one is  much more complicated population than the undergraduat
 
 **Example 2 ** the percentage of all the people in PR who would buy the product - impossible to find exactly because we cannot do a census. 
 
-**Example 3 ** the average top windspeed of the strongest hurricane in any one year. This is a number that nobody knows or can know, even theoretically. 
+**Example 3 ** the average top wind speed of the strongest hurricane in any one year. This is a number that nobody knows or can know, even theoretically. 
 
 `r hl()$hr()`
 
@@ -255,7 +257,7 @@ Clearly this last one is  much more complicated population than the undergraduat
 
 **Example 2** the percentage of people in our sample who say they would buy the product 
 
-**Example 3** Take the last 10 years as a sample, and calculate the average of the top windspeeds of the strongest hurricane in each year. 
+**Example 3** Take the last 10 years as a sample, and calculate the average of the top wind speeds of the strongest hurricane in each year. 
 
 `r hl()$vspace()`
 
@@ -285,7 +287,7 @@ Avoiding bias is the main reason for using a Simple Random Sample.
 
 `r hl()$vspace()`
 
-Of course we alway want a small variance and a small bias, but if that is not possible, **what is better (if any)?**
+Of course we away want a small variance and a small bias, but if that is not possible, **what is better (if any)?**
 
 Large Variance - Small Bias 
 
@@ -321,7 +323,7 @@ In real live we always use a computer for all the calculations. That leaves two 
 
 Decide
 
-- what is the best method for analysing a specific dataset?
+- what is the best method for analyzing a specific data set?
 
 - what is the result of the analysis telling you about the 
 experiment?

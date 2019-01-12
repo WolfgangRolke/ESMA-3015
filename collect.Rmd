@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -103,7 +103,7 @@ There
 
 A) we have two tables. On each there is an explanation of one of the diets and a sign-up sheet. Our participants can read the material and eventually sign up for one of the two diets &rarr; observational study.
 
-B) when a participant comes in we have him/her flip a coin. If it comes up headsthe person does diet 1, otherwise diet 2 &rarr; designed experiment.
+B) when a participant comes in we have him/her flip a coin. If it comes up heads the person does diet 1, otherwise diet 2 &rarr; designed experiment.
 
 Which of the two methods is better, and why?
 

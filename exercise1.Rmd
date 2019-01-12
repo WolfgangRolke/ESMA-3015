@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -45,9 +45,9 @@ out <- hl()$fontcolor(paste0(x, collape="  "), "black")
 
 a. Find the mean, median, range and standard deviation. 
 
-b. Find the 20^th^ and the 64^th^ percentile of this dataset.
+b. Find the 20^th^ and the 64^th^ percentile of this data set.
 
-c. draw the boxplot for this dataset
+c. draw the boxplot for this data set
 
 #### Problem 3
 
@@ -87,7 +87,7 @@ d. Let's say the WHO wants to use the "average" rate of AIDS infection (together
 
 #### Problem 6
 
-In this exercise we study the dataset 
+In this exercise we study the data set 
 
 ```{r}
 head(headache)
@@ -160,7 +160,7 @@ out <- hl()$fontcolor(paste0(x, collape="  "), "black")
 ```
 `r out`
 
-the data is comma delimeted, so after copying it in R type
+the data is comma delimited, so after copying it in R type
 
 ```{r, eval=FALSE}
 x <- getx(sep=",")
@@ -172,13 +172,13 @@ median(x)
 sd(x)
 ```
 
-b. Find the 20^th^ and the 64^th^ percentile of this dataset.
+b. Find the 20^th^ and the 64^th^ percentile of this data set.
 
 ```{r}
 quantile(x, c(0.2, 0.64))
 ```
 
-c) draw the boxplot for this dataset
+c) draw the boxplot for this data set
 ```{r}
 bplot(x)
 ```
@@ -200,8 +200,6 @@ $s= x-\overline{X}$
 or
 
 $x = s+\overline{X} = 4.519+4.76 = 9.279$
-
-<HR class="pagebreak" size="1" />	
 
 #### Problem 4
 
@@ -243,8 +241,6 @@ sd(friday13[Dataset == "accident", 3])
 
 There does not appear to be anything special about Friday the 13^th^
 
-<HR class="pagebreak" size="1" />
-
 #### Problem 5
   
 Consider the data in AIDS in Americas in 1995. 
@@ -281,7 +277,7 @@ Mean, because the countries with the highest AIDS rates have to influence our "a
 
 #### Problem 6
 
-In this exercise we study the dataset **headache** 
+In this exercise we study the data set **headache** 
   
 a. What is the type of data of the variables?
 

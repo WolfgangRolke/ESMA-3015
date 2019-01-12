@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-source("setup.rmd.R", local=TRUE)
+source("R/setup.rmd.R", local=TRUE)
 setup.rmd(local.env=environment())
 ```
 `r hl()$basefontsize()`
@@ -40,7 +40,7 @@ Statistics**. The principle idea is this:
 
 `r hl()$vs()`
 
-The science of Statistics comes in two flavours: Bayesian and Frequentist. There are a number of fundamental differences between them. One we have already seen: a Bayesian analysis not only can but has to begin by specifying a prior distribution . This can be a strength (as in the coin flip example above ) or a weakness, mostly in situations were we really don't have much prior knowledge. A Frequentist analysis on the other hand doesn't need a prior, but also can't use one if there is one!
+The science of Statistics comes in two flavors: Bayesian and Frequentist. There are a number of fundamental differences between them. One we have already seen: a Bayesian analysis not only can but has to begin by specifying a prior distribution . This can be a strength (as in the coin flip example above ) or a weakness, mostly in situations were we really don't have much prior knowledge. A Frequentist analysis on the other hand doesn't need a prior, but also can't use one if there is one!
 
 There  are deeper differences as well, for example  the very definition of what a probability is. Those issues are quite fundamental to doing Statistics but unfortunately much beyond what we can discuss in an introductory class! 
 
@@ -143,7 +143,7 @@ Note that here we have $\alpha = \beta$, which will always put the peak of the c
 
 ![](graphs/bayes62.png)
 
-3) we think the true percentage is around 40%. Moreover, we are vey sure it is not less than 30% and not higher than 50%. 
+3) we think the true percentage is around 40%. Moreover, we are very sure it is not less than 30% and not higher than 50%. 
 
 ![](graphs/bayes63.png)
 
@@ -151,9 +151,9 @@ Note that here we have $\alpha = \beta$, which will always put the peak of the c
 we think the true percentage is is either around 25% or around 75%. 
 ![](graphs/bayes71.png)
 
-Can you think of any situation where this might actually be an apprioriate prior? 
+Can you think of any situation where this might actually be an appropriate prior? 
 
-<hr>
+`r hl()$hr()`
 
 #### **Example**
 
